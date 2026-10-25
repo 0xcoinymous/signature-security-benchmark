@@ -1,0 +1,11 @@
+{
+ "tool": "aderyn",
+ "binary": "bin/aderyn-v3.1",
+ "files": 4337,
+ "errors": 10,
+ "wall_seconds": 58.6,
+ "jobs": 6,
+ "compilers": "datasets/compilers.csv",
+ "chain": "BSC",
+ "version": "aderyn 0.6.8"
+}

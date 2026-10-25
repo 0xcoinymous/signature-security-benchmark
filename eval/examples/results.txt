@@ -1,0 +1,31 @@
+# extended (tag thesis-eval-v3)
+FreshPermit/fixed                ecrecover
+FreshPermit/vulnerable           ecrecover signature-freshness
+MalleableWithdraw/fixed          ecrecover
+MalleableWithdraw/vulnerable     ecrecover nonce-management signature-malleability signature-replay
+NonceReset/fixed                 ecrecover
+NonceReset/vulnerable            ecrecover nonce-management
+NonceTransfer/fixed              ecrecover
+NonceTransfer/vulnerable         ecrecover nonce-management signature-replay
+OwnerWallet/fixed                ecrecover
+OwnerWallet/vulnerable           ecrecover eip1271-verification
+ReplayBurn/fixed                 ecrecover
+ReplayBurn/vulnerable            ecrecover nonce-management signature-replay
+TypedOrder/fixed                 ecrecover
+TypedOrder/vulnerable            ecrecover eip712-implementation
+
+# stock Aderyn 0.6.8
+FreshPermit/fixed                ecrecover
+FreshPermit/vulnerable           ecrecover
+MalleableWithdraw/fixed          ecrecover
+MalleableWithdraw/vulnerable     ecrecover
+NonceReset/fixed                 ecrecover
+NonceReset/vulnerable            ecrecover
+NonceTransfer/fixed              ecrecover
+NonceTransfer/vulnerable         ecrecover
+OwnerWallet/fixed                ecrecover
+OwnerWallet/vulnerable           ecrecover
+ReplayBurn/fixed                 ecrecover
+ReplayBurn/vulnerable            ecrecover
+TypedOrder/fixed                 ecrecover
+TypedOrder/vulnerable            ecrecover

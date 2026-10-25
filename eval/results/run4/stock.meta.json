@@ -1,0 +1,11 @@
+{
+ "tool": "aderyn",
+ "binary": "bin/aderyn-stock",
+ "files": 1099,
+ "errors": 105,
+ "wall_seconds": 5.6,
+ "jobs": 4,
+ "compilers": "datasets/compilers.csv",
+ "chain": "Ethereum",
+ "version": "aderyn 0.6.8"
+}

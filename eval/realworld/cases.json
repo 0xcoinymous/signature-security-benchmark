@@ -1,0 +1,460 @@
+[
+  {
+    "id": "RW01_UMA_SpokePool_speedUpDeposit",
+    "source": "dappscan",
+    "scope": "in",
+    "label": 1,
+    "family": "SM",
+    "swc": "SWC-117",
+    "project_dir": "openzeppelin-UMA_Across_V2/contracts-v2-bf03255cbd1db3045cd2fbf1580f24081f46b43a",
+    "file": "contracts/SpokePool.sol",
+    "function": "speedUpDeposit",
+    "lines": "L336",
+    "audit": "OpenZeppelin, UMA Across V2",
+    "audit_url": "https://blog.openzeppelin.com/uma-across-v2-audit/",
+    "repo_url": "https://github.com/across-protocol/contracts-v2/tree/bf03255cbd1db3045cd2fbf1580f24081f46b43a",
+    "packages": {
+      "@openzeppelin/contracts/": {
+        "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v4.4.2/contracts",
+        "version": "4.4.2 (package.json ^4.4.2)"
+      },
+      "@uma/core/": {
+        "raw": "https://raw.githubusercontent.com/UMAprotocol/protocol/%40uma%2Fcore%402.24.0/packages/core",
+        "version": "2.24.0 (package.json ^2.24.0)"
+      }
+    },
+    "notes": "Signature checked through OpenZeppelin SignatureChecker/ECDSA 4.4.2, which accepts both 65-byte and EIP-2098 compact encodings (CVE-2022-35961 range 4.1.0-4.7.2).",
+    "accept_functions": [
+      "speedUpDeposit"
+    ],
+    "solc": "0.8.29",
+    "bench_file": "UMA_SpokePool.sol",
+    "contract": "SpokePool"
+  },
+  {
+    "id": "RW02_UMA_SpokePool_fillRelayWithUpdatedFee",
+    "source": "dappscan",
+    "scope": "in",
+    "label": 1,
+    "family": "SM",
+    "swc": "SWC-117",
+    "project_dir": "openzeppelin-UMA_Across_V2/contracts-v2-bf03255cbd1db3045cd2fbf1580f24081f46b43a",
+    "file": "contracts/SpokePool.sol",
+    "function": "fillRelayWithUpdatedFee",
+    "lines": "L439",
+    "audit": "OpenZeppelin, UMA Across V2",
+    "audit_url": "https://blog.openzeppelin.com/uma-across-v2-audit/",
+    "repo_url": "https://github.com/across-protocol/contracts-v2/tree/bf03255cbd1db3045cd2fbf1580f24081f46b43a",
+    "packages": {
+      "@openzeppelin/contracts/": {
+        "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v4.4.2/contracts",
+        "version": "4.4.2 (package.json ^4.4.2)"
+      },
+      "@uma/core/": {
+        "raw": "https://raw.githubusercontent.com/UMAprotocol/protocol/%40uma%2Fcore%402.24.0/packages/core",
+        "version": "2.24.0 (package.json ^2.24.0)"
+      }
+    },
+    "notes": "Same contract as RW01; second reported location. Scored per function.",
+    "accept_functions": [
+      "fillRelayWithUpdatedFee"
+    ],
+    "solc": "0.8.29",
+    "bench_file": "UMA_SpokePool.sol",
+    "contract": "SpokePool"
+  },
+  {
+    "id": "RW03_zNS_StakingController_fulfillDomainBid",
+    "source": "dappscan",
+    "scope": "in",
+    "label": 1,
+    "family": "SM",
+    "swc": "SWC-117 + SWC-122",
+    "project_dir": "consensys-Zer0_zNS/zNS-b05e503ea1ee87dbe62b1d58426aaa518068e395",
+    "file": "contracts/StakingController.sol",
+    "function": "fulfillDomainBid",
+    "lines": "L121-153",
+    "audit": "ConsenSys Diligence, Zer0 zNS",
+    "audit_url": "https://consensys.net/diligence/audits/2021/05/zer0-zns/",
+    "repo_url": "https://github.com/zer0-os/zNS/tree/b05e503ea1ee87dbe62b1d58426aaa518068e395",
+    "packages": {
+      "@openzeppelin/contracts-upgradeable/": {
+        "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v3.4.2/contracts",
+        "version": "3.4.2 (package.json ^3.4.1; the v3.4.1 git tag lacks cryptography/, ECDSA identical across 3.4.x)"
+      }
+    },
+    "notes": "keccak256(abi.encode(signature)) used as the one-time bid key (approvedBids).",
+    "accept_functions": [
+      "fulfillDomainBid"
+    ],
+    "solc": "0.7.6",
+    "bench_file": "zNS_StakingController.sol",
+    "contract": "StakingController"
+  },
+  {
+    "id": "RW04_ElementFinance_ERC20Permit_permit",
+    "source": "dappscan",
+    "scope": "in",
+    "label": 1,
+    "family": "SM",
+    "swc": "SWC-117",
+    "project_dir": "Runtime_Vеrification-ElementFinance/elf-contracts-b9ab6095a211ccb81941a5104c581e3564a97502",
+    "file": "contracts/libraries/ERC20Permit.sol",
+    "function": "permit",
+    "lines": "L211",
+    "audit": "Runtime Verification, Element Finance",
+    "audit_url": "https://github.com/runtimeverification/publications/blob/main/reports/smart-contracts/ElementFinance.pdf",
+    "repo_url": "https://github.com/element-fi/elf-contracts/tree/637c6f959315cbb11a164555e588520c7d89122b",
+    "packages": {},
+    "notes": "Raw ecrecover without s-range check. Also accepts deadline == 0 as never-expiring.",
+    "accept_functions": [
+      "permit"
+    ],
+    "solc": "0.8.29",
+    "bench_file": "ElementFinance_ERC20Permit.sol",
+    "contract": "ERC20Permit"
+  },
+  {
+    "id": "RW05_AZTEC_ZkAssetBase_confidentialApprove",
+    "source": "dappscan",
+    "scope": "in",
+    "label": 1,
+    "family": "SR",
+    "swc": "SWC-121",
+    "project_dir": "Trail_of_Bits-aztec/AZTEC-c3f49df54849cd2e91a9ba4937d895179e7c283d",
+    "file": "packages/protocol/contracts/ERC1724/base/ZkAssetBase.sol",
+    "function": "confidentialApprove",
+    "lines": "L108-L125",
+    "audit": "Trail of Bits, AZTEC",
+    "audit_url": "https://github.com/trailofbits/publications/blob/master/reviews/aztec.pdf",
+    "repo_url": "https://github.com/AztecProtocol/AZTEC/tree/c3f49df54849cd2e91a9ba4937d895179e7c283d",
+    "packages": {
+      "openzeppelin-solidity/": {
+        "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v2.3.0",
+        "version": "2.3.0 (package.json 2.3.0)"
+      }
+    },
+    "notes": "Approval signature has no nonce and signs the note status, not the requested _status; an old signature can be replayed to re-approve.",
+    "accept_functions": [
+      "confidentialApprove"
+    ],
+    "solc": "0.5.17",
+    "bench_file": "AZTEC_ZkAssetBase.sol",
+    "contract": "ZkAssetBase"
+  },
+  {
+    "id": "RW06_Dharma_DharmaKeyRegistryV1_setGlobalKey",
+    "source": "dappscan",
+    "scope": "in",
+    "label": 1,
+    "family": "SR",
+    "swc": "SWC-121",
+    "project_dir": "Trail_of_Bits-dharma-smartwallet/dharma-smart-wallet-b1d510d03b97a9c8457b9c0b9c91568a09ccc95d",
+    "file": "contracts/registries/DharmaKeyRegistryV1.sol",
+    "function": "setGlobalKey",
+    "lines": "L52-L76",
+    "audit": "Trail of Bits, Dharma Smart Wallet",
+    "audit_url": "https://github.com/trailofbits/publications/blob/master/reviews/dharma-smartwallet.pdf",
+    "repo_url": "https://github.com/dharma-eng/dharma-smart-wallet/commit/b1d510d03b97a9c8457b9c0b9c91568a09ccc95d",
+    "packages": {
+      "@openzeppelin/contracts/": {
+        "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v2.3.0/contracts",
+        "version": "2.3.0 (package.json 2.3.0)"
+      }
+    },
+    "notes": "Key-ownership signature has no nonce; it stays valid and can be resubmitted to restore an old key (onlyOwner).",
+    "accept_functions": [
+      "setGlobalKey"
+    ],
+    "solc": "0.5.11",
+    "bench_file": "Dharma_DharmaKeyRegistryV1.sol",
+    "contract": "DharmaKeyRegistryV1"
+  },
+  {
+    "id": "RW07_Umbra_validateWithdrawSignature",
+    "source": "dappscan",
+    "scope": "in",
+    "label": 1,
+    "family": "SR",
+    "swc": "SWC-121",
+    "project_dir": "consensys-Umbra_Smart_Contracts/umbra-protocol-fa2e17367d66a85f20c77299ded5942d9ab64fe0",
+    "file": "contracts/contracts/Umbra.sol",
+    "function": "_validateWithdrawSignature",
+    "lines": "L308-330",
+    "audit": "ConsenSys Diligence, Umbra",
+    "audit_url": "https://consensys.net/diligence/audits/2021/03/umbra-smart-contracts/",
+    "repo_url": "https://github.com/ScopeLift/umbra-protocol/tree/fa2e17367d66a85f20c77299ded5942d9ab64fe0",
+    "packages": {
+      "@openzeppelin/contracts/": {
+        "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v3.4.1/contracts",
+        "version": "3.4.1 (package.json ^3.4.1)"
+      }
+    },
+    "notes": "Digest binds chainId and version but not address(this): cross-deployment replay. Reported function is internal; its external callers count as the location.",
+    "accept_functions": [
+      "_validateWithdrawSignature",
+      "withdrawTokenOnBehalf",
+      "withdrawTokenAndCallOnBehalf"
+    ],
+    "solc": "0.7.6",
+    "bench_file": "Umbra_Umbra.sol",
+    "contract": "Umbra"
+  },
+  {
+    "id": "RW08_0x_MixinSignatureValidator_preSign",
+    "source": "dappscan",
+    "scope": "in",
+    "label": 1,
+    "family": "ANY",
+    "swc": "SWC-122",
+    "project_dir": "consensys-0x_Protocol_v2/0x-monorepo-a05b14e4d9659be1cc495ee33fd8962ce773f87f",
+    "file": "packages/contracts/src/2.0.0/protocol/Exchange/MixinSignatureValidator.sol",
+    "function": "preSign",
+    "lines": "L52-L59",
+    "audit": "ConsenSys Diligence, 0x Protocol v2",
+    "audit_url": "https://github.com/ConsenSys/0x_audit_report_2018-07-23",
+    "repo_url": "https://github.com/0xProject/0x-monorepo/tree/a05b14e4d9659be1cc495ee33fd8962ce773f87f",
+    "packages": {},
+    "notes": "General signature-verification weakness (multi-scheme validator); no single dedicated detector family.",
+    "accept_functions": [
+      "preSign"
+    ],
+    "solc": "0.4.24",
+    "bench_file": "ZeroEx_MixinSignatureValidator.sol",
+    "contract": "MixinSignatureValidator"
+  },
+  {
+    "id": "EX01_Abyss_deposit",
+    "source": "dappscan",
+    "scope": "out",
+    "swc": "SWC-122",
+    "audit": "QuillAudits, Abyss Eth2 Depositor",
+    "reason": "BLS validator-deposit signatures forwarded to the ETH2 deposit contract; no off-chain ECDSA authorization."
+  },
+  {
+    "id": "EX02_BondAppetit_put",
+    "source": "dappscan",
+    "scope": "out",
+    "swc": "SWC-122",
+    "audit": "QuillAudits, Bond Appetit",
+    "reason": "A proof-signature string is stored but never verified; there is no verification code to analyze."
+  },
+  {
+    "id": "EX03_DOXY_transfer",
+    "source": "dappscan",
+    "scope": "out",
+    "swc": "SWC-122",
+    "audit": "QuillAudits, DOXY v1.3",
+    "reason": "Flagged lines contain sell-limit time logic and no signature code (apparent labeling error in the dataset)."
+  },
+  {
+    "id": "EX04_SWC133_hash_collisions",
+    "source": "dappscan",
+    "scope": "out",
+    "swc": "SWC-133",
+    "audit": "PepperSec Robonomics; ConsenSys Gitcoin; Trail of Bits API3",
+    "reason": "abi.encodePacked hash collisions (3 findings); not a signature-verification defect targeted by the six detectors."
+  },
+  {
+    "id": "CL01_OZ_ERC20Permit",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "EIP-2612 permit, EIP-712, ECDSA with low-s check",
+    "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v4.9.3",
+    "file": "contracts/token/ERC20/extensions/ERC20Permit.sol",
+    "function": "permit",
+    "repo_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/tree/v4.9.3",
+    "packages": {},
+    "notes": "OpenZeppelin Contracts 4.9.3 (tag commit 74add451).",
+    "solc": "0.8.29",
+    "bench_file": "OZ_ERC20Permit.sol",
+    "contract": "ERC20Permit"
+  },
+  {
+    "id": "CL02_OZ_ERC20Votes",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "EIP-712 delegation with nonce and expiry",
+    "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v4.9.3",
+    "file": "contracts/token/ERC20/extensions/ERC20Votes.sol",
+    "function": "delegateBySig",
+    "repo_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/tree/v4.9.3",
+    "packages": {},
+    "notes": "OpenZeppelin Contracts 4.9.3.",
+    "solc": "0.8.29",
+    "bench_file": "OZ_ERC20Votes.sol",
+    "contract": "ERC20Votes"
+  },
+  {
+    "id": "CL03_OZ_MinimalForwarder",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "EIP-2771 meta-transaction forwarder, nonce",
+    "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v4.9.3",
+    "file": "contracts/metatx/MinimalForwarder.sol",
+    "function": "execute",
+    "repo_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/tree/v4.9.3",
+    "packages": {},
+    "notes": "OpenZeppelin Contracts 4.9.3.",
+    "solc": "0.8.29",
+    "bench_file": "OZ_MinimalForwarder.sol",
+    "contract": "MinimalForwarder"
+  },
+  {
+    "id": "CL04_UniswapV2ERC20",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "EIP-2612 permit, raw ecrecover (no low-s check), nonce",
+    "raw": "https://raw.githubusercontent.com/Uniswap/v2-core/6a9e7c97860676e0992f22a49665760444c1cdf5",
+    "file": "contracts/UniswapV2ERC20.sol",
+    "function": "permit",
+    "repo_url": "https://github.com/Uniswap/v2-core/tree/6a9e7c97860676e0992f22a49665760444c1cdf5",
+    "packages": {},
+    "notes": "Uniswap V2 LP token.",
+    "solc": "0.5.16",
+    "bench_file": "UniswapV2_UniswapV2ERC20.sol",
+    "contract": "UniswapV2ERC20"
+  },
+  {
+    "id": "CL05_Permit2_SignatureTransfer",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "Permit2 signature transfer, unordered bitmap nonces, EIP-1271",
+    "raw": "https://raw.githubusercontent.com/Uniswap/permit2/cc56ad0f3439c502c246fc5cfcc3db92bb8b7219",
+    "file": "src/SignatureTransfer.sol",
+    "function": "permitTransferFrom",
+    "repo_url": "https://github.com/Uniswap/permit2/tree/cc56ad0f3439c502c246fc5cfcc3db92bb8b7219",
+    "packages": {
+      "solmate/": {
+        "raw": "https://raw.githubusercontent.com/transmissions11/solmate/8d910d876f51c3b2585c9109409d601f600e68e1",
+        "version": "submodule 8d910d87"
+      }
+    },
+    "notes": "Uniswap Permit2.",
+    "solc": "0.8.17",
+    "bench_file": "Permit2_SignatureTransfer.sol",
+    "contract": "SignatureTransfer"
+  },
+  {
+    "id": "CL06_Permit2_AllowanceTransfer",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "Permit2 allowance permit, ordered nonces",
+    "raw": "https://raw.githubusercontent.com/Uniswap/permit2/cc56ad0f3439c502c246fc5cfcc3db92bb8b7219",
+    "file": "src/AllowanceTransfer.sol",
+    "function": "permit",
+    "repo_url": "https://github.com/Uniswap/permit2/tree/cc56ad0f3439c502c246fc5cfcc3db92bb8b7219",
+    "packages": {
+      "solmate/": {
+        "raw": "https://raw.githubusercontent.com/transmissions11/solmate/8d910d876f51c3b2585c9109409d601f600e68e1",
+        "version": "submodule 8d910d87"
+      }
+    },
+    "notes": "Uniswap Permit2.",
+    "solc": "0.8.17",
+    "bench_file": "Permit2_AllowanceTransfer.sol",
+    "contract": "AllowanceTransfer"
+  },
+  {
+    "id": "CL07_DAI_permit",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "DAI permit, raw ecrecover, nonce, expiry==0 means no expiry",
+    "raw": "https://raw.githubusercontent.com/sky-ecosystem/dss/fa4f6630afb0624d04a003e920b0d71a00331d98",
+    "file": "src/dai.sol",
+    "function": "permit",
+    "repo_url": "https://github.com/sky-ecosystem/dss/tree/fa4f6630afb0624d04a003e920b0d71a00331d98",
+    "packages": {},
+    "notes": "MakerDAO DAI (repo moved from makerdao/dss).",
+    "solc": "0.6.12",
+    "bench_file": "MakerDAO_Dai.sol",
+    "contract": "Dai"
+  },
+  {
+    "id": "CL08_Compound_Comp",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "EIP-712 delegation, raw ecrecover, nonce, expiry",
+    "raw": "https://raw.githubusercontent.com/compound-finance/compound-protocol/a3214f67b73310d547e00fc578e8355911c9d376",
+    "file": "contracts/Governance/Comp.sol",
+    "function": "delegateBySig",
+    "repo_url": "https://github.com/compound-finance/compound-protocol/tree/a3214f67b73310d547e00fc578e8355911c9d376",
+    "packages": {},
+    "notes": "Compound COMP token.",
+    "solc": "0.8.29",
+    "bench_file": "Compound_Comp.sol",
+    "contract": "Comp"
+  },
+  {
+    "id": "CL09_Uniswap_UNI",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "EIP-2612 permit and delegation, raw ecrecover",
+    "raw": "https://raw.githubusercontent.com/Uniswap/governance/eabd8c71ad01f61fb54ed6945162021ee419998e",
+    "file": "contracts/Uni.sol",
+    "function": "permit, delegateBySig",
+    "repo_url": "https://github.com/Uniswap/governance/tree/eabd8c71ad01f61fb54ed6945162021ee419998e",
+    "packages": {},
+    "notes": "Uniswap UNI token.",
+    "solc": "0.5.16",
+    "bench_file": "Uniswap_Uni.sol",
+    "contract": "Uni"
+  },
+  {
+    "id": "CL10_Safe_v130",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "Multisig: ECDSA, eth_sign, EIP-1271 contract signatures, approved hashes, nonce",
+    "raw": "https://raw.githubusercontent.com/safe-global/safe-contracts/v1.3.0",
+    "file": "contracts/GnosisSafe.sol",
+    "function": "execTransaction / checkSignatures",
+    "repo_url": "https://github.com/safe-global/safe-contracts/tree/v1.3.0",
+    "packages": {},
+    "notes": "Safe 1.3.0.",
+    "solc": "0.7.6",
+    "bench_file": "Safe_GnosisSafe.sol",
+    "contract": "GnosisSafe"
+  },
+  {
+    "id": "CL11_USDC_EIP3009",
+    "source": "github",
+    "scope": "in",
+    "label": 0,
+    "family": "ANY",
+    "mechanism": "EIP-3009 random authorization ids, validAfter/validBefore, SignatureChecker",
+    "raw": "https://raw.githubusercontent.com/circlefin/stablecoin-evm/fc85788bc7c23cefe3df1a757133048bfddadeaa",
+    "file": "contracts/v2/EIP3009.sol",
+    "function": "transferWithAuthorization",
+    "repo_url": "https://github.com/circlefin/stablecoin-evm/tree/fc85788bc7c23cefe3df1a757133048bfddadeaa",
+    "packages": {
+      "@openzeppelin/contracts/": {
+        "raw": "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v3.4.2/contracts",
+        "version": "3.4.2 (package.json 3.4.2)"
+      }
+    },
+    "notes": "Circle USDC FiatToken.",
+    "solc": "0.6.12",
+    "bench_file": "Circle_EIP3009.sol",
+    "contract": "EIP3009"
+  }
+]
