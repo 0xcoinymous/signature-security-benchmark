@@ -20,7 +20,6 @@ eval/
   results/run8/            raw outputs and scores of the three tools on the labelled dataset
   results/run9/            raw outputs of the two Aderyn builds on 15,353 deployed contracts
   manual_review/           a hand review of 30 random findings of five detectors
-  results/run4, run5/      earlier runs of the same scripts
   *.py, *.sh               scripts to run the tools, score them and produce the article's tables
 ```
 
@@ -113,9 +112,9 @@ python3 make_paper_tables.py --run results/run8 --large results/run9 \
 python3 manual_review/table.py --d5-dir <large dir> --thesis <file> --paper <file>
 ```
 
-`compare_versions.py` compares the findings of two extended builds, `fp_functions.py`
-lists the functions behind the most frequent false positives, and `examples/run_examples.sh <aderyn>` runs a
-build on the worked examples (expected output in `examples/results.txt`).
+`fp_functions.py` lists the functions behind the most frequent false positives, and
+`examples/run_examples.sh <aderyn>` runs a build on the worked examples (expected output in
+`examples/results.txt`).
 
 ## License
 

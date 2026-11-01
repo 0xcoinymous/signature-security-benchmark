@@ -78,7 +78,7 @@ def main():
         if address in present:
             name = present[address]
         else:
-            names = [n for n in (HERE.parent / "results" / "run5" / f"files_{chain}.txt").read_text().split()
+            names = [n for n in (HERE.parent / "results" / "run9" / f"files_{chain}.txt").read_text().split()
                      if n.split("_", 1)[0].lower() == address]
             source = Path(args.large_dir) / chain / names[0]
             name = f"{address}_{names[0].split('_', 1)[1]}"

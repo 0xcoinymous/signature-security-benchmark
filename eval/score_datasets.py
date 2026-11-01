@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Score extended Aderyn, stock Aderyn and Slither on the combined evaluation dataset.
 
-    score_datasets.py --combined datasets/combined.csv --run results/run4 --out results/run4
+    score_datasets.py --combined datasets/combined.csv --run results/run8 --out results/run8
 
 The unit is a labelled (contract, vulnerability type) pair (datasets/combined.csv). A pair is flagged
 when the tool reports, anywhere in the contract, a detector that counts for the type. Two views:

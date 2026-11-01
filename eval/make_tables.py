@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the chapter-3 and chapter-4 table bodies (LaTeX rows with Persian digits) and chart data.
 
-    make_tables.py --run results/run4 --large results/run5 --combined datasets/combined.csv \
+    make_tables.py --run results/run8 --large results/run9 --combined datasets/combined.csv \
                    --out ../thesis/latex/tables
 
 Every number comes from datasets_summary.json (score_datasets.py), large_summary.json (score_large.py)

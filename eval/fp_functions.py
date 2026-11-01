@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Functions in which the replay and nonce detectors report on pairs of the general replay type.
 
-    fp_functions.py --run results/run4 --contracts ../../signature-security-benchmark/contracts \
+    fp_functions.py --run results/run8 --contracts ../../signature-security-benchmark/contracts \
                     --out ../thesis/latex/tables/fp-functions.tex
 
 For every pair of type `replay` that the extended build flags, the name of the function enclosing each

@@ -2,7 +2,7 @@
 """Scale, runtime and number of findings on the large unlabelled set (contracts that call ecrecover on
 Ethereum, BSC, Polygon and Arbitrum).
 
-    score_large.py --runs results/run5 --lasir-dir datasets/raw/lasir --out results/run5
+    score_large.py --runs results/run9 --lasir-dir datasets/raw/lasir --out results/run9
 
 Reads <runs>/<Chain>_extended.json for every chain and <Chain>_stock.json for the runtime chain, written
 by run_dataset.py. The contracts confirmed exploitable in the source study belong to the labelled evaluation

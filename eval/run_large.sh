@@ -3,7 +3,7 @@
 #   run_large.sh <extended aderyn binary> <stock aderyn binary> <dir from `fetch.py large`> [OUT dir]
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
-EXTENDED="$1"; STOCK="$2"; LARGE="$3"; OUT="${4:-$HERE/results/run5}"
+EXTENDED="$1"; STOCK="$2"; LARGE="$3"; OUT="${4:-$HERE/results/run9}"
 JOBS="${JOBS:-6}"
 mkdir -p "$OUT"
 for chain in Ethereum BSC Polygon Arbitrum; do

@@ -6,7 +6,7 @@
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 EXTENDED="$1"; STOCK="$2"; LARGE="$3"
-JOBS=4 "$HERE/run_datasets.sh" "$EXTENDED" "$STOCK" "" "$HERE/results/run8"
+JOBS=4 "$HERE/run_datasets.sh" "$EXTENDED" "$STOCK" "$HERE/results/run8"
 OUT="$HERE/results/run9"
 for chain in Ethereum BSC Polygon Arbitrum; do
   common=(--contracts "$LARGE/$chain" --files "$OUT/files_$chain.txt" --compilers "$HERE/datasets/compilers.csv"

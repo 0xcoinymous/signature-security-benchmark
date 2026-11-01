@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the English table bodies and chart data of the journal article.
 
-    make_paper_tables.py --run results/run4 --large results/run5 --combined datasets/combined.csv \
+    make_paper_tables.py --run results/run8 --large results/run9 --combined datasets/combined.csv \
                          --out ../paper/tables
 
 The same summaries as the thesis tables (make_tables.py) are used, so both report identical numbers:

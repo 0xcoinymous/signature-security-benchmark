@@ -4,8 +4,8 @@
     sample.py --detector signature-freshness --n 30 --seed 1404 --d5-dir <large dir> \
               --out manual_review/signature-freshness.csv
 
-The population is every contract of D1-D3 (--labelled-run, default results/run6) and D5
-(--large-run, default results/run7) that the extended build flags with the detector. Contracts are
+The population is every contract of D1-D3 (--labelled-run, default results/run8) and D5
+(--large-run, default results/run9) that the extended build flags with the detector. Contracts are
 drawn uniformly without replacement, and one reported instance is drawn from each. The source shown
 for review is the file exactly as it was analysed (the same preparation as run_dataset.py), so line
 numbers match the finding.
@@ -65,8 +65,8 @@ def main():
     ap.add_argument("--n", type=int, default=30)
     ap.add_argument("--seed", type=int, default=1404)
     ap.add_argument("--d5-dir", required=True)
-    ap.add_argument("--labelled-run", type=Path, default=HERE.parent / "results" / "run6")
-    ap.add_argument("--large-run", type=Path, default=HERE.parent / "results" / "run7")
+    ap.add_argument("--labelled-run", type=Path, default=HERE.parent / "results" / "run8")
+    ap.add_argument("--large-run", type=Path, default=HERE.parent / "results" / "run9")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
     pool = population(args.detector, args.d5_dir, args.labelled_run, args.large_run)
