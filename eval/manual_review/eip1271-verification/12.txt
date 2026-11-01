@@ -1,0 +1,27 @@
+D5-Ethereum  0x1f16294cc2f7459625f456f349344344e56a5f78_DharmaSmartWalletImplementationV13.sol  0x1f16294cc2f7459625f456f349344344e56a5f78_DharmaSmartWalletImplementationV13.sol:1257  (solc 0.5.17)
+
+ 1245     * supplied signatures and the second bytes parameter contains context for the
+ 1246     * requested validation. The two signatures are packed together, with the one
+ 1247     * from Dharma coming first and that from the user coming second - this is so
+ 1248     * that, in future versions, multiple user signatures may be supplied if the
+ 1249     * associated key ring requires them.
+ 1250     * @param data bytes The data used to validate the signature.
+ 1251     * @param signatures bytes The two signatures, each 65 bytes - one from the
+ 1252     * owner (using ERC-1271 as well if the user signing key is a contract) and
+ 1253     * one from the Dharma Key Registry.
+ 1254     * @return The 4-byte magic value to signify a valid signature in ERC-1271, if
+ 1255     * the signatures are both valid.
+ 1256     */
+ 1257>   function isValidSignature(
+ 1258      bytes calldata data, bytes calldata signatures
+ 1259    ) external view returns (bytes4 magicValue) {
+ 1260      // Get message hash digest and any additional context from data argument.
+ 1261      bytes32 digest;
+ 1262      bytes memory context;
+ 1263  
+ 1264      if (data.length == 32) {
+ 1265        digest = abi.decode(data, (bytes32));
+ 1266      } else {
+ 1267        if (data.length < 64) {
+ 1268          revert(_revertReason(30));
+ 1269        }

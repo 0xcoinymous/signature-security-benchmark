@@ -1,0 +1,27 @@
+D5-Polygon  0x511840fD3292D850Ed2F77317854b12BaF35B269_ToadToken.sol  0x511840fD3292D850Ed2F77317854b12BaF35B269_ToadToken.sol:1040  (solc 0.6.12)
+
+ 1028          return _delegate(msg.sender, delegatee);
+ 1029      }
+ 1030  
+ 1031      /**
+ 1032       * @notice Delegates votes from signatory to `delegatee`
+ 1033       * @param delegatee The address to delegate votes to
+ 1034       * @param nonce The contract state required to match the signature
+ 1035       * @param expiry The time at which to expire the signature
+ 1036       * @param v The recovery byte of the signature
+ 1037       * @param r Half of the ECDSA signature pair
+ 1038       * @param s Half of the ECDSA signature pair
+ 1039       */
+ 1040>     function delegateBySig(
+ 1041          address delegatee,
+ 1042          uint nonce,
+ 1043          uint expiry,
+ 1044          uint8 v,
+ 1045          bytes32 r,
+ 1046          bytes32 s
+ 1047      )
+ 1048          external
+ 1049      {
+ 1050          bytes32 domainSeparator = keccak256(
+ 1051              abi.encode(
+ 1052                  DOMAIN_TYPEHASH,

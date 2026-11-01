@@ -1,0 +1,27 @@
+D5-Ethereum  0x5f1c76b7a90d88ee5bada971a28aaef514719dbf_AnyswapV6ERC20.sol  0x5f1c76b7a90d88ee5bada971a28aaef514719dbf_AnyswapV6ERC20.sol:434  (solc 0.8.10)
+
+  422          return IApprovalReceiver(spender).onTokenApproval(msg.sender, value, data);
+  423      }
+  424  
+  425      /// @dev Sets `value` as allowance of `spender` account over `owner` account's AnyswapV3ERC20 token, given `owner` account's signed approval.
+  426      /// Emits {Approval} event.
+  427      /// Requirements:
+  428      ///   - `deadline` must be timestamp in future.
+  429      ///   - `v`, `r` and `s` must be valid `secp256k1` signature from `owner` account over EIP712-formatted function arguments.
+  430      ///   - the signature must use `owner` account's current nonce (see {nonces}).
+  431      ///   - the signer cannot be zero address and must be `owner` account.
+  432      /// For more information on signature format, see https://eips.ethereum.org/EIPS/eip-2612#specification[relevant EIP section].
+  433      /// AnyswapV3ERC20 token implementation adapted from https://github.com/albertocuestacanada/ERC20Permit/blob/master/contracts/ERC20Permit.sol.
+  434>     function permit(address target, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external override {
+  435          require(block.timestamp <= deadline, "AnyswapV3ERC20: Expired permit");
+  436  
+  437          bytes32 hashStruct = keccak256(
+  438              abi.encode(
+  439                  PERMIT_TYPEHASH,
+  440                  target,
+  441                  spender,
+  442                  value,
+  443                  nonces[target]++,
+  444                  deadline));
+  445  
+  446          require(verifyEIP712(target, hashStruct, v, r, s) || verifyPersonalSign(target, hashStruct, v, r, s));

@@ -1,0 +1,27 @@
+D5-Ethereum  0x4d90ca10f218ebd4509ca0f9816cf20fd9903c35_DharmaSmartWalletImplementationV15.sol  0x4d90ca10f218ebd4509ca0f9816cf20fd9903c35_DharmaSmartWalletImplementationV15.sol:991  (solc 0.5.17)
+
+  979        revert(_revertReason(12));
+  980      }
+  981  
+  982      // Recover Dharma signature against key returned from Dharma Key Registry.
+  983      if (_getDharmaSigningKey() != digest.recover(dharmaSignature)) {
+  984        revert(_revertReason(13));
+  985      }
+  986  
+  987      // Return the ERC-1271 magic value to indicate success.
+  988      magicValue = _ERC_1271_LEGACY_MAGIC_VALUE;
+  989    }
+  990  
+  991>   function isValidSignature(
+  992      bytes32 digest, bytes calldata signatures
+  993    ) external view returns (bytes4 magicValue) {
+  994      // Get Dharma signature & user signature from combined signatures argument.
+  995      if (signatures.length != 130) {
+  996        revert(_revertReason(11));
+  997      }
+  998      bytes memory signaturesInMemory = signatures;
+  999      bytes32 r;
+ 1000      bytes32 s;
+ 1001      uint8 v;
+ 1002      assembly {
+ 1003        r := mload(add(signaturesInMemory, 0x20))

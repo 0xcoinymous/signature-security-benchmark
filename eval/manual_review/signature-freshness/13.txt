@@ -1,0 +1,27 @@
+D5-Polygon  0x094b3fb347e36046fb506323ba792de4d56f80a9_Verification.sol  0x094b3fb347e36046fb506323ba792de4d56f80a9_Verification.sol:75  (solc 0.8.13)
+
+   63    }
+   64  
+   65    function payFeeFor(address account) public {
+   66      emit FeePaid(account);
+   67      bool received = feeToken.transferFrom(msg.sender, address(this), feeAmount);
+   68      require(received, "Fee transfer failed");
+   69    }
+   70  
+   71    function payFee() external {
+   72      payFeeFor(msg.sender);
+   73    }
+   74  
+   75>   function publishVerification(
+   76      uint256 expiration,
+   77      bytes32 countryAndDocNumberHash,
+   78      bytes calldata signature
+   79    ) external {
+   80      // Recreate hash as built by the client
+   81      bytes32 hash = keccak256(abi.encode(msg.sender, expiration, countryAndDocNumberHash));
+   82      (bytes32 r, bytes32 s, uint8 v) = splitSignature(signature);
+   83      bytes32 ethSignedHash = keccak256(
+   84        abi.encodePacked("\x19Ethereum Signed Message:\n32", hash));
+   85  
+   86      address sigAddr = ecrecover(ethSignedHash, v, r, s);
+   87      require(sigAddr == signer, "Invalid Signature");

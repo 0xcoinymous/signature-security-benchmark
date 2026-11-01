@@ -1,0 +1,27 @@
+D5-Ethereum  0x801e2ad304518faaf9657097564bfa1f97a32026_CollectionCore.sol  0x801e2ad304518faaf9657097564bfa1f97a32026_CollectionCore.sol:2364  (solc 0.8.16)
+
+ 2352      {
+ 2353          require(isImmutable == false, "cant change");
+ 2354          baseURI = _newBaseURI;
+ 2355      }
+ 2356  
+ 2357      function makeImmutable() external onlyOwner {
+ 2358          isImmutable = true;
+ 2359      }
+ 2360  
+ 2361      /* External users who have been given a signature can mint token using this function
+ 2362       * This Fn works only when unpaused.
+ 2363       */
+ 2364>     function mintTokens(ExternalCreateRequest[] calldata requests)
+ 2365          external
+ 2366          whenNotPaused
+ 2367      {
+ 2368          require(enableExternalMinting == true, "minting disabled");
+ 2369          for (uint32 i = 0; i < requests.length; i++) {
+ 2370              ExternalCreateRequest memory request = requests[i];
+ 2371              // If a token is burnt _exists will return 0.
+ 2372              require(_exists(request.tokenId) == false, "token exists");
+ 2373              require(request.owner == msg.sender, "owner error");
+ 2374              require(totalSupply() + 1 <= totalMediaSupply, "exceeded supply");
+ 2375              ChainSignatureRequest
+ 2376                  memory signatureRequest = ChainSignatureRequest(

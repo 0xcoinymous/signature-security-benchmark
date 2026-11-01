@@ -1,0 +1,27 @@
+D5-Ethereum  0x4aB1FDdf9f889C0FFEDF1EC7955Aae83b1Ac527b_MintableToken.sol  0x4aB1FDdf9f889C0FFEDF1EC7955Aae83b1Ac527b_MintableToken.sol:1149  (solc 0.6.12)
+
+ 1137      }
+ 1138  
+ 1139    // See https://eips.ethereum.org/EIPS/eip-191
+ 1140      string private constant EIP191_PREFIX_FOR_EIP712_STRUCTURED_DATA = "\x19\x01";
+ 1141      // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
+ 1142      bytes32 private constant PERMIT_SIGNATURE_HASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
+ 1143  
+ 1144      /// @notice Approves `value` from `owner_` to be spend by `spender`.
+ 1145      /// @param owner_ Address of the owner.
+ 1146      /// @param spender The address of the spender that gets approved to draw from `owner_`.
+ 1147      /// @param value The maximum collective amount that `spender` can draw.
+ 1148      /// @param deadline This permit must be redeemed before this deadline (UTC timestamp in seconds).
+ 1149>     function permit(
+ 1150          address owner_,
+ 1151          address spender,
+ 1152          uint256 value,
+ 1153          uint256 deadline,
+ 1154          uint8 v,
+ 1155          bytes32 r,
+ 1156          bytes32 s
+ 1157      ) external override {
+ 1158          require(owner_ != address(0), "ERC20: Owner cannot be 0");
+ 1159          require(block.timestamp < deadline, "ERC20: Expired");
+ 1160          bytes32 digest =
+ 1161              keccak256(

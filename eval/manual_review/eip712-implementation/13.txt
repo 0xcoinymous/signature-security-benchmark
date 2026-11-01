@@ -1,0 +1,27 @@
+D5-Ethereum  0xa17cbA6aB544e6F0C252fc93A2396a567d66f8B3_StkTruToken.sol  0xa17cbA6aB544e6F0C252fc93A2396a567d66f8B3_StkTruToken.sol:983  (solc 0.6.10)
+
+  971      bytes32 public constant DELEGATION_TYPEHASH = keccak256("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
+  972  
+  973      event DelegateChanged(address indexed delegator, address indexed fromDelegate, address indexed toDelegate);
+  974      event DelegateVotesChanged(address indexed delegate, uint256 previousBalance, uint256 newBalance);
+  975  
+  976      function delegate(address delegatee) public override {
+  977          return _delegate(msg.sender, delegatee);
+  978      }
+  979  
+  980      /**
+  981       * @dev Delegate votes using signature
+  982       */
+  983>     function delegateBySig(
+  984          address delegatee,
+  985          uint256 nonce,
+  986          uint256 expiry,
+  987          uint8 v,
+  988          bytes32 r,
+  989          bytes32 s
+  990      ) public override {
+  991          bytes32 domainSeparator = keccak256(abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name())), getChainId(), address(this)));
+  992          bytes32 structHash = keccak256(abi.encode(DELEGATION_TYPEHASH, delegatee, nonce, expiry));
+  993          bytes32 digest = keccak256(abi.encodePacked("", domainSeparator, structHash));
+  994          address signatory = ecrecover(digest, v, r, s);
+  995          require(signatory != address(0), "TrustToken::delegateBySig: invalid signature");

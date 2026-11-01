@@ -1,0 +1,27 @@
+D5-Ethereum  0x2b78a837c37549539c62ab54a235a8e19fea812f_CentWallet.sol  0x2b78a837c37549539c62ab54a235a8e19fea812f_CentWallet.sol:118  (solc 0.4.25)
+
+  106  
+  107              if (wallet.linked[signer] || walletID == getWalletDigest(nameIDs[i], signer)) {
+  108                  wallet.linked[agent] = true;
+  109  
+  110                  emit Link(walletID, agent);
+  111              }
+  112          }
+  113      }
+  114  
+  115      /**
+  116       * Debit funds from a user's balance and add them to the escrow balance.
+  117       */
+  118>     function debit(
+  119          bytes32[] walletIDs,
+  120          uint256[] values,
+  121          uint64[] nonces,
+  122          uint8[] v, bytes32[] r, bytes32[] s) onlyAdmin public
+  123      {
+  124          require(
+  125              walletIDs.length == values.length &&
+  126              walletIDs.length == nonces.length &&
+  127              walletIDs.length == v.length &&
+  128              walletIDs.length == r.length &&
+  129              walletIDs.length == s.length
+  130          );

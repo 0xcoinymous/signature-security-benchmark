@@ -1,0 +1,27 @@
+D5-BSC  0xBC1a3a39Ad2C0c5f2F5c4AB0DE477af1A5BCBc57_testgrow.sol  0xBC1a3a39Ad2C0c5f2F5c4AB0DE477af1A5BCBc57_testgrow.sol:1388  (solc 0.8.10)
+
+ 1376      function _setAllowance(
+ 1377          address owner,
+ 1378          address spender,
+ 1379          uint256 wad
+ 1380      ) internal virtual returns (bool) {
+ 1381          _allowances[owner][spender] = wad;
+ 1382          emit Approval(owner, spender, wad);
+ 1383  
+ 1384          return true;
+ 1385      }
+ 1386  
+ 1387      // --- Approve by signature ---
+ 1388>     function permit(
+ 1389          address holder,
+ 1390          address spender,
+ 1391          uint256 nonce,
+ 1392          uint256 expiry,
+ 1393          bool allowed,
+ 1394          uint8 v,
+ 1395          bytes32 r,
+ 1396          bytes32 s
+ 1397      ) external {
+ 1398          bytes32 digest = keccak256(
+ 1399              abi.encodePacked(
+ 1400                  "\x19\x01",

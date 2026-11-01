@@ -1,0 +1,27 @@
+D5-BSC  0x4FB27dA20a5ed5C0BBF77bbf038DF16518990075_LaunchpadAgent.sol  0x4FB27dA20a5ed5C0BBF77bbf038DF16518990075_LaunchpadAgent.sol:2838  (solc 0.8.16)
+
+ 2826              uint256 balanceAfter = costErc20.balanceOf(address(this));
+ 2827  
+ 2828              _projcetInfo[erc721].saleAmount+=balanceAfter.sub(balanceBefore);
+ 2829              
+ 2830          }
+ 2831  
+ 2832          _mint721(erc721,mintCount,condition,dataSignature);
+ 2833  
+ 2834      } 
+ 2835  
+ 2836  
+ 2837      // mint721 asset
+ 2838>     function _mint721(address erc721, uint256 mintCount, Condition calldata condition, bytes memory dataSignature )  public {
+ 2839  
+ 2840          require(mintCount>0, "invalid mint count!");
+ 2841          if(!_superMinters[msg.sender]){
+ 2842              require(!msg.sender.isContract(), "call to non-contract");
+ 2843          }
+ 2844          require(_projcetInfo[erc721].isUserStart || _superMinters[msg.sender]  , "can't mint" );
+ 2845          require( block.timestamp >= condition.startTime && block.timestamp < condition.endTime, "out date" );
+ 2846  
+ 2847          uint8 stage = condition.stage;
+ 2848          require(stage!=0,"stage not begin");
+ 2849  
+ 2850          bool have ;

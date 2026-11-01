@@ -1,0 +1,27 @@
+D5-Ethereum  0x92831cc5632f1f8fd4fc1754a86ae2f2e0dfeed9_CunningFoxes.sol  0x92831cc5632f1f8fd4fc1754a86ae2f2e0dfeed9_CunningFoxes.sol:2410  (solc 0.8.7)
+
+ 2398          _registerForOperatorFiltering();
+ 2399          operatorFilteringEnabled = true;
+ 2400          price = 0.042 ether;
+ 2401          presaleStart = 0;
+ 2402          saleStart = 0;
+ 2403          saleEnd = 0;
+ 2404          wlSigner = 0xBA755A81F0122bA0F88817f184c72e43361F0436;
+ 2405          _contractURI = "https://ipfs.io/ipfs/QmTTcJZmD9hYUhsk2WggByEULeSgRBhazAo2uJi8a18BBd";
+ 2406          _baseUri = "ipfs://QmaJCv19cjBrwJBgivifyPq3j5nioHb7WCyJ6jqpL7URtH?";
+ 2407          maxPerWallet = 20;
+ 2408      }
+ 2409  
+ 2410>     function freeMint(uint256 quantity, uint256 maxFreeMints, bytes calldata signature) external {
+ 2411          require(isPresaleActive(), "Pre sale not started");
+ 2412          require(
+ 2413              recoverAddress(msg.sender, maxFreeMints, signature) == wlSigner,
+ 2414              "Address is not allowlisted"
+ 2415          );
+ 2416          require(
+ 2417              wlAccountMints[msg.sender] + quantity <= maxFreeMints,
+ 2418              "No remaining mints"
+ 2419          );
+ 2420          require(totalSupply() + quantity <= maxSupply, "Sold out");
+ 2421  
+ 2422          wlAccountMints[msg.sender] += quantity;

@@ -1,0 +1,27 @@
+D5-Ethereum  0xfa41b64086ab7d09c9a2007943b262acda68a0d2_TheClinic.sol  0xfa41b64086ab7d09c9a2007943b262acda68a0d2_TheClinic.sol:1669  (solc 0.8.13)
+
+ 1657          _safeMint(_to, _howMany);
+ 1658      }
+ 1659  
+ 1660      function _beforeMint(uint256 _howMany) private view {
+ 1661          require(_howMany > 0, "Must mint at least one");
+ 1662          uint256 supply = totalSupply();
+ 1663          require(
+ 1664              supply + _howMany <= MAX_SUPPLY,
+ 1665              "Minting would exceed max supply"
+ 1666          );
+ 1667      }
+ 1668  
+ 1669>     function whitelistMint(
+ 1670          uint256 _howMany,
+ 1671          uint256 _timestamp,
+ 1672          bytes memory _signature
+ 1673      )
+ 1674          external
+ 1675          payable
+ 1676          nonReentrant
+ 1677          whenPreSaleActive
+ 1678          callerIsUser
+ 1679          checkPrice(_howMany)
+ 1680      {
+ 1681          _isValid(_msgSender(), _howMany, _timestamp, _signature);

@@ -1,0 +1,27 @@
+D5-Ethereum  0x83f20f44975d03b1b09e64809b757c47f942beea_SavingsDai.sol  0x83f20f44975d03b1b09e64809b757c47f942beea_SavingsDai.sol:380  (solc 0.8.17)
+
+  368                  return true;
+  369              }
+  370          }
+  371  
+  372          (bool success, bytes memory result) = signer.staticcall(
+  373              abi.encodeWithSelector(IERC1271.isValidSignature.selector, digest, signature)
+  374          );
+  375          return (success &&
+  376              result.length == 32 &&
+  377              abi.decode(result, (bytes4)) == IERC1271.isValidSignature.selector);
+  378      }
+  379  
+  380>     function permit(
+  381          address owner,
+  382          address spender,
+  383          uint256 value,
+  384          uint256 deadline,
+  385          bytes memory signature
+  386      ) public {
+  387          require(block.timestamp <= deadline, "SavingsDai/permit-expired");
+  388          require(owner != address(0), "SavingsDai/invalid-owner");
+  389  
+  390          uint256 nonce;
+  391          unchecked { nonce = nonces[owner]++; }
+  392  

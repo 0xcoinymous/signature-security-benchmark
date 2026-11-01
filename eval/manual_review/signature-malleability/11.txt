@@ -1,0 +1,27 @@
+D5-Polygon  0x028511FfA8D408FD9D8f1EfEcfc1733164F7566d_OlympusERC20Token.sol  0x028511FfA8D408FD9D8f1EfEcfc1733164F7566d_OlympusERC20Token.sol:787  (solc 0.7.5)
+
+  775  
+  776          DOMAIN_SEPARATOR = keccak256(
+  777              abi.encode(
+  778                  keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
+  779                  keccak256(bytes(name())),
+  780                  keccak256(bytes("1")), // Version
+  781                  chainID,
+  782                  address(this)
+  783              )
+  784          );
+  785      }
+  786  
+  787>     function permit(
+  788          address owner,
+  789          address spender,
+  790          uint256 amount,
+  791          uint256 deadline,
+  792          uint8 v,
+  793          bytes32 r,
+  794          bytes32 s
+  795      ) public virtual override {
+  796          require(block.timestamp <= deadline, "Permit: expired deadline");
+  797  
+  798          bytes32 hashStruct =
+  799              keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, amount, _nonces[owner].current(), deadline));

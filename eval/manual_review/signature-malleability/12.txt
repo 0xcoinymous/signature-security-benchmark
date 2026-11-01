@@ -1,0 +1,27 @@
+D5-Ethereum  0x1bb21b6edb83e3db63bde9f51616da6909a368d2_ForeignBridge.sol  0x1bb21b6edb83e3db63bde9f51616da6909a368d2_ForeignBridge.sol:520  (solc 0.4.24)
+
+  508              emit Deposit(recipient, value, transactionHash);
+  509          }
+  510      }
+  511  
+  512      /// Should be used as sync tool
+  513      ///
+  514      /// Message is a message that should be relayed to main chain once authorities sign it.
+  515      ///
+  516      /// for withdraw message contains:
+  517      /// withdrawal recipient (bytes20)
+  518      /// withdrawal value (uint)
+  519      /// foreign transaction hash (bytes32) // to avoid transaction duplication
+  520>     function submitSignature(bytes signature, bytes message) external onlyValidator {
+  521          // ensure that `signature` is really `message` signed by `msg.sender`
+  522          require(Message.isMessageValid(message));
+  523          require(msg.sender == Message.recoverAddressFromSignedMessage(signature, message));
+  524          bytes32 hashMsg = keccak256(message);
+  525          bytes32 hashSender = keccak256(msg.sender, hashMsg);
+  526  
+  527          uint256 signed = numMessagesSigned(hashMsg);
+  528          require(!isAlreadyProcessed(signed));
+  529          // the check above assumes that the case when the value could be overflew will not happen in the addition operation below
+  530          signed = signed + 1;
+  531          if (signed > 1) {
+  532              // Duplicated signatures

@@ -1,0 +1,27 @@
+D5-Ethereum  0x8940442e7f54e875c8c1c80213a4aee7eee4781c_GenesisProtocol.sol  0x8940442e7f54e875c8c1c80213a4aee7eee4781c_GenesisProtocol.sol:2203  (solc 0.4.24)
+
+ 2191       * @param _proposalId id of the proposal
+ 2192       * @param _vote  NO(2) or YES(1).
+ 2193       * @param _amount the betting amount
+ 2194       * @param _nonce nonce value ,it is part of the signature to ensure that
+ 2195                a signature can be received only once.
+ 2196       * @param _signatureType signature type
+ 2197                1 - for web3.eth.sign
+ 2198                2 - for eth_signTypedData according to EIP #712.
+ 2199       * @param _signature  - signed data by the staker
+ 2200       * @return bool true - the proposal has been executed
+ 2201       *              false - otherwise.
+ 2202       */
+ 2203>     function stakeWithSignature(
+ 2204          bytes32 _proposalId,
+ 2205          uint _vote,
+ 2206          uint _amount,
+ 2207          uint _nonce,
+ 2208          uint _signatureType,
+ 2209          bytes _signature
+ 2210          )
+ 2211          external
+ 2212          returns(bool)
+ 2213          {
+ 2214          require(stakeSignatures[_signature] == false);
+ 2215          // Recreate the digest the user signed

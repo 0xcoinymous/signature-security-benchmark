@@ -1,0 +1,27 @@
+D5-Ethereum  0xe65fb5c8aeb0305d3a1db0be2297f3e00b26e8c5_IdentityRegistry.sol  0xe65fb5c8aeb0305d3a1db0be2297f3e00b26e8c5_IdentityRegistry.sol:609  (solc 0.5.0)
+
+  597  
+  598          _identity.recoveryAddress = newRecoveryAddress;
+  599      }
+  600  
+  601      /// @notice Allows recovery addresses to trigger the recovery process for an Identity.
+  602      /// @dev msg.sender must be current recovery address, or the old one if it was changed recently.
+  603      /// @param ein The EIN to trigger recovery for.
+  604      /// @param newAssociatedAddress A recovery address to set for the passed EIN.
+  605      /// @param v The v component of the signature.
+  606      /// @param r The r component of the signature.
+  607      /// @param s The s component of the signature.
+  608      /// @param timestamp The timestamp of the signature.
+  609>     function triggerRecovery(uint ein, address newAssociatedAddress, uint8 v, bytes32 r, bytes32 s, uint timestamp)
+  610          public _identityExists(ein) _hasIdentity(newAssociatedAddress, false) ensureSignatureTimeValid(timestamp)
+  611      {
+  612          require(canRecover(ein), "Cannot trigger recovery yet.");
+  613          Identity storage _identity = identityDirectory[ein];
+  614  
+  615          // ensure the sender is the recovery address/old recovery address if there's been a recent change
+  616          if (canChangeRecoveryAddress(ein)) {
+  617              require(
+  618                  msg.sender == _identity.recoveryAddress, "Only the current recovery address can trigger recovery."
+  619              );
+  620          } else {
+  621              require(

@@ -1,0 +1,27 @@
+D5-Ethereum  0xb53de031602cd825febe9f2eedf962cd8cc3805d_CHAOS.sol  0xb53de031602cd825febe9f2eedf962cd8cc3805d_CHAOS.sol:1459  (solc 0.5.17)
+
+ 1447      // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
+ 1448      bytes32 public constant EIP712_PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
+ 1449      string private constant EIP712_VERSION = "1";
+ 1450      
+ 1451      bytes32 public EIP712_DOMAIN_SEPARATOR;
+ 1452      
+ 1453      mapping(address => uint256) nonces;
+ 1454      
+ 1455      constructor() public {
+ 1456          EIP712_DOMAIN_SEPARATOR = LibEIP712.hashEIP712Domain(name(), EIP712_VERSION, Constants.getChainId(), address(this));
+ 1457      }
+ 1458      
+ 1459>     function permit(
+ 1460          address owner,
+ 1461          address spender,
+ 1462          uint256 value,
+ 1463          uint256 deadline,
+ 1464          uint8 v,
+ 1465          bytes32 r,
+ 1466          bytes32 s
+ 1467      ) external {
+ 1468          bytes32 digest = LibEIP712.hashEIP712Message(
+ 1469              EIP712_DOMAIN_SEPARATOR,
+ 1470              keccak256(abi.encode(
+ 1471                  EIP712_PERMIT_TYPEHASH,

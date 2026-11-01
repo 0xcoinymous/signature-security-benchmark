@@ -1,0 +1,27 @@
+D5-BSC  0x77e4c55dc2b0cf6424146b3f432e8f83be2d8495_CELADONBRIDGE.sol  0x77e4c55dc2b0cf6424146b3f432e8f83be2d8495_CELADONBRIDGE.sol:132  (solc 0.8.4)
+
+  120          bytes32 hash = keccak256(abi.encodePacked(txId,to,amount));
+  121          require(admin == ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)), sign.v, sign.r, sign.s), "Owner sign verification failed");
+  122      }
+  123  
+  124      function deposit(uint256 amount) public returns(bool) {
+  125          require(amount != 0,"Bridge: amount shouldn't be zero");
+  126          bool transferred = token.transferFrom(msg.sender, address(this), amount);
+  127          require(transferred,"Bridge: token transfer is not done");
+  128          emit Deposit(msg.sender, address(this), amount);
+  129          return true;   
+  130      }
+  131  
+  132>     function withdraw(bytes32 txID, uint256 amount, Sign memory sign) public returns (bool) {
+  133          require(token.balanceOf(address(this)) > amount, "Bridge: amount exceeds the balance");
+  134          require(!txList[txID],"Bridge: withdraw Transaction is already done");
+  135          verifySign(txID, msg.sender, amount, sign);
+  136          token.transfer(msg.sender, amount);
+  137          txList[txID] = true;
+  138          emit Withdraw(address(this), msg.sender, amount);
+  139          return true;
+  140      }
+  141  
+  142      function getTxdetails (bytes32 txID) public view returns(bool) {
+  143          return txList[txID];
+  144      }

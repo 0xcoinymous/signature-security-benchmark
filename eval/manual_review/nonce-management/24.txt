@@ -1,0 +1,27 @@
+D5-Ethereum  0xc637de274ba50b142756542115acfece1cdf612c_ERC1155Factory.sol  0xc637de274ba50b142756542115acfece1cdf612c_ERC1155Factory.sol:1781  (solc 0.8.13)
+
+ 1769          uint256 amount
+ 1770      ) public payable {
+ 1771          uint256 mintingCharges = IERC1155Mintable(mintableAddress)
+ 1772              .mintingChargePerToken();
+ 1773          require(
+ 1774              msg.value >= mintingCharges * amount,
+ 1775              "ERC1155Mintable: Insufficent fund transferred."
+ 1776          );
+ 1777          _mint(msg.sender, amount, _royalty, tokenURI);
+ 1778          payable(mintableAddress).transfer(msg.value);
+ 1779      }
+ 1780  
+ 1781>     function lazyMint(
+ 1782          address to,
+ 1783          uint96 royalty,
+ 1784          string memory _tokenURI,
+ 1785          uint256 nonce,
+ 1786          uint256 price,
+ 1787          uint256 _maxSupply,
+ 1788          uint256 amount,
+ 1789          bytes memory sign
+ 1790      ) external payable {
+ 1791          uint256 mintingCharges = IERC1155Mintable(mintableAddress)
+ 1792              .mintingChargePerToken();
+ 1793          uint256 brokerage = IERC1155Mintable(mintableAddress).brokerage();

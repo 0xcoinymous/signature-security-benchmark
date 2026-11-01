@@ -1,0 +1,27 @@
+D5-Polygon  0xc25ebf6b05719B04D958159C912342E0ee67d893_AxelarGatewayMultisig.sol  0xc25ebf6b05719B04D958159C912342E0ee67d893_AxelarGatewayMultisig.sol:1951  (solc 0.8.9)
+
+ 1939          _setOperatorEpoch(newOperatorEpoch);
+ 1940          _setOperators(newOperatorEpoch, operatorAddresses, newOperatorThreshold);
+ 1941  
+ 1942          emit OwnershipTransferred(new address[](uint256(0)), uint256(0), ownerAddresses, newOwnerThreshold);
+ 1943          emit OperatorshipTransferred(new address[](uint256(0)), uint256(0), operatorAddresses, newOperatorThreshold);
+ 1944  
+ 1945          // We would need to delete AXL token for the very release and therefore and re-deploy it
+ 1946          // with the latest token code that has the potential to support token refund in the future.
+ 1947          // This is a one-time thing and should be gotten rid of right after release.
+ 1948          _setTokenAddress('AXL', address(0));
+ 1949      }
+ 1950  
+ 1951>     function execute(bytes calldata input) external override {
+ 1952          (bytes memory data, bytes[] memory signatures) = abi.decode(input, (bytes, bytes[]));
+ 1953  
+ 1954          _execute(data, signatures);
+ 1955      }
+ 1956  
+ 1957      function _execute(bytes memory data, bytes[] memory signatures) internal {
+ 1958          uint256 signatureCount = signatures.length;
+ 1959  
+ 1960          address[] memory signers = new address[](signatureCount);
+ 1961  
+ 1962          bytes32 messageHash = ECDSA.toEthSignedMessageHash(keccak256(data));
+ 1963  

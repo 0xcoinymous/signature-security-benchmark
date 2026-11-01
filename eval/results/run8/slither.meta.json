@@ -1,0 +1,11 @@
+{
+ "tool": "slither",
+ "binary": null,
+ "files": 1099,
+ "errors": 79,
+ "wall_seconds": 358.8,
+ "jobs": 4,
+ "compilers": "datasets/compilers.csv",
+ "chain": "Ethereum",
+ "version": "0.11.6"
+}

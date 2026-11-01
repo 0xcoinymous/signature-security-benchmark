@@ -1,0 +1,27 @@
+D5-Ethereum  0x7f75dC4eB9d41c907eb1Fc6C9B4fbBC2C5580bF5_Visor.sol  0x7f75dC4eB9d41c907eb1Fc6C9B4fbBC2C5580bF5_Visor.sol:1888  (solc 0.7.6)
+
+ 1876      bytes4 internal constant INVALID_SIG = bytes4(0);
+ 1877  
+ 1878      modifier onlyValidSignature(bytes32 permissionHash, bytes memory signature) {
+ 1879          require(
+ 1880              isValidSignature(permissionHash, signature) == VALID_SIG,
+ 1881              "ERC1271: Invalid signature"
+ 1882          );
+ 1883          _;
+ 1884      }
+ 1885  
+ 1886      function _getOwner() internal view virtual returns (address owner);
+ 1887  
+ 1888>     function isValidSignature(bytes32 permissionHash, bytes memory signature)
+ 1889          public
+ 1890          view
+ 1891          override
+ 1892          returns (bytes4)
+ 1893      {
+ 1894          return
+ 1895              SignatureChecker.isValidSignature(_getOwner(), permissionHash, signature)
+ 1896                  ? VALID_SIG
+ 1897                  : INVALID_SIG;
+ 1898      }
+ 1899  }
+ 1900  

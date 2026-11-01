@@ -1,0 +1,27 @@
+D5-BSC  0xC75dAe7CD60Fdf39d3Cc5F41a99fbDfDB2382376_Pledge.sol  0xC75dAe7CD60Fdf39d3Cc5F41a99fbDfDB2382376_Pledge.sol:472  (solc 0.5.17)
+
+  460          uint256 a = userOrderIds[_userAddress].length;
+  461          // 创建定长结构体数组对象
+  462          r = new uint256[](a);
+  463          for(uint256 i = 0; i < a; i++) {
+  464              r[i] = userOrderIds[_userAddress][i];
+  465          }
+  466      }
+  467  
+  468      // 用户领取收益收益; 需要后台进行二次签名才可以通过
+  469      // 参数1: ntfi金额
+  470      // 参数2: nonce值
+  471      // 参数3: 二次签名的v,r,su
+  472>     function userTakeEarn(uint256 _ntfiValue, uint256 _nonce, bytes memory _signature) public returns (bool success) {
+  473          // 验证得到的地址是不是后台操作者, 并且数据没有被修改;
+  474          // 所使用的数据有: 发送方地址, 接受方地址, 交易的数量, 唯一的值
+  475          bytes32 hash = keccak256(abi.encodePacked(msg.sender, msg.sender, _ntfiValue, _nonce));
+  476          bytes32 messageHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash));
+  477          address signer = recoverSigner(messageHash, _signature);
+  478          require(signer == operationAddress, "Signer is not operation");
+  479          // 签名的messageHash必须是没有使用过的
+  480          require(signHash[messageHash] == false, "MessageHash is used");
+  481          // 该messageHash设置为已使用
+  482          signHash[messageHash] = true;
+  483  
+  484          // 开始转账

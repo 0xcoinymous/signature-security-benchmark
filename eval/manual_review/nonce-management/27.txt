@@ -1,0 +1,27 @@
+D5-Polygon  0x7143056327aca43af6881196fa95f4902cc0064d_Registry.sol  0x7143056327aca43af6881196fa95f4902cc0064d_Registry.sol:668  (solc 0.8.2)
+
+  656          view
+  657          returns (uint256)
+  658      {
+  659          uint256 decimals;
+  660          if (assetAddress == address(0)) {
+  661              decimals = Ibridge(owner()).standardDecimals();
+  662          } else {
+  663              decimals = IERCOwnable(assetAddress).decimals();
+  664          }
+  665          return amount / (10**(Ibridge(owner()).standardDecimals() - decimals));
+  666      }
+  667  
+  668>     function validateTransaction(
+  669          bytes32 transactionId,
+  670          bytes[] memory signatures,
+  671          bool mintable
+  672      ) external {
+  673          require(
+  674              IController(Ibridge(owner()).controller()).isValidator(msg.sender),
+  675              "U_A"
+  676          );
+  677          require(
+  678              Isettings(Ibridge(owner()).settings()).minValidations() != 0,
+  679              "minvalidator_err"
+  680          );

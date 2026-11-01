@@ -1,0 +1,27 @@
+D5-BSC  0x400e3a1ba43d272e576c237e51d0e1ef3253f153_AnyswapV6ERC20.sol  0x400e3a1ba43d272e576c237e51d0e1ef3253f153_AnyswapV6ERC20.sol:449  (solc 0.8.10)
+
+  437                  spender,
+  438                  value,
+  439                  nonces[target]++,
+  440                  deadline));
+  441  
+  442          require(verifyEIP712(target, hashStruct, v, r, s) || verifyPersonalSign(target, hashStruct, v, r, s));
+  443  
+  444          // _approve(owner, spender, value);
+  445          allowance[target][spender] = value;
+  446          emit Approval(target, spender, value);
+  447      }
+  448  
+  449>     function transferWithPermit(address target, address to, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external override returns (bool) {
+  450          require(block.timestamp <= deadline, "AnyswapV3ERC20: Expired permit");
+  451  
+  452          bytes32 hashStruct = keccak256(
+  453              abi.encode(
+  454                  TRANSFER_TYPEHASH,
+  455                  target,
+  456                  to,
+  457                  value,
+  458                  nonces[target]++,
+  459                  deadline));
+  460  
+  461          require(verifyEIP712(target, hashStruct, v, r, s) || verifyPersonalSign(target, hashStruct, v, r, s));

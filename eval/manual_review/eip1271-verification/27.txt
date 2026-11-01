@@ -1,0 +1,27 @@
+D5-BSC  0xBf07a0Df119Ca234634588fbDb5625594E2a5BCA_IdentityFactory.sol  0xBf07a0Df119Ca234634588fbDb5625594E2a5BCA_IdentityFactory.sol:266  (solc 0.8.7)
+
+  254  				revert(ptr, size)
+  255  			}
+  256  			default {}
+  257  		}
+  258  		// A single call consumes around 477 more gas with the pure solidity version, for whatever reason
+  259  		// WARNING: do not use this, it corrupts the returnData string (returns it in a slightly different format)
+  260  		//(bool success, bytes memory returnData) = to.call{value: value, gas: gasleft()}(data);
+  261  		//if (!success) revert(string(data));
+  262  	}
+  263  
+  264  	// EIP 1271 implementation
+  265  	// see https://eips.ethereum.org/EIPS/eip-1271
+  266> 	function isValidSignature(bytes32 hash, bytes calldata signature) external view returns (bytes4) {
+  267  		if (privileges[SignatureValidator.recoverAddr(hash, signature)] != bytes32(0)) {
+  268  			// bytes4(keccak256("isValidSignature(bytes32,bytes)")
+  269  			return 0x1626ba7e;
+  270  		} else {
+  271  			return 0xffffffff;
+  272  		}
+  273  	}
+  274  
+  275  	// EIP 1155 implementation
+  276  	// we pretty much only need to signal that we support the interface for 165, but for 1155 we also need the fallback function
+  277  	function supportsInterface(bytes4 interfaceID) external pure returns (bool) {
+  278  		return

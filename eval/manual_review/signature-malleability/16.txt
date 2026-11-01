@@ -1,0 +1,27 @@
+D5-BSC  0x6398479eb5040fcea6f34c0387fec5e71777093d_ROJOTOKEN.sol  0x6398479eb5040fcea6f34c0387fec5e71777093d_ROJOTOKEN.sol:1003  (solc 0.6.12)
+
+  991          return _delegate(msg.sender, delegatee);
+  992      }
+  993  
+  994      /**
+  995       * @notice Delegates votes from signatory to `delegatee`
+  996       * @param delegatee The address to delegate votes to
+  997       * @param nonce The contract state required to match the signature
+  998       * @param expiry The time at which to expire the signature
+  999       * @param v The recovery byte of the signature
+ 1000       * @param r Half of the ECDSA signature pair
+ 1001       * @param s Half of the ECDSA signature pair
+ 1002       */
+ 1003>     function delegateBySig(
+ 1004          address delegatee,
+ 1005          uint nonce,
+ 1006          uint expiry,
+ 1007          uint8 v,
+ 1008          bytes32 r,
+ 1009          bytes32 s
+ 1010      )
+ 1011          external
+ 1012      {
+ 1013          bytes32 domainSeparator = keccak256(
+ 1014              abi.encode(
+ 1015                  DOMAIN_TYPEHASH,

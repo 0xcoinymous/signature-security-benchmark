@@ -1,0 +1,27 @@
+D5-Ethereum  0x0c8dbfb40a324674ad26fe7aeccd4c654036aa82_WalletFactory.sol  0x0c8dbfb40a324674ad26fe7aeccd4c654036aa82_WalletFactory.sol:3817  (solc 0.7.6)
+
+ 3805          }
+ 3806      }
+ 3807  
+ 3808      /// @dev Create a new wallet by deploying a proxy.
+ 3809      /// @param _owner The wallet's owner.
+ 3810      /// @param _salt A salt to adjust address.
+ 3811      /// @param _ensLabel The ENS subdomain to register, use "" to skip.
+ 3812      /// @param _ensApproval The signature for ENS subdomain approval.
+ 3813      /// @param _ensRegisterReverse True to register reverse ENS.
+ 3814      /// @param _modules The wallet's modules.
+ 3815      /// @param _signature The wallet owner's signature.
+ 3816      /// @return _wallet The new wallet address
+ 3817>     function createWallet(
+ 3818          address            _owner,
+ 3819          uint               _salt,
+ 3820          string    calldata _ensLabel,
+ 3821          bytes     calldata _ensApproval,
+ 3822          bool               _ensRegisterReverse,
+ 3823          address[] calldata _modules,
+ 3824          bytes     calldata _signature
+ 3825          )
+ 3826          external
+ 3827          payable
+ 3828          returns (address _wallet)
+ 3829      {

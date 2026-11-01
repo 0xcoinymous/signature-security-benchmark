@@ -1,0 +1,27 @@
+D5-Polygon  0xf67f3bbe4dfcab1545e0e37a5cc35d02a0899455_NFTs_Latam_Slot.sol  0xf67f3bbe4dfcab1545e0e37a5cc35d02a0899455_NFTs_Latam_Slot.sol:4699  (solc 0.8.17)
+
+ 4687          external
+ 4688          onlyRole(MINTER_ROLE)
+ 4689          returns (uint256)
+ 4690      {
+ 4691          // `_mintTo` is re-used. `mintTo` just adds a minter role check.
+ 4692          return _addItem(_onchainItem);
+ 4693      }
+ 4694  
+ 4695      ///     =====   External functions  =====
+ 4696  
+ 4697      
+ 4698      /// @dev Mints an NFT according to the provided mint request.
+ 4699>     function mintWithSignature(
+ 4700          MintRequest calldata _req,
+ 4701          bytes calldata _signature
+ 4702      ) external payable nonReentrant returns (uint256 tokenIdMinted) {
+ 4703          address signer = verifyRequest(_req, _signature);
+ 4704          address receiver = _req.to == address(0) ? _msgSender() : _req.to;
+ 4705  
+ 4706          tokenIdMinted = _mintTo(receiver, _req.uri);        
+ 4707  
+ 4708          collectPrice(_req);
+ 4709  
+ 4710          emit TokensMintedWithSignature(signer, receiver, tokenIdMinted, _req);
+ 4711      }

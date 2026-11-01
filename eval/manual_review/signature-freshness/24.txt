@@ -1,0 +1,27 @@
+D5-Ethereum  0xc0384cda6bb2128d8c77e1aa39d0eb75347c1710_Trade.sol  0xc0384cda6bb2128d8c77e1aa39d0eb75347c1710_Trade.sol:483  (solc 0.8.4)
+
+  471          if(order.nftType == BuyingAssetType.ERC1155)  {
+  472              transferProxy.erc1155safeTransferFrom(IERC1155(order.nftAddress), order.seller, order.buyer, order.tokenId, order.qty, ""); 
+  473          }
+  474          if(fee.platformFee > 0) {
+  475              transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, owner, fee.platformFee);
+  476          }
+  477          if(fee.royaltyFee > 0) {
+  478              transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, fee.tokenCreator, fee.royaltyFee);
+  479          }
+  480          transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, order.seller, fee.assetFee);
+  481      }
+  482  
+  483>     function buyAsset(Order memory order, Sign memory sign) public returns(bool) {
+  484          Fee memory fee = getFees(order.amount, order.nftType, order.nftAddress, order.tokenId);
+  485          require((fee.price >= order.unitPrice * order.qty), "Paid invalid amount");
+  486          verifySellerSign(order.seller, order.tokenId, order.unitPrice, order.erc20Address, order.nftAddress, sign);
+  487          order.buyer = msg.sender;
+  488          tradeAsset(order, fee);
+  489          emit BuyAsset(order.seller , order.tokenId, order.qty, msg.sender);
+  490          return true;
+  491      }
+  492  
+  493      function executeBid(Order memory order, Sign memory sign) public returns(bool) {
+  494          Fee memory fee = getFees(order.amount, order.nftType, order.nftAddress, order.tokenId);
+  495          verifyBuyerSign(order.buyer, order.tokenId, order.amount, order.erc20Address, order.nftAddress, order.qty, sign);

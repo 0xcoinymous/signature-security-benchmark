@@ -1,0 +1,27 @@
+D5-Ethereum  0x2346ee91dd33f19c174734acc43a5c06a675b332_ERC1155.sol  0x2346ee91dd33f19c174734acc43a5c06a675b332_ERC1155.sol:2024  (solc 0.7.6)
+
+ 2012              uint transfer = amount;
+ 2013              if (balance < amount) {
+ 2014                  transfer = balance;
+ 2015              }
+ 2016              safeTransferFrom(from, to, data.tokenId, transfer, "");
+ 2017              left = amount - transfer;
+ 2018          }
+ 2019          if (left > 0) {
+ 2020              mintAndTransfer(data, to, left);
+ 2021          }
+ 2022      }
+ 2023  
+ 2024>     function mintAndTransfer(LibERC1155LazyMint.Mint1155Data memory data, address to, uint256 _amount) public override virtual {
+ 2025          address minter = address(data.tokenId >> 96);
+ 2026          address sender = _msgSender();
+ 2027  
+ 2028          require(minter == sender || isApprovedForAll(minter, sender), "ERC1155: transfer caller is not approved");
+ 2029          require(_amount > 0, "amount incorrect");
+ 2030  
+ 2031          if (supply[data.tokenId] == 0) {
+ 2032              require(minter == data.creators[0].account, "tokenId incorrect");
+ 2033              require(data.supply > 0, "supply incorrect");
+ 2034              require(data.creators.length == data.signatures.length);
+ 2035  
+ 2036              bytes32 hash = LibERC1155LazyMint.hash(data);

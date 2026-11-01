@@ -1,0 +1,27 @@
+D5-Polygon  0x67Fd8e69f31e760002a44326CF144A518dDe702a_HOMDaoBondDepository.sol  0x67Fd8e69f31e760002a44326CF144A518dDe702a_HOMDaoBondDepository.sol:491  (solc 0.7.5)
+
+  479  
+  480          DOMAIN_SEPARATOR = keccak256(
+  481              abi.encode(
+  482                  keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
+  483                  keccak256(bytes(name())),
+  484                  keccak256(bytes("1")), // Version
+  485                  chainID,
+  486                  address(this)
+  487              )
+  488          );
+  489      }
+  490  
+  491>     function permit(
+  492          address owner,
+  493          address spender,
+  494          uint256 amount,
+  495          uint256 deadline,
+  496          uint8 v,
+  497          bytes32 r,
+  498          bytes32 s
+  499      ) public virtual override {
+  500          require(block.timestamp <= deadline, "Permit: expired deadline");
+  501  
+  502          bytes32 hashStruct =
+  503              keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, amount, _nonces[owner].current(), deadline));

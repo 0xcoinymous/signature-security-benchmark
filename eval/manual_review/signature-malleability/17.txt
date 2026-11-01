@@ -1,0 +1,27 @@
+D5-BSC  0x50D35b9930a06d13A15593BBC8b9FE9CbC1a0D12_FlokidaoERC20Token.sol  0x50D35b9930a06d13A15593BBC8b9FE9CbC1a0D12_FlokidaoERC20Token.sol:1136  (solc 0.7.5)
+
+ 1124                  keccak256(bytes(name())),
+ 1125                  keccak256(bytes("1")), // Version
+ 1126                  chainID,
+ 1127                  address(this)
+ 1128              )
+ 1129          );
+ 1130      }
+ 1131  
+ 1132      /**
+ 1133       * @dev See {IERC2612Permit-permit}.
+ 1134       *
+ 1135       */
+ 1136>     function permit(
+ 1137          address owner,
+ 1138          address spender,
+ 1139          uint256 amount,
+ 1140          uint256 deadline,
+ 1141          uint8 v,
+ 1142          bytes32 r,
+ 1143          bytes32 s
+ 1144      ) public virtual override {
+ 1145          require(block.timestamp <= deadline, "Permit: expired deadline");
+ 1146  
+ 1147          bytes32 hashStruct =
+ 1148              keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, amount, _nonces[owner].current(), deadline));

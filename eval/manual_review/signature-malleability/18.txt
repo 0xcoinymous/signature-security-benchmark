@@ -1,0 +1,27 @@
+D5-Polygon  0x0b626d7fae1471966e51b3506c16b378faa2bf30_FomoonToken.sol  0x0b626d7fae1471966e51b3506c16b378faa2bf30_FomoonToken.sol:401  (solc 0.8.0)
+
+  389  
+  390      /*
+  391       * Meta transaction structure.
+  392       * No point of including value field here as if user is doing value transfer then he has the funds to pay for gas
+  393       * He should call the desired function directly in that case.
+  394       */
+  395      struct MetaTransaction {
+  396          uint256 nonce;
+  397          address from;
+  398          bytes functionSignature;
+  399      }
+  400  
+  401>     function executeMetaTransaction(
+  402          address userAddress,
+  403          bytes memory functionSignature,
+  404          bytes32 sigR,
+  405          bytes32 sigS,
+  406          uint8 sigV
+  407      ) public payable returns (bytes memory) {
+  408          MetaTransaction memory metaTx =
+  409              MetaTransaction({
+  410                  nonce: nonces[userAddress],
+  411                  from: userAddress,
+  412                  functionSignature: functionSignature
+  413              });

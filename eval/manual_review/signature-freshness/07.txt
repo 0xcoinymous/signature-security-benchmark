@@ -1,0 +1,27 @@
+D5-Ethereum  0x77654e7e579b3c817a3672c1c66c050058b92b85_TCGDragons.sol  0x77654e7e579b3c817a3672c1c66c050058b92b85_TCGDragons.sol:1645  (solc 0.8.11)
+
+ 1633      address public original_signer = 0x839C90C930C635ec6E0052592A402D5E341d213e;
+ 1634      mapping(string => bool) public mintKeys;
+ 1635      event Dragon(address indexed _to, uint256 indexed _id);
+ 1636      bytes32 public session_token;
+ 1637      string public abii;
+ 1638  
+ 1639      // set signer address
+ 1640      function setOriginalSigner(address _original_signer) public onlyOwner{
+ 1641          original_signer = _original_signer;
+ 1642      }
+ 1643  
+ 1644      // player claims price
+ 1645>     function claimDragon(bytes32 _hashedMessage, uint8 _v, bytes32 _r, bytes32 _s, string memory _mintKey) public  returns (bool) {
+ 1646          bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+ 1647  
+ 1648  
+ 1649          
+ 1650          session_token = keccak256(abi.encodePacked(_mintKey));
+ 1651  
+ 1652  
+ 1653          if(session_token != _hashedMessage){
+ 1654              return false;
+ 1655          }
+ 1656          
+ 1657          bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _hashedMessage));

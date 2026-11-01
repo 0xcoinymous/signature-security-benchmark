@@ -1,0 +1,27 @@
+D5-BSC  0x0Ed2b6a6Bd7bB547BE33C407250cCb374fe9A04d_Withdrawl.sol  0x0Ed2b6a6Bd7bB547BE33C407250cCb374fe9A04d_Withdrawl.sol:200  (solc 0.8.17)
+
+  188      uint256 public Amount = 10500000000000000000000;
+  189      uint256 public MaticAmount = 400000000000000000;
+  190      mapping (address => uint256) Passed;
+  191      mapping (bytes32 => bool) public usedHash;
+  192  
+  193      constructor(address signerAddress_, IERC20 ULE_)
+  194      {
+  195          signerAddress = signerAddress_;
+  196          ULE = ULE_;
+  197      }
+  198  
+  199  
+  200>     function userWithdraw(uint256 amount, uint256 MATICamount, uint256 _nonce, bytes memory signature)
+  201      external
+  202      nonReentrant
+  203      whenNotPaused
+  204      {
+  205          require(msg.sender == tx.origin," External Err ");
+  206          require(Passed[msg.sender] < block.timestamp," Wait for Next Transection ");
+  207          require(amount <= Amount , "Daily Limit Exceeds");
+  208          require(MATICamount <= MaticAmount, " Daily Limit Exceeds");
+  209          internalWithdraw(amount, MATICamount, _nonce, signature);
+  210      }
+  211  
+  212      function internalWithdraw(uint256 amount, uint256 MATICamount, uint256 _nonce, bytes memory signature)

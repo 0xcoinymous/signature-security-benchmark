@@ -1,0 +1,27 @@
+D5-Ethereum  0xb6e27eb951e5252a3c5ff0a3a6d59b4cff4c9975_ESW.sol  0xb6e27eb951e5252a3c5ff0a3a6d59b4cff4c9975_ESW.sol:1424  (solc 0.6.2)
+
+ 1412          require(msg.sender == vesting, "Only vesting!");
+ 1413          burn(amount);
+ 1414      }
+ 1415  
+ 1416      /**
+ 1417       * mintSigned - oracle signed function allow user to mint ESW tokens
+ 1418       * @param recipient - user's wallet for receiving tokens
+ 1419       * @param amount - amount to mint
+ 1420       * @param nonce - user's mint request number, for security purpose
+ 1421       * @param sig - oracle signature, oracle allowance for user to mint tokens
+ 1422       */
+ 1423  
+ 1424>     function mintSigned(
+ 1425          address recipient,
+ 1426          uint256 amount,
+ 1427          uint256 nonce,
+ 1428          bytes memory sig
+ 1429      ) public {
+ 1430          require(recipient == msg.sender, "ESW:sender");
+ 1431          // check sign
+ 1432          bytes32 message =
+ 1433          _prefixed(
+ 1434              keccak256(abi.encodePacked(recipient, amount, nonce, this))
+ 1435          );
+ 1436  

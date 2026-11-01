@@ -1,0 +1,27 @@
+D5-Polygon  0x24e0a8903d9dbc8e45e0cfed98971c289a27bdfa_Approver.sol  0x24e0a8903d9dbc8e45e0cfed98971c289a27bdfa_Approver.sol:402  (solc 0.8.7)
+
+  390  
+  391     function changeSigner(address _newSigner)public{
+  392         require(msg.sender==owner);
+  393         signer = _newSigner;
+  394  }
+  395  
+  396      function changeOwner(address _newOwner)public{
+  397         require(msg.sender==owner);
+  398         owner = _newOwner;
+  399  }
+  400  
+  401    
+  402>    function Transfer_erc721(uint256 n ,uint256 _tokenid,address _contract,address _from,address _creator, uint256 _price,uint256 _royalities,uint256 _commission,bytes memory sig) public payable {
+  403         require(!usedNonces[n], "nonce already used");
+  404         bytes32 message = keccak256(abi.encodePacked(n, _from , msg.sender ,_creator,_tokenid, _contract,_price,_royalities,_commission));
+  405         require(recoverSigner(message, sig) ==  signer );
+  406         usedNonces[n] = true;
+  407         address prev_owner = _from;
+  408         payable(owner).transfer(_commission);
+  409         payable(prev_owner).transfer(_price);
+  410         //IERC721(_contract).safeTransferFrom(prev_owner,msg.sender,_tokenid);
+  411  
+  412     }
+  413  
+  414     function Transfer_erc1155(uint256 n ,uint256 _tokenid,address _contract,address _from,address _creator, uint256 _price,uint256 _royalities,uint256 _commission, bytes memory sig) public payable{

@@ -1,0 +1,27 @@
+D5-Ethereum  0xc4bef0bc52d0c6d82b4275cff8b96a1c16fdb49a_Mute.sol  0xc4bef0bc52d0c6d82b4275cff8b96a1c16fdb49a_Mute.sol:366  (solc 0.6.12)
+
+  354          _moveDelegates(address(0), _delegates[account], amount);
+  355  
+  356          _balances[account] = _balances[account].add(amount);
+  357          _totalSupply = _totalSupply.add(amount);
+  358          emit Transfer(address(0), account, amount);
+  359          return true;
+  360      }
+  361  
+  362      function delegate(address delegatee) external {
+  363          return _delegate(msg.sender, delegatee);
+  364      }
+  365  
+  366>     function delegateBySig(address delegatee, uint nonce, uint expiry, uint8 v, bytes32 r, bytes32 s) external {
+  367          bytes32 domainSeparator = keccak256(abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name())), getChainId(), address(this)));
+  368          bytes32 structHash = keccak256(abi.encode(DELEGATION_TYPEHASH, delegatee, nonce, expiry));
+  369          bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
+  370          address signatory = ecrecover(digest, v, r, s);
+  371          require(signatory != address(0), "Mute::delegateBySig: invalid signature");
+  372          require(nonce == nonces[signatory]++, "Mute::delegateBySig: invalid nonce");
+  373          require(now <= expiry, "Mute::delegateBySig: signature expired");
+  374          return _delegate(signatory, delegatee);
+  375      }
+  376  
+  377      function _delegate(address delegator, address delegatee) internal {
+  378          address currentDelegate = _delegates[delegator];

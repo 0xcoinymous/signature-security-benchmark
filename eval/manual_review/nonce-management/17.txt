@@ -1,0 +1,27 @@
+D5-Ethereum  0xef2df685fefe8b565d20cd5c37fe2390c8bc7b8f_SkyWalkerNFT.sol  0xef2df685fefe8b565d20cd5c37fe2390c8bc7b8f_SkyWalkerNFT.sol:2080  (solc 0.8.17)
+
+ 2068          require(totalSupply() + 1 <= MAX_SUPPLY, "Purchase would exceed max supply"); //若數量大於總可供應量 不予鑄造
+ 2069          require(!whiteListBatchMinted[receiver][batch], "Already minted in whitelist sale"); //若白名單已經鑄造 不予鑄造
+ 2070          if(BatchData[batch].MaxSupply !=0){
+ 2071              require(BatchData[batch].Quantity + 1 <= BatchData[batch].MaxSupply, "Purchase would exceed max supply"); //若該批次數量大於批次可供應量 不予鑄造
+ 2072          }
+ 2073          require(isValidSignature(receiver, signature), "Invalid signature"); //簽名驗證
+ 2074  
+ 2075          _safeMint(receiver, 1);
+ 2076          whiteListBatchMinted[receiver][batch] = true;
+ 2077          BatchData[batch].Quantity += 1;
+ 2078      }
+ 2079  
+ 2080>     function whiteListMint(uint256 batch, bytes memory signature) public payable {
+ 2081          require(!IsPublic, "Sale must be active to mint"); // 判斷是否為公售階段
+ 2082          require(Batch == batch, "Sale must be active to mint"); //判斷是否符合當前批次
+ 2083          require(totalSupply() + 1 <= MAX_SUPPLY, "Purchase would exceed max supply"); //若數量大於總可供應量 不予鑄造 
+ 2084          require(!whiteListBatchMinted[msg.sender][batch], "Already minted in whitelist sale"); //若白名單已經鑄造 不予鑄造
+ 2085          require(BatchData[batch].Price <= usdt.balanceOf(msg.sender), "USDT is not enough in this wallet"); //若持有USDT餘額不足 不予鑄造
+ 2086          if(BatchData[batch].MaxSupply !=0){
+ 2087              require(BatchData[batch].Quantity + 1 <= BatchData[batch].MaxSupply, "Purchase would exceed max supply"); //若該批次數量大於批次可供應量 不予鑄造
+ 2088          }
+ 2089          require(isValidSignature(msg.sender, signature), "Invalid signature"); //簽名驗證
+ 2090  
+ 2091          bool success = usdt.transferFrom(msg.sender, owner(), BatchData[batch].Price); // 進行USDT轉帳
+ 2092          require(success, "Could not transfer usdt. Missing approval?"); //確認轉帳成功後進行鑄造

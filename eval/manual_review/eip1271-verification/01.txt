@@ -1,0 +1,27 @@
+D5-Ethereum  0x539B86cD88fd41272335f9E46eAf7bF64f9Fa1e5_ForwarderRegistry.sol  0x539B86cD88fd41272335f9E46eAf7bF64f9Fa1e5_ForwarderRegistry.sol:687  (solc 0.8.15)
+
+  675      /// @param forwarder The address of the forwarder to change the approval of.
+  676      /// @param approved Whether to approve or disapprove (if previously approved) the forwarder.
+  677      function approveForwarder(address forwarder, bool approved) external {
+  678          address signer = msg.sender;
+  679          Forwarder storage forwarderData = _forwarders[signer][forwarder];
+  680          _approveForwarder(forwarderData, signer, forwarder, approved, forwarderData.nonce);
+  681      }
+  682  
+  683      /// @notice Approves or disapproves a forwarder using EIP-2771 (msg.sender is the forwarder and the approval signer is appended to the calldata).
+  684      /// @param approved Whether to approve or disapprove (if previously approved) the forwarder.
+  685      /// @param signature Signature by signer for approving forwarder.
+  686      /// @param signatureType The signature type.
+  687>     function approveForwarder(
+  688          bool approved,
+  689          bytes calldata signature,
+  690          SignatureType signatureType
+  691      ) external {
+  692          address signer = ERC2771Data.msgSender();
+  693          address forwarder = msg.sender;
+  694  
+  695          Forwarder storage forwarderData = _forwarders[signer][forwarder];
+  696          uint256 nonce = uint256(forwarderData.nonce);
+  697  
+  698          _requireValidSignature(signer, forwarder, approved, nonce, signature, signatureType);
+  699          _approveForwarder(forwarderData, signer, forwarder, approved, nonce);

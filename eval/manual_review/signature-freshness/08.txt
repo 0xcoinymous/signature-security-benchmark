@@ -1,0 +1,27 @@
+D5-Ethereum  0x500bdb15c836cd6562c8624b7441fef6eca5786a_UnicornContract.sol  0x500bdb15c836cd6562c8624b7441fef6eca5786a_UnicornContract.sol:741  (solc 0.4.21)
+
+  729      * @param tokenGet Ethereum contract address of the token to receive
+  730      * @param amountGet uint amount of tokens being received
+  731      * @param tokenGive Ethereum contract address of the token to give
+  732      * @param amountGive uint amount of tokens being given
+  733      * @param expires uint of block number when this order should expire
+  734      * @param nonce arbitrary random number
+  735      * @param user Ethereum address of the user who placed the order
+  736      * @param v part of signature for the order hash as signed by user
+  737      * @param r part of signature for the order hash as signed by user
+  738      * @param s part of signature for the order hash as signed by user
+  739      * @param amount uint amount in terms of tokenGet that will be "buy" in the trade
+  740      */
+  741>     function trade(address tokenGet, uint amountGet, address tokenGive, uint amountGive, uint expires, uint nonce, address user, uint8 v, bytes32 r, bytes32 s, uint amount) external {
+  742          bytes32 hash = sha256(balances, tokenGet, amountGet, tokenGive, amountGive, expires, nonce);
+  743          require(
+  744              ecrecover(keccak256(keccak256("bytes32 Order hash"), keccak256(hash)), v, r, s) == user &&
+  745              block.number <= expires &&
+  746              orderFills[user][hash].add(amount) <= amountGet
+  747          );
+  748          uint amount2 =  tradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);
+  749          orderFills[user][hash] = orderFills[user][hash].add(amount);
+  750          emit Trade(hash, tokenGet, amount, tokenGive, amount2, user, msg.sender);
+  751      }
+  752  
+  753      /**

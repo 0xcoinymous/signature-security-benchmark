@@ -1,0 +1,27 @@
+D5-Arbitrum  0x57f8797E94a264482f6D7FD51912e4b97eDA7818_Visor.sol  0x57f8797E94a264482f6D7FD51912e4b97eDA7818_Visor.sol:1892  (solc 0.7.6)
+
+ 1880      bytes4 internal constant INVALID_SIG = bytes4(0);
+ 1881  
+ 1882      modifier onlyValidSignature(bytes32 permissionHash, bytes memory signature) {
+ 1883          require(
+ 1884              isValidSignature(permissionHash, signature) == VALID_SIG,
+ 1885              "ERC1271: Invalid signature"
+ 1886          );
+ 1887          _;
+ 1888      }
+ 1889  
+ 1890      function _getOwner() internal view virtual returns (address owner);
+ 1891  
+ 1892>     function isValidSignature(bytes32 permissionHash, bytes memory signature)
+ 1893          public
+ 1894          view
+ 1895          override
+ 1896          returns (bytes4)
+ 1897      {
+ 1898          return
+ 1899              SignatureChecker.isValidSignature(_getOwner(), permissionHash, signature)
+ 1900                  ? VALID_SIG
+ 1901                  : INVALID_SIG;
+ 1902      }
+ 1903  }
+ 1904  

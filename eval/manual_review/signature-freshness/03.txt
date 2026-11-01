@@ -1,0 +1,27 @@
+D5-Ethereum  0x1e4902410596debaC8A70658d85202849856ec64_PermittableToken.sol  0x1e4902410596debaC8A70658d85202849856ec64_PermittableToken.sol:918  (solc 0.4.24)
+
+  906      /// signed by the holder according to EIP712.
+  907      /// @param _holder The holder's address.
+  908      /// @param _spender The spender's address.
+  909      /// @param _nonce The nonce taken from `nonces(_holder)` public getter.
+  910      /// @param _expiry The allowance expiration date (unix timestamp in UTC).
+  911      /// Can be zero for no expiration. Forced to zero if `_allowed` is `false`.
+  912      /// Note that timestamps are not precise, malicious miner/validator can manipulate them to some extend.
+  913      /// Assume that there can be a 900 seconds time delta between the desired timestamp and the actual expiration.
+  914      /// @param _allowed True to enable unlimited allowance for the spender by the holder. False to disable.
+  915      /// @param _v A final byte of signature (ECDSA component).
+  916      /// @param _r The first 32 bytes of signature (ECDSA component).
+  917      /// @param _s The second 32 bytes of signature (ECDSA component).
+  918>     function permit(
+  919          address _holder,
+  920          address _spender,
+  921          uint256 _nonce,
+  922          uint256 _expiry,
+  923          bool _allowed,
+  924          uint8 _v,
+  925          bytes32 _r,
+  926          bytes32 _s
+  927      ) external {
+  928          require(_holder != address(0));
+  929          require(_spender != address(0));
+  930          require(_expiry == 0 || _now() <= _expiry);

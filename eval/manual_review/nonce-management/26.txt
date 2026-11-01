@@ -1,0 +1,27 @@
+D5-BSC  0x02c5741095fdb89da14ccf78797aca262914a97e_paySystem.sol  0x02c5741095fdb89da14ccf78797aca262914a97e_paySystem.sol:937  (solc 0.8.1)
+
+  925          item.payType = _payType;
+  926          item.payAmount = _amountOutMin;
+  927          item.aAmount = merchantAmount;
+  928          item.payTokenAddr = KELE_ADDRESS;
+  929          item.owner = msg.sender;
+  930          _payOf[payId].add(item);
+  931          _payOf[0].add(item);
+  932  
+  933          payOrderIdOf[_orderId] = true;
+  934      }
+  935   
+  936         
+  937>     function withdrawReward(uint _withdrawRewardId, address _to,address _payToken, uint _amount, uint8 _v, bytes32 _r, bytes32 _s) external {
+  938          require(!withdrawRewardIdOf[_withdrawRewardId], "withdrawReward: invalid withdrawRewardId");
+  939          require(address(0) != _to, "withdrawReward: address(0) != _to");
+  940          require(0 < _amount, "withdrawReward: 0 < _amount");
+  941          require(address(0) != secretSigner, "withdrawReward: address(0) != secretSigner");
+  942          bytes32 msgHash = keccak256(abi.encodePacked(_withdrawRewardId, _to, _payToken, _amount));
+  943          require(ecrecover(msgHash, _v, _r, _s) == secretSigner, "withdrawReward: incorrect signer");
+  944  
+  945          // transfer reward token
+  946          IERC20(_payToken).safeTransfer(_to, _amount);
+  947  
+  948          // update totalWithdrawReward & withdrawRewardOf
+  949          withdrawRewardOf[_payToken][_to] += _amount;

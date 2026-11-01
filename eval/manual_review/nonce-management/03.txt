@@ -1,0 +1,27 @@
+D5-Ethereum  0x253d1e6345c6b66187635b8a2015c19cec0151fd_UPYOERC721Mintable.sol  0x253d1e6345c6b66187635b8a2015c19cec0151fd_UPYOERC721Mintable.sol:2723  (solc 0.8.13)
+
+ 2711          brokerage = brokerage_;
+ 2712      }
+ 2713  
+ 2714      function mint(string memory tokenURI, uint96 _royalty) external payable {
+ 2715          require(
+ 2716              msg.value >= mintingCharge,
+ 2717              "ERC721Mintable: Minting charges required"
+ 2718          );
+ 2719          _mint(msg.sender, _royalty, tokenURI);
+ 2720          broker.transfer(msg.value);
+ 2721      }
+ 2722  
+ 2723>     function lazyMint(
+ 2724          address to,
+ 2725          uint96 _royalty,
+ 2726          string memory _tokenURI,
+ 2727          uint256 nonce,
+ 2728          uint256 price,
+ 2729          bytes memory sign
+ 2730      ) external payable {
+ 2731          uint256 buyingBrokerage = (brokerage.buyer * price) /
+ 2732              (100 * decimalPrecision);
+ 2733          require(
+ 2734              msg.value >= price + mintingCharge + buyingBrokerage,
+ 2735              "ERC721Minatable: Insufficent fund transferred."

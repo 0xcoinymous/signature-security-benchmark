@@ -1,0 +1,27 @@
+D5-BSC  0x1736A3AC50Cf3aa19F99502254AC69c90182A007_MineToken.sol  0x1736A3AC50Cf3aa19F99502254AC69c90182A007_MineToken.sol:1326  (solc 0.6.12)
+
+ 1314  		return _delegate(msg.sender, delegatee);
+ 1315  	}
+ 1316  
+ 1317  	/**
+ 1318  	* @dev Delegates votes from signatory to `delegatee`
+ 1319  	* @param delegatee The address to delegate votes to
+ 1320  	* @param nonce The contract state required to match the signature
+ 1321  	* @param expiry The time at which to expire the signature
+ 1322  	* @param v The recovery byte of the signature
+ 1323  	* @param r Half of the ECDSA signature pair
+ 1324  	* @param s Half of the ECDSA signature pair
+ 1325  	*/
+ 1326> 	function delegateBySig(
+ 1327  		address delegatee,
+ 1328  		uint nonce,
+ 1329  		uint expiry,
+ 1330  		uint8 v,
+ 1331  		bytes32 r,
+ 1332  		bytes32 s
+ 1333  	)
+ 1334  		external
+ 1335  	{
+ 1336  		bytes32 domainSeparator = keccak256(
+ 1337  			abi.encode(
+ 1338  				DOMAIN_TYPEHASH,

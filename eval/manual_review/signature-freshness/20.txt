@@ -1,0 +1,27 @@
+D5-Polygon  0x1a24af0e3eea4db3122d9d9779a79fda4fa32777_VestingWallet.sol  0x1a24af0e3eea4db3122d9d9779a79fda4fa32777_VestingWallet.sol:540  (solc 0.8.4)
+
+  528          require(_beneficiary == _msgSender(), "Sender must be beneficiary");
+  529          _vestingSchedule[_vestingId].released = true;
+  530          totalReleased += _releaseAmount;
+  531          emit ERC20Released(_vestingId, _beneficiary, _releaseAmount);
+  532          SafeERC20.safeTransfer(token, _beneficiary, _releaseAmount);
+  533      }
+  534  
+  535      /**
+  536       * @dev Lock the tokens to beneficiary address
+  537       *
+  538       * Emits a {ERC20Locked} event.
+  539       */
+  540>     function vesting(uint256 _amount, uint64 _releaseTimestamp, address _beneficiary, bytes memory signature) external {
+  541          require(verify(_beneficiary, _amount, _releaseTimestamp, signature), "Invalid signature");
+  542          require(_amount > 0, "Invalid amount");
+  543          require(_releaseTimestamp > block.timestamp, "Timestamp must greater than current time");
+  544          require(_releaseTimestamp <= block.timestamp + MAX_LIMIT, "Timestamp must lesser than max limit");
+  545          _vestingSchedule[++_currentVestingId] = VestingSchedule(_beneficiary, _releaseTimestamp, _amount, false);
+  546          emit ERC20Locked(_currentVestingId, _beneficiary, _amount, _releaseTimestamp);
+  547          SafeERC20.safeTransferFrom(token, _msgSender(), address(this), _amount);
+  548      }
+  549  
+  550      function getMessageHash(
+  551          address _beneficiary,
+  552          uint256 _amount,

@@ -1,0 +1,27 @@
+D5-Ethereum  0xc37bd82ec6bc784e61c498aeaf9fd4daae41a23b_CryptoPuzzle.sol  0xc37bd82ec6bc784e61c498aeaf9fd4daae41a23b_CryptoPuzzle.sol:531  (solc 0.8.9)
+
+  519          assembly {
+  520              r := mload(add(signature, 32))
+  521              s := mload(add(signature, 64))
+  522              v := byte(0, mload(add(signature, 96)))
+  523          }
+  524          if (v < 27) {
+  525              v += 27;
+  526          }
+  527          require(v == 27 || v == 28);
+  528          return ecrecover(digest, v, r, s) == trade.maker;
+  529      }
+  530  
+  531>     function tradeValid(address maker, uint256 makerWei, uint256[] memory makerIds, address taker, uint256 takerWei, uint256[] memory takerIds, uint256 expiry, bytes memory signature) 
+  532      view public returns (bool) {
+  533          SignTrade memory trade = SignTrade(maker, makerWei, makerIds, taker, takerWei, takerIds, expiry);
+  534          // Check for cancellation
+  535          bytes32 hashCancel = keccak256(abi.encodePacked(
+  536              "\x19\x01",
+  537              DOMAIN_SEPARATOR,
+  538              hash(trade)
+  539          ));
+  540          require(cancelledTrade[hashCancel] == false, "Trade offer was cancelled.");
+  541          // Verify signature
+  542          require(verify(trade.maker, trade, signature), "Signature not valid.");
+  543          // Check for expiry

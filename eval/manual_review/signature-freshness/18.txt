@@ -1,0 +1,27 @@
+D5-BSC  0xa2167E43De7f83453d8711b3E0958d9a4fBEFba1_LPDi1.sol  0xa2167E43De7f83453d8711b3E0958d9a4fBEFba1_LPDi1.sol:818  (solc 0.6.12)
+
+  806      function unwrapAmountDFL(uint256 _amount) external returns(bool) {
+  807          uint256 burn_amount = _amount;
+  808          _burn(msg.sender, burn_amount);
+  809          if(now < lastWrapTimestamp[msg.sender].add(timeout)){
+  810              burn_amount = burn_amount.div(2);
+  811              assert(ERC20(DFL).transfer(DEAD, burn_amount));
+  812          }
+  813          assert(ERC20(DFL).transfer(msg.sender, burn_amount));
+  814          return true;
+  815      }
+  816  
+  817  
+  818>     function permit(address _owner, address _spender, uint256 _amount, uint256 _expiry, bytes calldata _signature) external returns(bool) {
+  819          assert(_owner != address(0));
+  820          assert(_expiry == 0 || _expiry >= block.timestamp);
+  821          uint256 nonce = nonces[_owner];
+  822          bytes32 digest = keccak256(
+  823                              abi.encodePacked(
+  824                                  '\x19\x01',
+  825                                  DOMAIN_SEPARATOR,
+  826                                  keccak256(
+  827                                      abi.encodePacked(
+  828                                          PERMIT_TYPE_HASH,
+  829                                          abi.encodePacked(_owner),
+  830                                          abi.encodePacked(_spender),

@@ -1,0 +1,27 @@
+D5-Ethereum  0x350e497892d15e6dd8ed9d4149038b1efc648cad_OpenMarketplace.sol  0x350e497892d15e6dd8ed9d4149038b1efc648cad_OpenMarketplace.sol:2761  (solc 0.8.0)
+
+ 2749          IERC20(_order.currency).safeTransferFrom(msg.sender, _order.seller, _order.price.sub(saleShareAmount));
+ 2750  
+ 2751          cancelledOrFinalized[_order.signature] = true;
+ 2752  
+ 2753          // _executeOrder(_order);
+ 2754          emit OrderSuccessful(_order.signature, msg.sender, _order.price);
+ 2755      }
+ 2756  
+ 2757      /**
+ 2758       *  @dev Cancel an already published bid
+ 2759       *  can only be canceled by seller or the contract owner
+ 2760       */
+ 2761>     function cancelBid(Order memory _order, Bid memory _bid) public whenNotPaused {
+ 2762  
+ 2763          require(!cancelledOrFinalized[_order.signature], "Order already finalized");
+ 2764          require(!bidCancelled[_bid.signature], "Bid already cancelled");
+ 2765  
+ 2766          address signer = _verifyBid(_bid);
+ 2767  
+ 2768          // item seller is the only allowed to accept a bid
+ 2769          require(signer == msg.sender || msg.sender == owner(), "Marketplace: Signature invalid or unauthorized");
+ 2770  
+ 2771          bidCancelled[_bid.signature] = true;
+ 2772  
+ 2773      }

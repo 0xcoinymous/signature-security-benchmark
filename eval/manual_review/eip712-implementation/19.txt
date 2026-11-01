@@ -1,0 +1,27 @@
+D5-Ethereum  0x539B86cD88fd41272335f9E46eAf7bF64f9Fa1e5_ForwarderRegistry.sol  0x539B86cD88fd41272335f9E46eAf7bF64f9Fa1e5_ForwarderRegistry.sol:737  (solc 0.8.15)
+
+  725          uint256 nonce = uint256(forwarderData.nonce);
+  726  
+  727          _requireValidSignature(signer, forwarder, true, nonce, signature, signatureType);
+  728          _approveForwarder(forwarderData, signer, forwarder, true, nonce);
+  729  
+  730          target.functionCallWithValue(abi.encodePacked(data, signer), msg.value);
+  731      }
+  732  
+  733      /// @notice Checks the signed approval (but does not record it) and forwards the meta-transaction.
+  734      /// @param signature Signature by the signer for approving the forwarder.
+  735      /// @param target The destination of the call (that will receive the meta-transaction).
+  736      /// @param data The content of the call (the signer address will be appended to it according to EIP-2771).
+  737>     function checkApprovalAndForward(
+  738          bytes calldata signature,
+  739          SignatureType signatureType,
+  740          address target,
+  741          bytes calldata data
+  742      ) external payable {
+  743          address signer = ERC2771Data.msgSender();
+  744          address forwarder = msg.sender;
+  745          _requireValidSignature(signer, forwarder, true, uint256(_forwarders[signer][forwarder].nonce), signature, signatureType);
+  746          target.functionCallWithValue(abi.encodePacked(data, signer), msg.value);
+  747      }
+  748  
+  749      /// @notice Gets the ERC1271 DOMAIN_SEPARATOR.

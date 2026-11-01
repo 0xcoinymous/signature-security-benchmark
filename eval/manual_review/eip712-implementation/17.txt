@@ -1,0 +1,27 @@
+D5-Polygon  0xc5016A7d730750a9508261b617ea2E68A5E9Bede_WSDeployer.sol  0xc5016A7d730750a9508261b617ea2E68A5E9Bede_WSDeployer.sol:327  (solc 0.8.7)
+
+  315      constructor(string memory name, string memory version) EIP712Base(name, version) {}
+  316  
+  317      function convertBytesToBytes4(bytes memory inBytes) internal pure returns (bytes4 outBytes4) {
+  318          if (inBytes.length == 0) {
+  319              return 0x0;
+  320          }
+  321  
+  322          assembly {
+  323              outBytes4 := mload(add(inBytes, 32))
+  324          }
+  325      }
+  326  
+  327>     function executeMetaTransaction(address userAddress,
+  328          bytes memory functionSignature, bytes32 sigR, bytes32 sigS, uint8 sigV) public payable returns(bytes memory) {
+  329          bytes4 destinationFunctionSig = convertBytesToBytes4(functionSignature);
+  330          require(destinationFunctionSig != msg.sig, "functionSignature can not be of executeMetaTransaction method");
+  331          MetaTransaction memory metaTx = MetaTransaction({
+  332              nonce: nonces[userAddress],
+  333              from: userAddress,
+  334              functionSignature: functionSignature
+  335          });
+  336          require(verify(userAddress, metaTx, sigR, sigS, sigV), "Signer and signature do not match");
+  337          nonces[userAddress] = nonces[userAddress].add(1);
+  338          // Append userAddress at the end to extract it from calling context
+  339          (bool success, bytes memory returnData) = address(this).call(abi.encodePacked(functionSignature, userAddress));

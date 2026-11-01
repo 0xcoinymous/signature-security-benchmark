@@ -1,0 +1,27 @@
+D5-Ethereum  0x5e5af2c86b9114d7884a81228d342318c54a0815_SaveTheDate.sol  0x5e5af2c86b9114d7884a81228d342318c54a0815_SaveTheDate.sol:2458  (solc 0.8.9)
+
+ 2446       * @dev A little less complicated brake if for ;)
+ 2447       */
+ 2448      function validateCommunityClaim(address claimer) external view returns (bool eligible, bool exempt) {
+ 2449          (eligible, exempt,,) = _verifyCommunityClaim(claimer);
+ 2450      }
+ 2451  
+ 2452      /**
+ 2453       * @notice Date minting function
+ 2454       * @param tokenDate The object representing the date by respectively year, month and day.
+ 2455       * @param merkleProof Proof data for vverification against whitelist, empty for public sale.
+ 2456       * @return Token ID.
+ 2457       */
+ 2458>     function mintDate(DateToMint calldata tokenDate, bytes32[] calldata merkleProof) external payable ensureAvailability nonReentrant returns (uint256) {
+ 2459          require(suspendedSale == false, "The sale is suspended");
+ 2460          require(salesPhase == SalesPhase.Presale || salesPhase == SalesPhase.Public, "Sale is not active");
+ 2461          
+ 2462          (bool _eligibleCommunity, bool _communityExempt, uint256 _communityIndex, uint256 _redeemIndex) = _verifyCommunityClaim(_msgSender());
+ 2463  
+ 2464          uint256 tokenPrice = (_communityExempt ? 0 : _dropTiers[dropSeries].regularPrice);
+ 2465  
+ 2466          if (tokenDate.isRandom && !_communityExempt && _validateDiscount(tokenDate)) {
+ 2467              tokenPrice = _dropTiers[dropSeries].discountedPrice;
+ 2468          } 
+ 2469  
+ 2470          require(msg.value >= tokenPrice, "Not enough ETH sent; check price!");

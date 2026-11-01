@@ -1,0 +1,27 @@
+D5-Ethereum  0x059a3e32072bf9472c1728b47c8cf19b05c6523c_PieVerseMasterKey.sol  0x059a3e32072bf9472c1728b47c8cf19b05c6523c_PieVerseMasterKey.sol:2050  (solc 0.8.7)
+
+ 2038      }
+ 2039      
+ 2040      /*
+ 2041       * Params
+ 2042       * uint256 _categoryId - ID index of category you want to mint tokens from
+ 2043       * uint256 _quantity - Quantity of tokens to mint
+ 2044       *
+ 2045       * Function mints specific amount of tokens from specific category
+ 2046       * Will not work if category is not active, or enough ETH for mint
+ 2047       * Will not mint more than allowed
+ 2048       * Mints reserved for user tokens in the first place
+ 2049       */
+ 2050>     function mintTokens(uint256 _categoryId, uint256 _quantity, bytes calldata signature) external payable {
+ 2051          require(categories[_categoryId].isActive, "Category not Active");
+ 2052          require(
+ 2053              categories[_categoryId].startTime <= block.timestamp,
+ 2054              "Sale has not started yet"
+ 2055          );
+ 2056          require(
+ 2057              categories[_categoryId].endTime >= block.timestamp,
+ 2058              "Sale has ended"
+ 2059          );
+ 2060          require(
+ 2061              categories[_categoryId].price.mul(_quantity) <= msg.value,
+ 2062              "Not enough ETH"

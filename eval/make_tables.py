@@ -22,12 +22,12 @@ TYPE_FA = {
     "replay_cross_chain": "بازپخش بین‌زنجیره‌ای",
     "malleability": "شکل‌پذیری امضا",
     "insufficient_verification": "بررسی ناکافی امضا",
-    "frontrunning": "پیش‌دستی در ارسال امضا",
+    "frontrunning": r"\lr{Front-running} امضا",
 }
 DETECTOR_FA = {
     "signature-replay": "بازپخش امضا",
     "signature-malleability": "شکل‌پذیری امضا",
-    "nonce-management": "مدیریت عدد یکبارمصرف",
+    "nonce-management": "مدیریت نانس",
     "eip712-implementation": r"پیاده‌سازی \std{EIP-712}",
     "eip1271-verification": r"تأیید \std{ERC-1271}",
     "signature-freshness": "تازگی امضا",
@@ -37,8 +37,8 @@ SOURCE_FA = {
     "S1": (r"نمونۀ تصادفی قراردادهای اتریوم با برچسب بازپخش امضا \cite{wang2026signaturereplay}"),
     "S2": (r"نمونۀ تصادفی قراردادهای رمزنگاری با برچسب همۀ انواع نقص امضا \cite{zhang2025cryptofails}"),
     "S3": (r"گزارش‌های نقص امضا که با بازبینی دستی تأیید یا رد شده‌اند \cite{zhang2025cryptofails}"),
-    "S4": (r"قراردادهای ممیزی‌شده \cite{zheng2024dappscan} و قراردادهای پرکاربرد"),
-    "S5": (r"قراردادهای بهره‌برداری‌پذیر تأییدشده با شبیه‌سازی روی شبکه \cite{wang2026signaturereplay}"),
+    "S4": (r"قراردادهای آدیت‌شده \cite{zheng2024dappscan} و قراردادهای پرکاربرد"),
+    "S5": (r"قراردادهای قابل سوءاستفاده، تأییدشده با شبیه‌سازی روی شبکه \cite{wang2026signaturereplay}"),
 }
 CHAIN_FA = {"Ethereum": "اتریوم", "BSC": "زنجیرۀ هوشمند بایننس", "Polygon": "پالیگان", "Arbitrum": "آربیتروم"}
 TYPES = ["replay", "replay_single", "replay_cross_contract", "replay_cross_chain", "malleability"]

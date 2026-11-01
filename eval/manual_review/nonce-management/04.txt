@@ -1,0 +1,27 @@
+D5-Ethereum  0xdd7283ea985a030c66e85ed63e9dde4f5eab56d5_Dex2.sol  0xdd7283ea985a030c66e85ed63e9dde4f5eab56d5_Dex2.sol:259  (solc 0.4.21)
+
+  247      accounts[uint176(tokenCode) << 160] = feeAccount;
+  248  
+  249      TokenInfo memory tokenInfo = tokens[tokenCode];
+  250      uint originalAmount = uint(withdrawE8) * uint(tokenInfo.scaleFactor) / 10**8;
+  251      if (tokenCode == 0) {  // ETH
+  252        toAddr.transfer(originalAmount);
+  253      } else {
+  254        if (!Token(tokenInfo.tokenAddr).transfer(toAddr, originalAmount)) revert();
+  255      }
+  256      emit TransferFeeEvent(tokenCode, withdrawE8, toAddr);
+  257    }
+  258  
+  259>   function exeSequence(uint header, uint[] body) external {
+  260      if (msg.sender != admin) revert();
+  261  
+  262      uint64 nextOperationIndex = uint64(header);
+  263      if (nextOperationIndex != exeStatus.lastOperationIndex + 1) revert();  // check index
+  264  
+  265      uint64 newLogicTimeSec = uint64(header >> 64);
+  266      if (newLogicTimeSec < exeStatus.logicTimeSec) revert();
+  267  
+  268      for (uint i = 0; i < body.length; nextOperationIndex++) {
+  269        uint bits = body[i];
+  270        uint opcode = bits & 0xFFFF;
+  271        bits >>= 16;

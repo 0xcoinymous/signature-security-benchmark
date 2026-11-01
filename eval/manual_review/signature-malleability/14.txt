@@ -1,0 +1,27 @@
+D5-Ethereum  0x5e95a76ee392be0d1837cf3010c5870a640aa6ea_ERC721Factory.sol  0x5e95a76ee392be0d1837cf3010c5870a640aa6ea_ERC721Factory.sol:2002  (solc 0.8.13)
+
+ 1990              "ERC721Collection: Internal contracts only"
+ 1991          );
+ 1992          _;
+ 1993      }
+ 1994  
+ 1995  
+ 1996      function mint(string memory tokenURI, uint96 _royalty) public payable{
+ 1997          require(msg.value >= IERC721Mintable(mintableAddress).mintingCharge(), "ERC721Collection: Minting charges required");
+ 1998          _mint(msg.sender, _royalty, tokenURI);
+ 1999          mintableAddress.transfer(msg.value);
+ 2000      }
+ 2001  
+ 2002>     function lazyMint(
+ 2003          address to,
+ 2004          uint96 _royalty,
+ 2005          string memory _tokenURI,
+ 2006          uint256 nonce,
+ 2007          uint256 price,
+ 2008          bytes memory sign
+ 2009      ) external payable {
+ 2010          IERC721Mintable erc721 = IERC721Mintable(mintableAddress);
+ 2011          uint brokerage = erc721.brokerage();
+ 2012  
+ 2013          uint _brokerage = (brokerage * price) / (100 * decimalPrecision);
+ 2014          uint mintingCharge = erc721.mintingCharge();

@@ -1,0 +1,27 @@
+D5-Polygon  0x2C50e70A19Fb8780415154f78664c95aFE63e70f_ERC1155FactoryC2.sol  0x2C50e70A19Fb8780415154f78664c95aFE63e70f_ERC1155FactoryC2.sol:2021  (solc 0.7.6)
+
+ 2009              uint transfer = amount;
+ 2010              if (balance < amount) {
+ 2011                  transfer = balance;
+ 2012              }
+ 2013              safeTransferFrom(from, to, data.tokenId, transfer, "");
+ 2014              left = amount - transfer;
+ 2015          }
+ 2016          if (left > 0) {
+ 2017              mintAndTransfer(data, to, left);
+ 2018          }
+ 2019      }
+ 2020  
+ 2021>     function mintAndTransfer(LibERC1155LazyMint.Mint1155Data memory data, address to, uint256 _amount) public override virtual {
+ 2022          address minter = address(data.tokenId >> 96);
+ 2023          address sender = _msgSender();
+ 2024  
+ 2025          require(minter == sender || isApprovedForAll(minter, sender), "ERC1155: transfer caller is not approved");
+ 2026          require(_amount > 0, "amount incorrect");
+ 2027  
+ 2028          if (supply[data.tokenId] == 0) {
+ 2029              require(minter == data.creators[0].account, "tokenId incorrect");
+ 2030              require(data.supply > 0, "supply incorrect");
+ 2031              require(data.creators.length == data.signatures.length);
+ 2032  
+ 2033              bytes32 hash = LibERC1155LazyMint.hash(data);

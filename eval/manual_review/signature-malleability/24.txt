@@ -1,0 +1,27 @@
+D5-BSC  0x289f9098ee3e501c741de22d3b820ba756712f56_ERC1155Mintable.sol  0x289f9098ee3e501c741de22d3b820ba756712f56_ERC1155Mintable.sol:2482  (solc 0.8.13)
+
+ 2470      function mint(
+ 2471          string memory tokenURI,
+ 2472          uint96 _royalty,
+ 2473          uint256 amount
+ 2474      ) external payable {
+ 2475          require(
+ 2476              msg.value >= mintingChargePerToken() * amount,
+ 2477              "ERC1155Mintable: Minting charges required"
+ 2478          );
+ 2479          _mint(msg.sender, amount, _royalty, tokenURI);
+ 2480      }
+ 2481  
+ 2482>     function lazyMint(
+ 2483          address to,
+ 2484          uint96 royalty,
+ 2485          string memory _tokenURI,
+ 2486          uint256 nonce,
+ 2487          uint256 price,
+ 2488          uint256 _maxSupply,
+ 2489          uint256 amount,
+ 2490          bytes memory sign
+ 2491      ) external payable {
+ 2492          require(
+ 2493              msg.value >= (price + mintingChargePerToken()) * amount,
+ 2494              "ERC1155Mintable: Insufficent fund transferred."

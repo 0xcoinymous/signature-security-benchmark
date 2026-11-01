@@ -1,0 +1,27 @@
+D5-Ethereum  0xf756042f382f081954cead84ddb9dc9bbcfac0cd_OVEN.sol  0xf756042f382f081954cead84ddb9dc9bbcfac0cd_OVEN.sol:112  (solc 0.5.17)
+
+  100          return true;
+  101      }
+  102  
+  103      // --- Approve and call contract ---
+  104      function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool) {
+  105          allowance[msg.sender][spender] = amount;
+  106          emit Approval(msg.sender, spender, amount);
+  107          ApproveAndCallFallBack(spender).receiveApproval(msg.sender, amount, address(this), data);
+  108          return true;
+  109      }
+  110  
+  111      // --- Approve by signature ---
+  112>     function permit(address holder, address spender, uint256 nonce, uint256 expiry,
+  113                      bool allowed, uint8 v, bytes32 r, bytes32 s) external
+  114      {
+  115          bytes32 digest =
+  116              keccak256(abi.encodePacked(
+  117                  "\x19\x01",
+  118                  DOMAIN_SEPARATOR,
+  119                  keccak256(abi.encode(PERMIT_TYPEHASH,
+  120                                       holder,
+  121                                       spender,
+  122                                       nonce,
+  123                                       expiry,
+  124                                       allowed))

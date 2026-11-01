@@ -1,0 +1,27 @@
+D5-Ethereum  0x2456466e4aafae0d486315f4e1052e73575ab2a7_RHINOFARM.sol  0x2456466e4aafae0d486315f4e1052e73575ab2a7_RHINOFARM.sol:986  (solc 0.6.12)
+
+  974          return _delegate(msg.sender, delegatee);
+  975      }
+  976  
+  977      /**
+  978       * @notice Delegates votes from signatory to `delegatee`
+  979       * @param delegatee The address to delegate votes to
+  980       * @param nonce The contract state required to match the signature
+  981       * @param expiry The time at which to expire the signature
+  982       * @param v The recovery byte of the signature
+  983       * @param r Half of the ECDSA signature pair
+  984       * @param s Half of the ECDSA signature pair
+  985       */
+  986>     function delegateBySig(
+  987          address delegatee,
+  988          uint nonce,
+  989          uint expiry,
+  990          uint8 v,
+  991          bytes32 r,
+  992          bytes32 s
+  993      )
+  994          external
+  995      {
+  996          bytes32 domainSeparator = keccak256(
+  997              abi.encode(
+  998                  DOMAIN_TYPEHASH,

@@ -1,0 +1,27 @@
+D5-Polygon  0x2213a2F6B78477C77C17a9E04502992A5152560B_DegenBoxV1.sol  0x2213a2F6B78477C77C17a9E04502992A5152560B_DegenBoxV1.sol:545  (solc 0.7.6)
+
+  533      }
+  534  
+  535      /// @notice Approves or revokes a `masterContract` access to `user` funds.
+  536      /// @param user The address of the user that approves or revokes access.
+  537      /// @param masterContract The address who gains or loses access.
+  538      /// @param approved If True approves access. If False revokes access.
+  539      /// @param v Part of the signature. (See EIP-191)
+  540      /// @param r Part of the signature. (See EIP-191)
+  541      /// @param s Part of the signature. (See EIP-191)
+  542      // F4 - Check behaviour for all function arguments when wrong or extreme
+  543      // F4: Don't allow masterContract 0 to be approved. Unknown contracts will have a masterContract of 0.
+  544      // F4: User can't be 0 for signed approvals because the recoveredAddress will be 0 if ecrecover fails
+  545>     function setMasterContractApproval(
+  546          address user,
+  547          address masterContract,
+  548          bool approved,
+  549          uint8 v,
+  550          bytes32 r,
+  551          bytes32 s
+  552      ) public {
+  553          // Checks
+  554          require(masterContract != address(0), "MasterCMgr: masterC not set"); // Important for security
+  555  
+  556          // If no signature is provided, the fallback is executed
+  557          if (r == 0 && s == 0 && v == 0) {

@@ -1,4 +1,4 @@
-# extended (tag thesis-eval-v3)
+# extended (final build, commit 0201186)
 FreshPermit/fixed                ecrecover
 FreshPermit/vulnerable           ecrecover signature-freshness
 MalleableWithdraw/fixed          ecrecover

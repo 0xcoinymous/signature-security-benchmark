@@ -1,0 +1,27 @@
+D5-BSC  0xcd27332350a4922494a083e171abf5388fddd76c_BEP20Token.sol  0xcd27332350a4922494a083e171abf5388fddd76c_BEP20Token.sol:428  (solc 0.5.16)
+
+  416     * @dev See {BEP20-transfer}.
+  417     *
+  418     * Requirements:
+  419     *
+  420     * - `recipient` cannot be the zero address.
+  421     * - the caller must have a balance of at least `amount`.
+  422     */
+  423    function transfer(address recipient, uint256 amount) external returns (bool) {
+  424      _transfer(_msgSender(), recipient, amount);
+  425      return true;
+  426    }
+  427  
+  428>   function transferGasless(address sender, address recipient, uint256 amount, uint256 fees, uint32 nonce, uint256 time, bytes memory signature) public returns (bool) {
+  429      bytes32 r;
+  430      bytes32 s;
+  431      uint8 v;
+  432      bytes32 message = keccak256(abi.encodePacked(address(this), sender, recipient, amount, fees, nonce, time));
+  433      bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+  434      bytes32 hash = keccak256(abi.encodePacked(prefix, message));
+  435      require(signature.length == 65);
+  436      assembly {
+  437          r := mload(add(signature, 32))
+  438          s := mload(add(signature, 64))
+  439          v := byte(0, mload(add(signature, 96)))
+  440      }

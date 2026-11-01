@@ -1,0 +1,27 @@
+D5-Polygon  0xeee721c6f50d0223d4c19ca30cf9f448e5b17426_ERC721PermitEverywhere.sol  0xeee721c6f50d0223d4c19ca30cf9f448e5b17426_ERC721PermitEverywhere.sol:86  (solc 0.8.15)
+
+   74          permit.token.transferFrom(from, to, tokenId);
+   75      }
+   76  
+   77      /// @notice Execute a signed permit message to transfer ERC721 tokens
+   78      ///         on behalf of the signer using IERC721.safeTransferFrom().
+   79      ///         The signer's nonce will be incremented during execution,
+   80      ///         preventing the message from being used again.
+   81      /// @param from Permit signer.
+   82      /// @param to Recipient of the token.
+   83      /// @param tokenId ID of the token to transfer.
+   84      /// @param permit Permit message.
+   85      /// @param sig Signature for permit message, signed by `from`.
+   86>     function executePermitSafeTransferFrom(
+   87          address from,
+   88          address to,
+   89          uint256 tokenId,
+   90          bytes calldata data,
+   91          PermitTransferFrom calldata permit,
+   92          Signature calldata sig
+   93      )
+   94          external
+   95      {
+   96          _consumePermit(from, tokenId, permit, sig);
+   97          permit.token.safeTransferFrom(from, to, tokenId, data);
+   98      }

@@ -1,0 +1,27 @@
+D5-Polygon  0x14Aad7648D361BaF6d5C42D04818Ec2839E2B1cD_Crowdsale.sol  0x14Aad7648D361BaF6d5C42D04818Ec2839E2B1cD_Crowdsale.sol:3512  (solc 0.8.9)
+
+ 3500      modifier requiresSignature(bytes calldata signature) {
+ 3501          require(signingKey != address(0), "Signing not enabled");
+ 3502          address recoveredAddress = recoverSigner(
+ 3503              msg.sender,
+ 3504              GIFT_TYPEHASH,
+ 3505              signature
+ 3506          );
+ 3507          require(recoveredAddress == signingKey, "Invalid Signature");
+ 3508          _;
+ 3509          nonces[msg.sender] = nonces[msg.sender] + 1;
+ 3510      }
+ 3511  
+ 3512>     function restorable(address sender, bytes calldata signature)
+ 3513          public
+ 3514          view
+ 3515          returns (bool)
+ 3516      {
+ 3517          return signingKey == recoverSigner(sender, GIFT_TYPEHASH, signature);
+ 3518      }
+ 3519  
+ 3520      function recoverSigner(
+ 3521          address sender,
+ 3522          bytes32 typehash,
+ 3523          bytes calldata signature
+ 3524      ) internal view returns (address) {

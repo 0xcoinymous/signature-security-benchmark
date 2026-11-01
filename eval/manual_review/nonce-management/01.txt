@@ -1,0 +1,27 @@
+D5-Ethereum  0x3f6cb1c89ddc8e02311d5319a055ef0a86fd71e9_CrossTowerStorefront.sol  0x3f6cb1c89ddc8e02311d5319a055ef0a86fd71e9_CrossTowerStorefront.sol:684  (solc 0.8.12)
+
+  672          *requirements: signer must be owner of the contract
+  673          @param tokenURI string memory URI of token to be minted.
+  674          @param sign struct combination of uint8, bytes32, bytes 32 are v, r, s.
+  675          note : sign value must be in the order of v, r, s.
+  676  
+  677      */
+  678  
+  679      function verifySign(string memory tokenURI, address caller, Sign memory sign) internal view {
+  680          bytes32 hash = keccak256(abi.encodePacked(this, caller, tokenURI, sign.nonce));
+  681          require(owner == ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)), sign.v, sign.r, sign.s), "Owner sign verification failed");
+  682      }
+  683  
+  684>     function mint(string memory uri, uint256 supply, uint256 fee, Sign memory sign) external {
+  685          require(!usedNonce[sign.nonce], "Nonce : Invalid Nonce");
+  686          usedNonce[sign.nonce] = true;
+  687          verifySign(uri, _msgSender(), sign);
+  688          _mint(newItemId, supply, uri,fee);
+  689          newItemId = newItemId + 1;
+  690      }
+  691  
+  692      function setBaseURI(string memory _baseURI) external onlyOwner{
+  693           _setTokenURIPrefix(_baseURI);
+  694      }
+  695  
+  696      function burn(uint256 tokenId, uint256 supply) external {

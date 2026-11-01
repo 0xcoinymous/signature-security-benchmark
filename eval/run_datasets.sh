@@ -4,7 +4,7 @@
 # The optional v3 binary is the build before the expansion bound; its output is compared with v3.1.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
-CONTRACTS="${CONTRACTS:-$HERE/../contracts}"
+CONTRACTS="$HERE/../../signature-security-benchmark/contracts"
 EXTENDED="$1"; STOCK="$2"; V3="${3:-}"; OUT="${4:-$HERE/results/run4}"
 JOBS="${JOBS:-6}"
 mkdir -p "$OUT"

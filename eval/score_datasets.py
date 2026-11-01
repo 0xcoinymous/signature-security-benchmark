@@ -26,9 +26,10 @@ SIX = ["signature-replay", "signature-malleability", "nonce-management",
        "eip712-implementation", "eip1271-verification", "signature-freshness"]
 TYPE_DETECTORS = {
     # Signature replay in the broad sense (within the contract, across contracts and chains,
-    # contract accounts, state management, malleable signatures used as identities).
-    "replay": {"signature-replay", "nonce-management", "signature-malleability",
-               "eip1271-verification", "eip712-implementation"},
+    # contract accounts, state management). The malleability detector reports every non-canonical
+    # signature, whether or not it is reused, so it is scored only for the malleability type.
+    "replay": {"signature-replay", "nonce-management", "eip1271-verification",
+               "eip712-implementation"},
     "replay_single": {"signature-replay", "nonce-management"},
     "replay_cross_contract": {"signature-replay", "eip712-implementation"},
     "replay_cross_chain": {"signature-replay", "eip712-implementation"},

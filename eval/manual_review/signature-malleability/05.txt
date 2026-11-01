@@ -1,0 +1,27 @@
+D5-Polygon  0x30bC6eb12Ec0eBb45b8A5AaBd901B91551cA6659_BAFNEWTEST.sol  0x30bC6eb12Ec0eBb45b8A5AaBd901B91551cA6659_BAFNEWTEST.sol:904  (solc 0.8.10)
+
+  892          require(owner == ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)), sign.v, sign.r, sign.s), "Owner sign verification failed");
+  893      }
+  894  
+  895      
+  896      /**
+  897       * @dev Internal function to mint a new token.
+  898       * Reverts if the given token ID already exists.
+  899       * @param sign struct combination of uint8, bytes32, bytes32 are v, r, s.
+  900       * @param tokenURI string memory URI of the token to be minted.
+  901       * @param fee uint256 royalty of the token to be minted.
+  902       */
+  903  
+  904>     function createCollectible(string memory tokenURI, uint256 fee, Sign memory sign) public returns (uint256) {
+  905          uint256 newItemId = tokenCounter;
+  906          verifySign(tokenURI, sign);
+  907          _safeMint(msg.sender, newItemId, fee);
+  908          _setTokenURI(newItemId, tokenURI);
+  909          tokenCounter = tokenCounter + 1;
+  910          return newItemId;
+  911      }
+  912  
+  913      function setBaseURI(string memory _baseURI) public onlyOwner{
+  914          _setBaseURI(_baseURI);
+  915      }
+  916      

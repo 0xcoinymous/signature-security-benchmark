@@ -1,0 +1,27 @@
+D5-Ethereum  0xced83c64f81181937691cd1d0229fbae63f2c1ff_HappyFarmToken.sol  0xced83c64f81181937691cd1d0229fbae63f2c1ff_HappyFarmToken.sol:385  (solc 0.7.6)
+
+  373          return _delegate(msg.sender, delegatee);
+  374      }
+  375  
+  376      /**
+  377       * @notice Delegates votes from signatory to `delegatee`
+  378       * @param delegatee The address to delegate votes to
+  379       * @param nonce The contract state required to match the signature
+  380       * @param expiry The time at which to expire the signature
+  381       * @param v The recovery byte of the signature
+  382       * @param r Half of the ECDSA signature pair
+  383       * @param s Half of the ECDSA signature pair
+  384       */
+  385>     function delegateBySig(address delegatee, uint nonce, uint expiry, uint8 v, bytes32 r, bytes32 s) public {
+  386          bytes32 domainSeparator = keccak256(abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name)), getChainId(), address(this)));
+  387          bytes32 structHash = keccak256(abi.encode(DELEGATION_TYPEHASH, delegatee, nonce, expiry));
+  388          bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
+  389          address signatory = ecrecover(digest, v, r, s);
+  390          require(signatory != address(0), "HPF::delegateBySig: invalid signature");
+  391          require(nonce == nonces[signatory]++, "HPF::delegateBySig: invalid nonce");
+  392          require(block.timestamp <= expiry, "HPF::delegateBySig: signature expired");
+  393          return _delegate(signatory, delegatee);
+  394      }
+  395  
+  396      /**
+  397       * @notice Gets the current votes balance for `account`

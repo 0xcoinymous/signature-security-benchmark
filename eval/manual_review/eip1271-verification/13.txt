@@ -1,0 +1,27 @@
+D5-Polygon  0x41471Dbdb78bBBE9ffDE673055ba299bf414b366_ERC721Meta.sol  0x41471Dbdb78bBBE9ffDE673055ba299bf414b366_ERC721Meta.sol:1949  (solc 0.7.6)
+
+ 1937  
+ 1938  
+ 1939  
+ 1940  
+ 1941  
+ 1942  abstract contract ERC1271Validator is EIP712Upgradeable {
+ 1943      using AddressUpgradeable for address;
+ 1944      using LibSignature for bytes32;
+ 1945  
+ 1946      string constant SIGNATURE_ERROR = "signature verification error";
+ 1947      bytes4 constant internal MAGICVALUE = 0x1626ba7e;
+ 1948  
+ 1949>     function validate1271(address signer, bytes32 structHash, bytes memory signature) internal view {
+ 1950          bytes32 hash = _hashTypedDataV4(structHash);
+ 1951  
+ 1952          address signerFromSig;
+ 1953          if (signature.length == 65) {
+ 1954              signerFromSig = hash.recover(signature);
+ 1955          }
+ 1956          if  (signerFromSig != signer) {
+ 1957              if (signer.isContract()) {
+ 1958                  require(
+ 1959                      ERC1271(signer).isValidSignature(hash, signature) == MAGICVALUE,
+ 1960                      SIGNATURE_ERROR
+ 1961                  );

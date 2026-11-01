@@ -1,0 +1,27 @@
+D5-Ethereum  0xf577959c9071751599b4596c299168d576a55428_NFTMarketplace.sol  0xf577959c9071751599b4596c299168d576a55428_NFTMarketplace.sol:1573  (solc 0.7.4)
+
+ 1561      pure
+ 1562      returns (bytes4 outBytes4)
+ 1563    {
+ 1564      if (inBytes.length == 0) {
+ 1565        return 0x0;
+ 1566      }
+ 1567  
+ 1568      assembly {
+ 1569        outBytes4 := mload(add(inBytes, 32))
+ 1570      }
+ 1571    }
+ 1572  
+ 1573>   function executeMetaTransaction(
+ 1574      address userAddress,
+ 1575      bytes memory functionSignature,
+ 1576      bytes32 sigR,
+ 1577      bytes32 sigS,
+ 1578      uint8 sigV
+ 1579    ) public payable virtual returns (bytes memory) {
+ 1580      bytes4 destinationFunctionSig = convertBytesToBytes4(functionSignature);
+ 1581      require(
+ 1582        destinationFunctionSig != msg.sig,
+ 1583        "functionSignature can not be of executeMetaTransaction method"
+ 1584      );
+ 1585      MetaTransaction memory metaTx =

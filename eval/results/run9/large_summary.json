@@ -1,0 +1,146 @@
+{
+ "Ethereum": {
+  "files": 4487,
+  "analysed": {
+   "extended": 4308,
+   "stock": 4309
+  },
+  "flagged_any_of_six": 3525,
+  "per_detector": {
+   "signature-malleability": 2847,
+   "nonce-management": 995,
+   "signature-replay": 1269,
+   "signature-freshness": 256,
+   "eip712-implementation": 127,
+   "eip1271-verification": 31
+  },
+  "runtime_seconds": {
+   "extended": {
+    "median": 0.74,
+    "mean": 0.7897539461467038,
+    "p95": 1.16,
+    "max": 3.47,
+    "total_hours": 0.9450722222222223,
+    "n": 4308
+   },
+   "stock": {
+    "median": 0.73,
+    "mean": 0.7756695288930147,
+    "p95": 1.05,
+    "max": 7.56,
+    "total_hours": 0.9284333333333333,
+    "n": 4309
+   }
+  }
+ },
+ "BSC": {
+  "files": 4335,
+  "analysed": {
+   "extended": 4325
+  },
+  "flagged_any_of_six": 3698,
+  "per_detector": {
+   "signature-malleability": 3376,
+   "nonce-management": 589,
+   "signature-replay": 639,
+   "eip1271-verification": 13,
+   "eip712-implementation": 101,
+   "signature-freshness": 167
+  },
+  "runtime_seconds": {
+   "extended": {
+    "median": 0.74,
+    "mean": 0.7794265895953757,
+    "p95": 1.03,
+    "max": 4.04,
+    "total_hours": 0.9363944444444444,
+    "n": 4325
+   }
+  }
+ },
+ "Polygon": {
+  "files": 5303,
+  "analysed": {
+   "extended": 5298
+  },
+  "flagged_any_of_six": 4541,
+  "per_detector": {
+   "signature-malleability": 4027,
+   "signature-freshness": 170,
+   "eip712-implementation": 248,
+   "nonce-management": 689,
+   "signature-replay": 942,
+   "eip1271-verification": 36
+  },
+  "runtime_seconds": {
+   "extended": {
+    "median": 0.72,
+    "mean": 0.7474178935447339,
+    "p95": 0.98,
+    "max": 2.69,
+    "total_hours": 1.09995,
+    "n": 5298
+   }
+  }
+ },
+ "Arbitrum": {
+  "files": 1228,
+  "analysed": {
+   "extended": 1228
+  },
+  "flagged_any_of_six": 929,
+  "per_detector": {
+   "signature-malleability": 628,
+   "eip712-implementation": 42,
+   "signature-replay": 359,
+   "nonce-management": 145,
+   "signature-freshness": 38,
+   "eip1271-verification": 4
+  },
+  "runtime_seconds": {
+   "extended": {
+    "median": 0.71,
+    "mean": 0.7599918566775244,
+    "p95": 1.09,
+    "max": 3.23,
+    "total_hours": 0.25924166666666665,
+    "n": 1228
+   }
+  }
+ },
+ "total": {
+  "files": 15353,
+  "analysed": {
+   "extended": 15159,
+   "stock": 4309
+  },
+  "flagged_any_of_six": 12693,
+  "per_detector": {
+   "signature-malleability": 10878,
+   "nonce-management": 2418,
+   "signature-replay": 3209,
+   "signature-freshness": 631,
+   "eip712-implementation": 518,
+   "eip1271-verification": 84
+  },
+  "runtime_seconds": {
+   "extended": {
+    "median": 0.74,
+    "mean": 0.7897539461467038,
+    "p95": 1.16,
+    "max": 3.47,
+    "total_hours": 0.9450722222222223,
+    "n": 4308
+   },
+   "stock": {
+    "median": 0.73,
+    "mean": 0.7756695288930147,
+    "p95": 1.05,
+    "max": 7.56,
+    "total_hours": 0.9284333333333333,
+    "n": 4309
+   }
+  },
+  "runtime_chain": "Ethereum"
+ }
+}

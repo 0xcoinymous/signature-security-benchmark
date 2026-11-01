@@ -1,0 +1,27 @@
+D5-Polygon  0xBE9104267B786C36Bc28011fBE49b6172a67f858_BibleToken.sol  0xBE9104267B786C36Bc28011fBE49b6172a67f858_BibleToken.sol:1508  (solc 0.6.12)
+
+ 1496          return _delegate(msg.sender, delegatee);
+ 1497      }
+ 1498  
+ 1499      /**
+ 1500       * @notice Delegates votes from signatory to `delegatee`
+ 1501       * @param delegatee The address to delegate votes to
+ 1502       * @param nonce The contract state required to match the signature
+ 1503       * @param expiry The time at which to expire the signature
+ 1504       * @param v The recovery byte of the signature
+ 1505       * @param r Half of the ECDSA signature pair
+ 1506       * @param s Half of the ECDSA signature pair
+ 1507       */
+ 1508>     function delegateBySig(
+ 1509          address delegatee,
+ 1510          uint nonce,
+ 1511          uint expiry,
+ 1512          uint8 v,
+ 1513          bytes32 r,
+ 1514          bytes32 s
+ 1515      )
+ 1516          external
+ 1517      {
+ 1518          bytes32 domainSeparator = keccak256(
+ 1519              abi.encode(
+ 1520                  DOMAIN_TYPEHASH,

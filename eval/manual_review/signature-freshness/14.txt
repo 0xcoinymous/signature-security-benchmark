@@ -1,0 +1,27 @@
+D5-Ethereum  0x2310ea29dc8e2fcf93104d76be6265fb05fd4a22_MYDA.sol  0x2310ea29dc8e2fcf93104d76be6265fb05fd4a22_MYDA.sol:345  (solc 0.8.7)
+
+  333      }   
+  334     
+  335  	function transferMulti(address[] memory to, uint256[] memory amount) public virtual override returns (bool) {
+  336  		_transferMulti(_msgSender(), to, amount, 0, address(0));
+  337          return true;
+  338  	}
+  339  	
+  340  	function transferMultiFrom(address sender, address[] memory to, uint256[] memory amount) public virtual override returns (bool) {
+  341  		_transferMulti(sender, to, amount, 1, _msgSender());
+  342          return true;
+  343  	}  
+  344  	
+  345>     function stake(uint256[] memory info, address refAdd, bytes memory sig) public virtual override returns (bool) {//0-tier,1-qty,2-method,3-otherSupply
+  346          _sigValidate(sig, keccak256(abi.encodePacked(_msgSender(), info[0], info[1], info[2], info[3], block.chainid, _user[_msgSender()].stakeNonce + 1, true)), _general._validatorAdd);
+  347          _user[_msgSender()].stakeNonce += 1;
+  348          if(_general._supplyTime < block.timestamp){
+  349              _general._supplyTime = block.timestamp;
+  350              _general._otherSupply = info[3];
+  351          }
+  352          _stakeProcess(_msgSender(), info[0], info[1], refAdd, info[2]);
+  353          return true;
+  354      }  
+  355      
+  356      function _stakeProcess(address recipient, uint256 tier, uint256 qty, address refAdd, uint256 method) internal virtual {
+  357          require(!_general._isPaused, "Contract is Paused");

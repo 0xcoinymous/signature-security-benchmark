@@ -1,0 +1,27 @@
+D5-Ethereum  0x663cBf0F8ac632ff6eEa2A249e2f6e147e65a04B_VSCToken.sol  0x663cBf0F8ac632ff6eEa2A249e2f6e147e65a04B_VSCToken.sol:942  (solc 0.6.7)
+
+  930    }
+  931  
+  932    modifier onlyOwnTokens {
+  933      require(msg.sender == address(this), "onlyOwnTokens");
+  934      _;
+  935    }
+  936  
+  937    modifier addressNotNull(address _address) {
+  938      require(_address != address(0), "Address cannot be null");
+  939      _;
+  940    }
+  941  
+  942>   function tokensReceived(address /* _operator */, address /* _from */, address /* _to */, uint256 _amount,
+  943        bytes calldata _data, bytes calldata /* _operatorData */)
+  944      external
+  945      override
+  946      onlyOwnTokens
+  947    {
+  948      (address from, address to, uint256 amount, bytes memory data, uint256 nonce, bytes memory proof) =
+  949          abi.decode(_data, (address, address, uint256, bytes, uint256, bytes));
+  950      checkProxying(from, to, amount, data, nonce, proof);
+  951  
+  952      if (_amount != 0)
+  953        this.send(from, _amount, "");
+  954  

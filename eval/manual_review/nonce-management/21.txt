@@ -1,0 +1,27 @@
+D5-Ethereum  0x09CD34f5491b0e202739DE3F3929Cac5198024d7_PelxpMarketplace.sol  0x09CD34f5491b0e202739DE3F3929Cac5198024d7_PelxpMarketplace.sol:1383  (solc 0.8.13)
+
+ 1371                          if(fee.royaltyFee > 0) {
+ 1372                                  paymentToken.transferFrom( signer.buyer, fee.tokenCreator, fee.royaltyFee);
+ 1373                          }
+ 1374                          paymentToken.transferFrom( signer.buyer, signer._user, fee.assetFee);
+ 1375                          if(!is721)
+ 1376                          IERC1155Upgradeable(signer._nftAddress).safeTransferFrom(signer._user, signer.buyer, signer.tokenId, 1, "");
+ 1377                          else
+ 1378                          IERC721Upgradeable(signer._nftAddress).safeTransferFrom(signer._user,signer.buyer,signer.tokenId);
+ 1379  
+ 1380                  }
+ 1381          }
+ 1382  
+ 1383>         function executeOrder(Signer memory signer,bool isroyalty,bool is721) external payable {
+ 1384                  require(getSigner(signer)==designatedSigner,"!Signer");
+ 1385                  require (!nonceStatus[msg.sender][signer.nonce],'Nonce Used');
+ 1386                  require(signer.nonce+ 5 minutes >= block.timestamp,'!Signature Expired');
+ 1387                  require(msg.sender==signer._user || msg.sender==signer.buyer,"Not Allowd");
+ 1388                     nonceStatus[msg.sender][signer.nonce] = true;
+ 1389                  Fee memory fee;
+ 1390                  if (signer.inEth) {
+ 1391                          require (msg.value >=signer.amount ,'Incorrect amount passed from buyer wallet');
+ 1392                          if(isroyalty)
+ 1393                          fee = calculateFees(msg.value,signer._nftAddress,signer.tokenId,true);
+ 1394                          else
+ 1395                          fee=calculateFees(msg.value,signer._nftAddress,signer.tokenId,false);

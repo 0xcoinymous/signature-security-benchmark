@@ -1,0 +1,27 @@
+D5-Arbitrum  0xa39b8bfd2a712c21CED45C6912c0B92aD4fe5F95_ERC1155Azuki.sol  0xa39b8bfd2a712c21CED45C6912c0B92aD4fe5F95_ERC1155Azuki.sol:1869  (solc 0.8.4)
+
+ 1857          ERC1155Marketplace(_owner, _admin, _commissionRate, _royaltiesCommissionRate, name, symbol, _whoCanMint, uri)
+ 1858          EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {}
+ 1859  
+ 1860      // minted qty for each voucher ID
+ 1861      mapping(uint256 => uint256) public vouchersMintedQty;
+ 1862  
+ 1863      // minted NFT ID for each voucher ID
+ 1864      mapping(uint256 => uint256) public vouchersNFTIds;
+ 1865  
+ 1866      event LazyMint(uint256 indexed tokenId, address indexed from, address indexed to, uint256 value);
+ 1867  
+ 1868      /// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
+ 1869>     function redeem(
+ 1870          uint256 nftId, uint256 id, uint256 nftPostId, uint256 qty, uint256 price, uint256 collectionId, uint256 chainId, address author, uint256 salt, bytes memory signature, uint256 qtyToMint
+ 1871      ) external payable nonReentrant {
+ 1872  
+ 1873          require(chainId == getChainId(), "Azuki: Wrong chain");
+ 1874          require(vouchersMintedQty[id] + qtyToMint <= qty, "Azuki: the qty exceeds the amount available for minting");
+ 1875          require(nftId == 0 || exists(nftId), "Azuki: Wrong NFT ID");
+ 1876  
+ 1877          // require enough funds
+ 1878          require(msg.value >= qtyToMint * price, "Azuki: payment is too low");
+ 1879  
+ 1880          // return the change
+ 1881          returnTheChange(qtyToMint * price);

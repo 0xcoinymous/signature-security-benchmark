@@ -1,0 +1,27 @@
+D5-Ethereum  0x910119bee96c7a03dd2597d4596e88bdf3aff682_CommonStaticLogic.sol  0x910119bee96c7a03dd2597d4596e88bdf3aff682_CommonStaticLogic.sol:905  (solc 0.5.17)
+
+  893          _account.enableStaticCall(address(this), ERC1271_ISVALIDSIGNATURE_BYTES);
+  894          _account.enableStaticCall(address(this), ERC1271_ISVALIDSIGNATURE_BYTES32);
+  895          emit CommonStaticLogicInitialised(address(_account));
+  896      }
+  897  
+  898      // *************** Implementation of EIP1271 ********************** //
+  899  
+  900      /**
+  901       * @dev Should return whether the signature provided is valid for the provided data.
+  902       * @param _data Arbitrary length data signed on the behalf of address(this)
+  903       * @param _signature Signature byte array associated with _data
+  904       */
+  905>     function isValidSignature(bytes calldata _data, bytes calldata _signature)
+  906          external
+  907          view
+  908          returns (bytes4)
+  909      {
+  910          bytes32 msgHash = keccak256(abi.encodePacked(_data));
+  911          isValidSignature(msgHash, _signature);
+  912          return ERC1271_ISVALIDSIGNATURE_BYTES;
+  913      }
+  914  
+  915      function isValidSignature(bytes32 _msgHash, bytes memory _signature)
+  916          public
+  917          view

@@ -1,0 +1,27 @@
+D5-Polygon  0xa2c9b47c5fae2d6913a8f8e57fa35ce5562f6115_DharmaSmartWalletImplementationV16Polygon.sol  0xa2c9b47c5fae2d6913a8f8e57fa35ce5562f6115_DharmaSmartWalletImplementationV16Polygon.sol:878  (solc 0.8.4)
+
+  866     * supplied signatures and the second bytes parameter contains context for the
+  867     * requested validation. The two signatures are packed together, with the one
+  868     * from Dharma coming first and that from the user coming second - this is so
+  869     * that, in future versions, multiple user signatures may be supplied if the
+  870     * associated key ring requires them.
+  871     * @param data bytes The data used to validate the signature.
+  872     * @param signatures bytes The two signatures, each 65 bytes - one from the
+  873     * owner (using ERC-1271 as well if the user signing key is a contract) and
+  874     * one from the Dharma Key Registry.
+  875     * @return magicValue - the 4-byte magic value to signify a valid signature in ERC-1271, if
+  876     * the signatures are both valid.
+  877     */
+  878>   function isValidSignature(
+  879      bytes calldata data, bytes calldata signatures
+  880    ) external view override returns (bytes4 magicValue) {
+  881      // Get message hash digest and any additional context from data argument.
+  882      bytes32 digest;
+  883      bytes memory context;
+  884  
+  885      if (data.length == 32) {
+  886        digest = abi.decode(data, (bytes32));
+  887      } else {
+  888        if (data.length < 64) {
+  889          revert(_revertReason(30));
+  890        }

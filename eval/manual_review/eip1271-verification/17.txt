@@ -1,0 +1,27 @@
+D5-BSC  0x0b00A81C8ffba5cD222aBe38bDd8309f5E71a6c2_ERC1155Meta.sol  0x0b00A81C8ffba5cD222aBe38bDd8309f5E71a6c2_ERC1155Meta.sol:2369  (solc 0.7.6)
+
+ 2357              uint transfer = amount;
+ 2358              if (balance < amount) {
+ 2359                  transfer = balance;
+ 2360              }
+ 2361              safeTransferFrom(from, to, data.tokenId, transfer, "");
+ 2362              left = amount - transfer;
+ 2363          }
+ 2364          if (left > 0) {
+ 2365              mintAndTransfer(data, to, left);
+ 2366          }
+ 2367      }
+ 2368  
+ 2369>     function mintAndTransfer(LibERC1155LazyMint.Mint1155Data memory data, address to, uint256 _amount) public override virtual {
+ 2370          address minter = address(data.tokenId >> 96);
+ 2371          address sender = _msgSender();
+ 2372  
+ 2373          require(minter == sender || isApprovedForAll(minter, sender), "ERC1155: transfer caller is not approved");
+ 2374          require(_amount > 0, "amount incorrect");
+ 2375  
+ 2376          if (supply[data.tokenId] == 0) {
+ 2377              require(minter == data.creators[0].account, "tokenId incorrect");
+ 2378              require(data.supply > 0, "supply incorrect");
+ 2379              require(data.creators.length == data.signatures.length);
+ 2380  
+ 2381              bytes32 hash = LibERC1155LazyMint.hash(data);

@@ -1,0 +1,27 @@
+D5-Ethereum  0xfbc030ee58048f8e8465644da271a97a2f10f3e1_MetaGirlfriends.sol  0xfbc030ee58048f8e8465644da271a97a2f10f3e1_MetaGirlfriends.sol:1106  (solc 0.8.6)
+
+ 1094  
+ 1095      // ========================== Girlfriends   ==============================    
+ 1096  
+ 1097      function getLevel(uint256 tokenId) external view returns (uint16){
+ 1098          require(_exists(tokenId), 'MG: non existent tokenId');        
+ 1099          return levels[tokenId];
+ 1100      }
+ 1101  
+ 1102      function _hashCombine(address sender, uint256 gfId1, uint256 gfId2, uint256 newId, uint256 newtraits, string memory nonce) internal pure returns(bytes32) {
+ 1103          return keccak256(abi.encodePacked( "\x19Ethereum Signed Message:\n32", keccak256(abi.encodePacked(sender, gfId1, gfId2, newId, newtraits, nonce))));         
+ 1104      }
+ 1105  
+ 1106>     function combineGirlfriends(uint256 gfId1, uint256 gfId2, uint256 newId, uint256 newtraits, uint8 v, bytes32 r, bytes32 s, string memory nonce) external {
+ 1107          require(combineEnabled, "MG: Combining GirlFriends is not enabled");
+ 1108          require( ownerOf(gfId1) == _msgSender() && ownerOf(gfId2) == _msgSender(), "MG: Must own these GirlFriends");
+ 1109  
+ 1110          require(gfId1 == newId || gfId2 == newId, "MG: Invalid ID");
+ 1111  
+ 1112          require(signerAddress == ecrecover( _hashCombine( _msgSender(), gfId1, gfId2, newId, newtraits, nonce) , v, r, s), "MG: invalid hash or signature");
+ 1113  
+ 1114          levels[newId] = levels[gfId1] > levels[gfId2] ? levels[gfId1] + 1 : levels[gfId2] + 1;
+ 1115  
+ 1116          emit TokenCombined( newId, newtraits, gfId1, gfId2 );
+ 1117  
+ 1118          _burn( (newId == gfId1)? gfId2: gfId1 );

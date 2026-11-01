@@ -1,0 +1,27 @@
+D5-Ethereum  0x539b6c906244ac34e348bbe77885cdfa994a3776_OlympusBondDepository.sol  0x539b6c906244ac34e348bbe77885cdfa994a3776_OlympusBondDepository.sol:440  (solc 0.7.5)
+
+  428  
+  429          DOMAIN_SEPARATOR = keccak256(
+  430              abi.encode(
+  431                  keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
+  432                  keccak256(bytes(name())),
+  433                  keccak256(bytes("1")), // Version
+  434                  chainID,
+  435                  address(this)
+  436              )
+  437          );
+  438      }
+  439  
+  440>     function permit(
+  441          address owner,
+  442          address spender,
+  443          uint256 amount,
+  444          uint256 deadline,
+  445          uint8 v,
+  446          bytes32 r,
+  447          bytes32 s
+  448      ) public virtual override {
+  449          require(block.timestamp <= deadline, "Permit: expired deadline");
+  450  
+  451          bytes32 hashStruct =
+  452              keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, amount, _nonces[owner].current(), deadline));

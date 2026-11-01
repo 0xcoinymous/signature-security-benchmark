@@ -1,0 +1,27 @@
+D5-BSC  0xfcf68e8eac515ca37f39407719cfecf18be1da83_Blockbusters.sol  0xfcf68e8eac515ca37f39407719cfecf18be1da83_Blockbusters.sol:481  (solc 0.8.13)
+
+  469          }
+  470          uint256 fromAllowance = _allowanceFor(from_, msg.sender);
+  471          if (fromAllowance != type(uint256).max) {
+  472              if (_getAllowanceStorage()[from_][msg.sender] < amount_) revert ERC20AllowanceInsufficient(from_, msg.sender, amount_);
+  473              unchecked {
+  474                  _getAllowanceStorage()[from_][msg.sender] -= amount_;
+  475              }
+  476          }
+  477          _transfer(from_, to_, amount_);
+  478          return true;
+  479      }
+  480  
+  481>     function transferFromWithPermit(address from_, address to_, uint256 amount_, uint256 deadline_, uint8 v_, bytes32 r_, bytes32 s_) external virtual requires(address(this), 0, _TRANSFER_DISABLED_FLAG()) {
+  482          _permit(from_, msg.sender, amount_, deadline_, v_, r_, s_);
+  483          _transfer(from_, to_, amount_);
+  484      }
+  485  
+  486      /// @notice the allowance the spender is allowed to spend for an account
+  487      /// @param account_ the account to check
+  488      /// @param spender_ the trusted spender
+  489      /// @return uint256 amount of the account that the spender_ can transfer
+  490      function allowance(address account_, address spender_) public view virtual returns (uint256) {
+  491          return _allowanceFor(account_, spender_);
+  492      }
+  493  

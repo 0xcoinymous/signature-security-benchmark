@@ -1,0 +1,27 @@
+D5-Polygon  0xa27f3818a120bced88f8544df9fe3273925112b9_SingleMarket.sol  0xa27f3818a120bced88f8544df9fe3273925112b9_SingleMarket.sol:2306  (solc 0.8.14)
+
+ 2294                  royaltyFees.length == tokenId.length && 
+ 2295                  mintAmount.length == tokenURI.length, "ERR");
+ 2296          for(uint i = 0; i< tokenId.length; i++) {
+ 2297              MintNFT(to, tokenId[i], mintAmount[i], tokenURI[i], royaltyKeeper[i], royaltyFees[i]);
+ 2298          }
+ 2299      }
+ 2300  
+ 2301      /**
+ 2302       * @notice Redeems an SFTvoucher for an actual SFT, creating it in the process.
+ 2303       * @param redeemer The address of the account which will receive the SFT upon success.
+ 2304       * @param _voucher A signed SFTvoucher that describes the SFT to be redeemed.
+ 2305       */
+ 2306>     function redeem(
+ 2307          Voucher.SFTvoucher calldata _voucher,
+ 2308          address redeemer,
+ 2309          uint amount
+ 2310      ) external {
+ 2311          require(!redeemedCounter[_voucher.counter]);
+ 2312          require(_voucher.nftAddress == address(this));
+ 2313  
+ 2314          address signer = _verify(_voucher);
+ 2315          require(signer == admin || signer == creator);
+ 2316  
+ 2317          uint left = amountLeft[_voucher.counter];
+ 2318          // Handling counter and amount

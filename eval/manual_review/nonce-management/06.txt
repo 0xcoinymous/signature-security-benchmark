@@ -1,0 +1,27 @@
+D5-Arbitrum  0x248a431116c6f6FCD5Fe1097d16d0597E24100f5_StaticATokenV3.sol  0x248a431116c6f6FCD5Fe1097d16d0597E24100f5_StaticATokenV3.sol:2615  (solc 0.8.13)
+
+ 2603    /**
+ 2604     * @dev Implements the permit function as for
+ 2605     * https://github.com/ethereum/EIPs/blob/8a34d644aacf0f9f8f00815307fd7dd5da07655f/EIPS/eip-2612.md
+ 2606     * @param owner The owner of the funds
+ 2607     * @param spender The spender
+ 2608     * @param value The amount
+ 2609     * @param deadline The deadline timestamp, type(uint256).max for max deadline
+ 2610     * @param v Signature param
+ 2611     * @param s Signature param
+ 2612     * @param r Signature param
+ 2613     * @param chainId Passing the chainId in order to be fork-compatible
+ 2614     */
+ 2615>   function permit(
+ 2616      address owner,
+ 2617      address spender,
+ 2618      uint256 value,
+ 2619      uint256 deadline,
+ 2620      uint8 v,
+ 2621      bytes32 r,
+ 2622      bytes32 s,
+ 2623      uint256 chainId
+ 2624    ) external {
+ 2625      require(owner != address(0), 'INVALID_OWNER');
+ 2626      //solium-disable-next-line
+ 2627      require(block.timestamp <= deadline, 'INVALID_EXPIRATION');

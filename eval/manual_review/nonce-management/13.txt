@@ -1,0 +1,27 @@
+D5-Polygon  0x3badc57e048013a3b192f7928ac3100719ebe3df_ERC1155Marketplace.sol  0x3badc57e048013a3b192f7928ac3100719ebe3df_ERC1155Marketplace.sol:2249  (solc 0.8.2)
+
+ 2237          ERC1155Marketplace(_paymentToken, _owner, _admin, _commissionRate, _royaltiesCommissionRate, name, symbol, _anyoneCanMint, uri)
+ 2238          EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {}
+ 2239  
+ 2240      // minted qty for each voucher ID
+ 2241      mapping(uint256 => uint256) public vouchersMintedQty;
+ 2242  
+ 2243      // minted NFT ID for each voucher ID
+ 2244      mapping(uint256 => uint256) public vouchersNFTIds;
+ 2245  
+ 2246      event LazyMint(uint256 indexed tokenId, address indexed from, address indexed to, uint256 value);
+ 2247  
+ 2248      /// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
+ 2249>     function redeem(
+ 2250          uint256 nftId, uint256 id, uint256 nftPostId, uint256 qty, uint256 price, uint256 collectionId, uint256 chainId, address author, uint256 salt, bytes memory signature, uint256 qtyToMint
+ 2251      ) external nonReentrant {
+ 2252  
+ 2253          require(chainId == getChainId(), "tucasafda: Wrong chain");
+ 2254          require(vouchersMintedQty[id] + qtyToMint <= qty, "tucasafda: the qty exceeds the amount available for minting");
+ 2255          require(nftId == 0 || exists(nftId), "tucasafda: Wrong NFT ID");
+ 2256  
+ 2257          // make sure signature is valid and get the address of the signer
+ 2258          verify(id, nftPostId, qty, price, collectionId, chainId, author, salt, address(this), signature, owner());
+ 2259  
+ 2260          // allow to mint less qty of the amounts in voucher, until all qtys are minted
+ 2261          // first time minting? find the next available tokenId or use the existing NFT Id if it was passed to the function

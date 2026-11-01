@@ -1,0 +1,27 @@
+D5-Ethereum  0xd73acd7f5099fdd910215dbff029185f21ffbcf0_Acrocalypse.sol  0xd73acd7f5099fdd910215dbff029185f21ffbcf0_Acrocalypse.sol:3356  (solc 0.8.7)
+
+ 3344          _safeMint(_to, newTokenId);
+ 3345          _incrementOwnerTokenId();
+ 3346      } 
+ 3347    }
+ 3348  
+ 3349    function verifySender(bytes memory signature) public view returns (bool) {
+ 3350      bytes32 hash = ECDSA.toEthSignedMessageHash(keccak256(abi.encodePacked(msg.sender)));
+ 3351      return ECDSA.recover(hash, signature) == signerAddress;
+ 3352    }
+ 3353  
+ 3354    
+ 3355    // public
+ 3356>   function mint(uint256 _mintAmount, bytes memory signature) public payable {
+ 3357      require(!pausedMint, "the contract is paused");
+ 3358      require(_mintAmount > 0, "need to mint at least 1 NFT");    
+ 3359      require((_currentTokenId + _mintAmount) < (maxSupply - ownerMaxSupply), "Not allowed to mint from owners pool");
+ 3360      require(_mintAmount <= maxMintAmount, "max mint amount per session exceeded");
+ 3361      require(verifySender(signature), "invalid access");
+ 3362  
+ 3363      uint256 ownerMintedCount = addressMintedBalance[msg.sender];
+ 3364      require((ownerMintedCount + _mintAmount) <= nftPerAddressLimit, "max NFT per address exceeded");
+ 3365      
+ 3366      require(msg.value >= mintCost * _mintAmount);
+ 3367      
+ 3368      for (uint256 i = 1; i <= _mintAmount; i++) {

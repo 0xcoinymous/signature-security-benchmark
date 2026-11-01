@@ -1,0 +1,27 @@
+D5-Polygon  0xbd55231c183744236451fdf23e6390ed8679e44c_D1verseDex.sol  0xbd55231c183744236451fdf23e6390ed8679e44c_D1verseDex.sol:465  (solc 0.8.9)
+
+  453      }
+  454  
+  455      function setD1verseNFT(address _contract, bool flag) public onlyOperator {
+  456          if (!flag) {
+  457              delete allowedNft[_contract];
+  458              delete D1verseNFT[_contract];
+  459          } else {
+  460              D1verseNFT[_contract] = true;
+  461              allowedNft[_contract] = true;
+  462          }
+  463      }
+  464  
+  465>     function exchangeFixedPrice(
+  466          bool maker_sells_nft,
+  467          address taker,
+  468          FixedPriceOrder memory order,
+  469          Sig memory maker_sig,
+  470          Sig memory taker_sig
+  471      ) external payable {
+  472  
+  473          (bytes32 order_digest, bytes memory order_bytes) = checkOrder(taker, order, maker_sig, taker_sig);
+  474  
+  475          address nft_seller = order.maker;
+  476          address nft_buyer = taker;
+  477          if(!maker_sells_nft) {

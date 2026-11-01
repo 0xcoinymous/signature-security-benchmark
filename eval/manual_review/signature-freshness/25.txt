@@ -1,0 +1,27 @@
+D5-Polygon  0xBD6f3Ed2B9B48ed89a952fBE917fc941A13f489d_nftdao.sol  0xBD6f3Ed2B9B48ed89a952fBE917fc941A13f489d_nftdao.sol:1415  (solc 0.8.9)
+
+ 1403          } else {
+ 1404              lengthLength += 1 + 0x19;
+ 1405          }
+ 1406          assembly {
+ 1407              mstore(header, lengthLength)
+ 1408          }
+ 1409          bytes32 check = keccak256(abi.encodePacked(header, message));
+ 1410          return ecrecover(check, v, r, s);
+ 1411      }
+ 1412  
+ 1413      mapping (address => mapping (uint256 => bool)) public nonces;
+ 1414  
+ 1415>     function VoteSign(uint256 tokenId, address voterAddress, address signer, string memory message, uint8 v, bytes32 r, bytes32 s, uint256 timestamp) external {
+ 1416  
+ 1417          //require (ownerOf(tokenId)!= voterAddress, "Cannot vote for yourself");
+ 1418          //require (!NFTUserVoted[tokenId][voterAddress], "You have already voted");
+ 1419          require(nonces[signer][timestamp] == false, 'Duplicate vote');
+ 1420          require (gasTankOn, "Gas Tank Disabled");
+ 1421  
+ 1422          address actualSigner = verifyMessage(message, v, r, s);
+ 1423          require(signer == actualSigner, "Invalid Signature");
+ 1424          
+ 1425  
+ 1426          NFTVotes[tokenId].voteCount = NFTVotes[tokenId].voteCount.add(1);
+ 1427          NFTUserVoted[tokenId][voterAddress] = true;

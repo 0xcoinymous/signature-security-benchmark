@@ -1,0 +1,27 @@
+D5-Ethereum  0x09a0cbeeed92206e34dd679624f58b74567ca8b7_Sonic.sol  0x09a0cbeeed92206e34dd679624f58b74567ca8b7_Sonic.sol:107  (solc 0.5.17)
+
+   95          return true;
+   96      }
+   97  
+   98      // --- Approve and call contract ---
+   99      function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool) {
+  100          allowance[msg.sender][spender] = amount;
+  101          emit Approval(msg.sender, spender, amount);
+  102          ApproveAndCallFallBack(spender).receiveApproval(msg.sender, amount, address(this), data);
+  103          return true;
+  104      }
+  105  
+  106      // --- Approve by signature ---
+  107>     function permit(address holder, address spender, uint256 nonce, uint256 expiry,
+  108                      bool allowed, uint8 v, bytes32 r, bytes32 s) external
+  109      {
+  110          bytes32 digest =
+  111              keccak256(abi.encodePacked(
+  112                  "\x19\x01",
+  113                  DOMAIN_SEPARATOR,
+  114                  keccak256(abi.encode(PERMIT_TYPEHASH,
+  115                                       holder,
+  116                                       spender,
+  117                                       nonce,
+  118                                       expiry,
+  119                                       allowed))

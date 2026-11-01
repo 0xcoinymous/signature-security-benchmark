@@ -1,0 +1,27 @@
+D5-BSC  0x322c78B16cfF3FB7c57F1B27566dF131313515d3_GameBonusPool.sol  0x322c78B16cfF3FB7c57F1B27566dF131313515d3_GameBonusPool.sol:1509  (solc 0.8.7)
+
+ 1497      //set token
+ 1498      function setToken( address _profitToken , address  _gameToken) public onlyOperator {
+ 1499          profitToken = _profitToken;
+ 1500          gameToken = _gameToken ;
+ 1501      }
+ 1502  
+ 1503      //claim reward
+ 1504      function claim(uint256 _ctype) external notPause {
+ 1505          emit claimReward( msg.sender, block.number ,_ctype );
+ 1506      }
+ 1507  
+ 1508      // push token bonus
+ 1509>     function pushBonus( address _to, uint256 _profitAmount , uint256 _gameAmount,uint256 _saltSeed,  uint8 v, bytes32 r, bytes32 s ) public onlyOperator notPause{
+ 1510  
+ 1511          bytes32 digest = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", 
+ 1512              ECDSA.toTypedDataHash(_domainSeparatorV4(),
+ 1513                  keccak256(abi.encode(PUSHBONUS_CALL_HASH_TYPE, _to, _profitAmount, _gameAmount, _saltSeed))
+ 1514          )));
+ 1515          require(ECDSA.recover(digest, v, r, s) == cSigner, "PushBonus: Invalid signer");
+ 1516  
+ 1517  
+ 1518          require( saltSeeds[_saltSeed] == false , "seed is repeat!");
+ 1519          saltSeeds[_saltSeed] = true;
+ 1520  
+ 1521          if( _profitAmount > 0 ){

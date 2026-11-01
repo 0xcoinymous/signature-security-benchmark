@@ -1,0 +1,27 @@
+D5-Polygon  0x50484176F62bc7B5c5F24Db12ce0508c514D0C07_IdentityFactory.sol  0x50484176F62bc7B5c5F24Db12ce0508c514D0C07_IdentityFactory.sol:277  (solc 0.8.1)
+
+  265  			switch result case 0 {
+  266  				let size := returndatasize()
+  267  				let ptr := mload(0x40)
+  268  				returndatacopy(ptr, 0, size)
+  269  				revert(ptr, size)
+  270  			}
+  271  			default {}
+  272  		}
+  273  	}
+  274  
+  275  	// EIP 1271 implementation
+  276  	// see https://eips.ethereum.org/EIPS/eip-1271
+  277> 	function isValidSignature(bytes32 hash, bytes calldata signature) external view returns (bytes4) {
+  278  		if (privileges[SignatureValidator.recoverAddrBytes(hash, signature)]) {
+  279  			// bytes4(keccak256("isValidSignature(bytes32,bytes)")
+  280  			return 0x1626ba7e;
+  281  		} else {
+  282  			return 0xffffffff;
+  283  		}
+  284  	}
+  285  }
+  286  
+  287  
+  288  contract IdentityFactory {
+  289  	event LogDeployed(address addr, uint256 salt);

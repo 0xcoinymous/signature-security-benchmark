@@ -1,0 +1,27 @@
+D5-Ethereum  0xf218cb602b0f24dd5e246aa0058f2363f45eb04d_HappyRedPacket.sol  0xf218cb602b0f24dd5e246aa0058f2363f45eb04d_HappyRedPacket.sol:826  (solc 0.8.0)
+
+  814              redp.creator = msg.sender;
+  815          }
+  816          {
+  817              // as a workaround for "CompilerError: Stack too deep, try removing local variables"
+  818              uint number = _number;
+  819              bool ifrandom = _ifrandom;
+  820              uint duration = _duration;
+  821              emit CreationSuccess(received_amount, _id, _name, _message, msg.sender, block.timestamp, _token_addr, number, ifrandom, duration);
+  822          }
+  823      }
+  824  
+  825      // It takes the signed msg.sender message as verification passcode
+  826>     function claim(bytes32 id, bytes memory signedMsg, address payable recipient) 
+  827      public returns (uint claimed) {
+  828  
+  829          RedPacket storage rp = redpacket_by_id[id];
+  830          Packed memory packed = rp.packed;
+  831          // Unsuccessful
+  832          require (unbox(packed.packed1, 224, 32) > block.timestamp, "Expired");
+  833          uint total_number = unbox(packed.packed2, 239, 15);
+  834          uint claimed_number = unbox(packed.packed2, 224, 15);
+  835          require (claimed_number < total_number, "Out of stock");
+  836          
+  837          address public_key = rp.public_key;
+  838          require(_verify(signedMsg, public_key), "Verification failed");

@@ -1,0 +1,27 @@
+D5-Ethereum  0x54AEf07Ade960BaC28198F1B2135468E45788ac3_SushiToken.sol  0x54AEf07Ade960BaC28198F1B2135468E45788ac3_SushiToken.sol:633  (solc 0.6.12)
+
+  621      }
+  622  
+  623    // See https://eips.ethereum.org/EIPS/eip-191
+  624      string private constant EIP191_PREFIX_FOR_EIP712_STRUCTURED_DATA = "\x19\x01";
+  625      // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
+  626      bytes32 private constant PERMIT_SIGNATURE_HASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
+  627  
+  628      /// @notice Approves `value` from `owner_` to be spend by `spender`.
+  629      /// @param owner_ Address of the owner.
+  630      /// @param spender The address of the spender that gets approved to draw from `owner_`.
+  631      /// @param value The maximum collective amount that `spender` can draw.
+  632      /// @param deadline This permit must be redeemed before this deadline (UTC timestamp in seconds).
+  633>     function permit(
+  634          address owner_,
+  635          address spender,
+  636          uint256 value,
+  637          uint256 deadline,
+  638          uint8 v,
+  639          bytes32 r,
+  640          bytes32 s
+  641      ) external override {
+  642          require(owner_ != address(0), "ERC20: Owner cannot be 0");
+  643          require(block.timestamp < deadline, "ERC20: Expired");
+  644          bytes32 digest =
+  645              keccak256(

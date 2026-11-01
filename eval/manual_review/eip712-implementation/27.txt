@@ -1,0 +1,27 @@
+D5-Polygon  0xde7dbc03c90b0c6029f435865cd92212d0e0cac3_FountainFactory.sol  0xde7dbc03c90b0c6029f435865cd92212d0e0cac3_FountainFactory.sol:2350  (solc 0.6.12)
+
+ 2338          harvestPermit(from, _msgSender(), timeLimit, deadline, v, r, s);
+ 2339          harvestFrom(angel, from, to);
+ 2340      }
+ 2341  
+ 2342      /// @notice Perform harvestAllFrom after permit.
+ 2343      /// @param from The owner address.
+ 2344      /// @param to The recipient address.
+ 2345      /// @param timeLimit The time limit to be approved.
+ 2346      /// @param deadline The permit available deadline.
+ 2347      /// @param v Signature v.
+ 2348      /// @param r Signature r.
+ 2349      /// @param s Signature s.
+ 2350>     function harvestAllFromWithPermit(
+ 2351          address from,
+ 2352          address to,
+ 2353          uint256 timeLimit,
+ 2354          uint256 deadline,
+ 2355          uint8 v,
+ 2356          bytes32 r,
+ 2357          bytes32 s
+ 2358      ) external {
+ 2359          harvestPermit(from, _msgSender(), timeLimit, deadline, v, r, s);
+ 2360          harvestAllFrom(from, to);
+ 2361      }
+ 2362  

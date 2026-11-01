@@ -1,0 +1,27 @@
+D5-Ethereum  0x65fafd78795c4bb2734633a000c122be0e3e6f37_OfficialGuardian.sol  0x65fafd78795c4bb2734633a000c122be0e3e6f37_OfficialGuardian.sol:849  (solc 0.7.6)
+
+  837  }
+  838  
+  839  
+  840  
+  841  
+  842  /// @title OfficialGuardian
+  843  /// @author Freeman Zhong - <kongliang@loopring.org>
+  844  contract OfficialGuardian is OwnerManagable, ERC1271
+  845  {
+  846      using SignatureUtil for bytes32;
+  847      mapping (address => bool) public whitelist;
+  848  
+  849>     function isValidSignature(
+  850          bytes32        _signHash,
+  851          bytes   memory _signature
+  852          )
+  853          public
+  854          view
+  855          override
+  856          returns (bytes4)
+  857      {
+  858          return isManager(_signHash.recoverECDSASigner(_signature))?
+  859              ERC1271_MAGICVALUE:
+  860              bytes4(0);
+  861      }

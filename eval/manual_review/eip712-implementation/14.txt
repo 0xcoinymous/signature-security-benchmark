@@ -1,0 +1,27 @@
+D5-Ethereum  0xa7cb52f1a14c24f9fa198ee004bc7daf9107cefa_NftyPlaySales.sol  0xa7cb52f1a14c24f9fa198ee004bc7daf9107cefa_NftyPlaySales.sol:1912  (solc 0.8.9)
+
+ 1900              makerListing.nftAddress,
+ 1901              tokenId,
+ 1902              makerListing.signer,
+ 1903              takerBid.taker,
+ 1904              makerListing.executionMethod,
+ 1905              price,
+ 1906              makerListing.currency,
+ 1907              amount
+ 1908          );
+ 1909      }   
+ 1910  
+ 1911      // Function for selling NFT against an bid offer
+ 1912>     function executeBidAgainstTakerListing(OrderTypes.MakerOrder calldata makerBid, OrderTypes.TakerOrder calldata takerListing) external payable nonReentrant {
+ 1913          require(!makerBid.isList == takerListing.isList, "Wrong order types being matched");
+ 1914          require(msg.sender == takerListing.taker, "Order taker must be the sender");
+ 1915  
+ 1916          bytes32 orderHash = SignatureVerifier.hashMakerOrder(makerBid, MAKER_TYPE_HASH);
+ 1917          validateMakerOrder(makerBid, orderHash);
+ 1918  
+ 1919          require(isCurrencyAllowed(makerBid.currency), "Currency is not allowed on the market");
+ 1920  
+ 1921          (bool isValid, uint256 tokenId, uint256 price, uint256 amount) = canExecuteTakerList(makerBid.executionMethod, makerBid, takerListing);
+ 1922  
+ 1923          require(isValid, "Taker Listing cannot be executed");
+ 1924  

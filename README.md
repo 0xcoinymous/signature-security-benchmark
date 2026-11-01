@@ -6,8 +6,8 @@ results used to evaluate six static detectors for Aderyn against stock Aderyn an
 This repository accompanies the article *Static Detection of Signature-Related Vulnerabilities in Smart
 Contracts: Six Detectors for Aderyn and an Evaluation on Real-World Contracts* by Abolfazl Iraninasab and
 Farzan Haddadi (Iran University of Science and Technology; under review). The detectors themselves are in
-the Aderyn fork at <https://github.com/0xcoinymous/aderyn/tree/cryptography_hooks>, evaluated at tag
-`thesis-eval-v3.1`.
+the Aderyn fork at <https://github.com/0xcoinymous/aderyn/tree/cryptography_hooks>; the results below were
+produced with commit `0201186` of that branch.
 
 ## Contents
 
@@ -17,8 +17,10 @@ eval/
   datasets/                labels, provenance, compiler versions and the scripts that build them
   realworld/               the audited and widely used contracts (source S4) and how they were built
   examples/                one vulnerable and one fixed example per detector family
-  results/run4/            raw outputs and scores of the three tools on the labelled dataset
-  results/run5/            raw outputs of the two Aderyn builds on 15,353 deployed contracts
+  results/run8/            raw outputs and scores of the three tools on the labelled dataset
+  results/run9/            raw outputs of the two Aderyn builds on 15,353 deployed contracts
+  manual_review/           a hand review of 30 random findings of five detectors
+  results/run4, run5/      earlier runs of the same scripts
   *.py, *.sh               scripts to run the tools, score them and produce the article's tables
 ```
 
@@ -64,32 +66,54 @@ scored (1,259 pairs, 492 vulnerable):
 
 ## Results
 
-- `eval/results/run4/{extended,stock,slither}.json`: findings and time per contract of each tool;
-  `extended_v3.json`: the build before the expansion bound (identical findings on every contract both
-  analysed); `datasets_summary.json` and `datasets_per_row.csv`: the scores.
-- `eval/results/run5/<Chain>_{extended,stock}.json`: the run on 15,353 deployed contracts on Ethereum, BNB
-  Smart Chain, Polygon and Arbitrum (address lists in `files_<Chain>.txt`; the sources are not stored here
-  and are downloaded with `eval/datasets/fetch.py large`); `large_summary.json`: counts and runtime.
+- `eval/results/run8/{extended,stock,slither}.json`: findings and time per contract of each tool;
+  `datasets_summary.json` and `datasets_per_row.csv`: the scores.
+- `eval/results/run9/<Chain>_extended.json` and `Ethereum_stock.json`: the run on 15,353 deployed contracts on
+  Ethereum, BNB Smart Chain, Polygon and Arbitrum (address lists in `files_<Chain>.txt`; the sources are not
+  stored here and are downloaded with `eval/datasets/fetch.py large`); `large_summary.json`: counts and
+  runtime.
+
+Counting what each tool reports as a vulnerability, on the 1,259 scored pairs:
+
+| Tool | P | R | F1 | Accuracy |
+|---|---:|---:|---:|---:|
+| Extended Aderyn | 0.71 | 0.76 | 0.73 | 0.78 |
+| Stock Aderyn | – | 0.00 | 0.00 | 0.61 |
+| Slither | 0.42 | 0.14 | 0.21 | 0.59 |
+
+### Manual review
+
+`eval/manual_review/` holds 30 random findings of each of five detectors (seed 1404, drawn by `sample.py`
+from run8 and run9), each with a verdict and a one-line reason, the criteria in `CRITERIA.md`, and
+`table.py`, which computes the precision with a Wilson 95% interval. A finding is a weakness if the reported
+function has the weakness the detector's rule describes, whether or not it is exploitable.
+
+| Detector | Weaknesses | Precision [95% CI] |
+|---|---:|---|
+| signature-malleability | 30/30 | 1.00 [0.89, 1.00] |
+| eip712-implementation | 15/30 | 0.50 [0.33, 0.67] |
+| signature-freshness | 7/30 | 0.23 [0.12, 0.41] |
+| nonce-management | 6/30 | 0.20 [0.10, 0.37] |
+| eip1271-verification | 0/30 | 0.00 [0.00, 0.11] |
 
 ## Reproducing
 
 Requirements: Python 3 with `scipy`, Slither 0.11.6, solc versions as listed in `compilers.csv`, and two
-Aderyn builds: the extended one from tag `thesis-eval-v3.1` of the fork (`cargo build --release`) and stock
+Aderyn builds: the extended one from commit `0201186` of the fork (`cargo build --release`) and stock
 Aderyn 0.6.8.
 
 ```bash
 cd eval
-./run_datasets.sh <extended aderyn> <stock aderyn>          # writes results/run4/*.json
-python3 score_datasets.py --combined datasets/combined.csv --run results/run4 --out results/run4
-python3 make_paper_tables.py --run results/run4 --large results/run5 \
-    --combined datasets/combined.csv --out <tables dir>
-
 python3 datasets/fetch.py large --out <large dir>          # the deployed contracts
-./run_large.sh <extended aderyn> <stock aderyn> <large dir>  # writes results/run5/*.json
-python3 score_large.py --runs results/run5 --lasir-dir datasets/raw/lasir --out results/run5
+./run_final.sh <extended aderyn> <stock aderyn> <large dir>  # writes results/run8 and results/run9
+python3 score_datasets.py --combined datasets/combined.csv --run results/run8 --out results/run8
+python3 score_large.py --runs results/run9 --lasir-dir datasets/raw/lasir --out results/run9
+python3 make_paper_tables.py --run results/run8 --large results/run9 \
+    --combined datasets/combined.csv --out <tables dir>
+python3 manual_review/table.py --d5-dir <large dir> --thesis <file> --paper <file>
 ```
 
-`compare_versions.py` checks that the two extended builds report the same findings, `fp_functions.py`
+`compare_versions.py` compares the findings of two extended builds, `fp_functions.py`
 lists the functions behind the most frequent false positives, and `examples/run_examples.sh <aderyn>` runs a
 build on the worked examples (expected output in `examples/results.txt`).
 

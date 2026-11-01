@@ -1,0 +1,27 @@
+D5-Ethereum  0x8a9d2d22a1cdf31849da0321e9b68bede0335201_Chai4626.sol  0x8a9d2d22a1cdf31849da0321e9b68bede0335201_Chai4626.sol:179  (solc 0.8.17)
+
+  167          balanceOf[dst] = add(balanceOf[dst], wad);
+  168          emit Transfer(src, dst, wad);
+  169          return true;
+  170      }
+  171  
+  172      function approve(address usr, uint256 wad) external returns (bool) {
+  173          allowance[msg.sender][usr] = wad;
+  174          emit Approval(msg.sender, usr, wad);
+  175          return true;
+  176      }
+  177  
+  178      // --- Approve by signature ---
+  179>     function permit(
+  180          address holder,
+  181          address spender,
+  182          uint256 nonce,
+  183          uint256 expiry,
+  184          bool allowed,
+  185          uint8 v,
+  186          bytes32 r,
+  187          bytes32 s
+  188      ) external {
+  189          bytes32 digest = keccak256(
+  190              abi.encodePacked(
+  191                  "\x19\x01",

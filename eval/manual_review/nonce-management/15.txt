@@ -1,0 +1,27 @@
+D5-Ethereum  0x2bc04C703f44e3B1Ab85283094c82d9091c90bdd_StarBlockExchange.sol  0x2bc04C703f44e3B1Ab85283094c82d9091c90bdd_StarBlockExchange.sol:1409  (solc 0.4.26)
+
+ 1397          Order memory order = Order(addrs[0], addrs[1], addrs[2], uints[0], uints[1], uints[2], uints[3], addrs[3], feeMethod, side, saleKind, addrs[4], howToCall, calldata, replacementPattern, addrs[5], staticExtradata, ERC20(addrs[6]), uints[4], uints[5], uints[6], uints[7], uints[8]);
+ 1398          return cancelOrder(
+ 1399            order,
+ 1400            Sig(v, r, s),
+ 1401            nonces[order.maker]
+ 1402          );
+ 1403      }
+ 1404  
+ 1405      /**
+ 1406       * @dev Call cancelOrder, supplying a specific nonce — enables cancelling orders
+ 1407       that were signed with nonces greater than the current nonce.
+ 1408       */
+ 1409>     function cancelOrderWithNonce_(
+ 1410          address[7] addrs,
+ 1411          uint[9] uints,
+ 1412          FeeMethod feeMethod,
+ 1413          SaleKindInterface.Side side,
+ 1414          SaleKindInterface.SaleKind saleKind,
+ 1415          AuthenticatedProxy.HowToCall howToCall,
+ 1416          bytes calldata,
+ 1417          bytes replacementPattern,
+ 1418          bytes staticExtradata,
+ 1419          uint8 v,
+ 1420          bytes32 r,
+ 1421          bytes32 s,

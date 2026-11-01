@@ -1,0 +1,27 @@
+D5-Ethereum  0xe915058df18e7efe92af5c44df3f575fba061b64_FinalCoreModule.sol  0xe915058df18e7efe92af5c44df3f575fba061b64_FinalCoreModule.sol:3969  (solc 0.7.6)
+
+ 3957      {
+ 3958          methods = new bytes4[](1);
+ 3959          methods[0] = ERC1271.isValidSignature.selector;
+ 3960      }
+ 3961  
+ 3962      // Will use msg.sender to detect the wallet, so this function should be called through
+ 3963      // the bounded method on the wallet itself, not directly on this module.
+ 3964      //
+ 3965      // Note that we allow chained wallet ownership:
+ 3966      // Wallet1 owned by Wallet2, Wallet2 owned by Wallet3, ..., WaleltN owned by an EOA.
+ 3967      // The verificaiton of Wallet1's signature will succeed if the final EOA's signature is
+ 3968      // valid.
+ 3969>     function isValidSignature(
+ 3970          bytes32      _signHash,
+ 3971          bytes memory _signature
+ 3972          )
+ 3973          public
+ 3974          view
+ 3975          override
+ 3976          returns (bytes4 magicValue)
+ 3977      {
+ 3978          address wallet = msg.sender;
+ 3979          if (securityStore.isLocked(wallet)) {
+ 3980              return 0;
+ 3981          }

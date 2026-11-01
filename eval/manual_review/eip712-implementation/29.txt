@@ -1,0 +1,27 @@
+D5-Polygon  0x43cc55157d3a4e51ab99cad6189726d768d7a124_KaliAccessManager.sol  0x43cc55157d3a4e51ab99cad6189726d768d7a124_KaliAccessManager.sol:214  (solc 0.8.11)
+
+  202          if (msg.sender != operatorOf[listId]) revert NotOperator();
+  203  
+  204          if (accounts.length != approvals.length) revert NoArrayParity();
+  205  
+  206          // cannot realistically overflow on human timescales
+  207          unchecked {
+  208              for (uint256 i; i < accounts.length; i++) {
+  209                  _listAccount(listId, accounts[i], approvals[i]);
+  210              }
+  211          }
+  212      }
+  213  
+  214>     function listAccountBySig(
+  215          uint256 listId,
+  216          address account,
+  217          bool approved,
+  218          uint256 deadline,
+  219          uint8 v,
+  220          bytes32 r,
+  221          bytes32 s
+  222      ) public virtual {
+  223          if (block.timestamp > deadline) revert SignatureExpired();
+  224  
+  225          bytes32 digest = keccak256(
+  226              abi.encodePacked(

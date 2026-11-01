@@ -1,0 +1,27 @@
+D5-Polygon  0x1b63c4b5ebd0d2f04f0d3dd11491c6061e13098c_ConveyorForwarder.sol  0x1b63c4b5ebd0d2f04f0d3dd11491c6061e13098c_ConveyorForwarder.sol:831  (solc 0.8.4)
+
+  819          }
+  820      }
+  821  
+  822      function _verifyExternalAccountSignature(
+  823          address _from,
+  824          bytes32 _hash,
+  825          bytes memory _sig
+  826      ) private pure {
+  827          address recoveredSigner = ECDSA.recover(_hash, _sig);
+  828          require(_from == recoveredSigner, "ForwarderError: Invalid EOA signature");
+  829      }
+  830  
+  831>     function _verifySmartContractSignature(
+  832          address _from,
+  833          bytes32 _hash,
+  834          bytes memory _sig
+  835      ) private view {
+  836          bytes4 signResp = IEIP1271Wallet(_from).isValidSignature(_hash, _sig);
+  837          require(signResp == EIP1271_VALID_SIG_RESP, "ForwarderError: Invalid EIP1271 signature");
+  838      }
+  839  }
+  840  
+  841  
+  842  // File contracts/ConveyorForwarder.sol
+  843  

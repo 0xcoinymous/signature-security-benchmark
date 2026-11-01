@@ -1,0 +1,27 @@
+D5-Arbitrum  0xD8D91f4106C3FdE53DcC7447031DDD5Af98E7507_ProofOfTradeArbi.sol  0xD8D91f4106C3FdE53DcC7447031DDD5Af98E7507_ProofOfTradeArbi.sol:441  (solc 0.8.16)
+
+  429  
+  430      function SetUSDT(address _address) external onlyOwner{
+  431          USDT = IERC20(_address);
+  432      }
+  433      
+  434      function SetByBitAddress(address _address) external onlyOwner{
+  435          ByBitAddress = _address;
+  436      }
+  437      function SetPause(bool _status) external onlyOwner{
+  438          Pause = _status;
+  439      }
+  440  
+  441>     function Claim(
+  442          string calldata _rawdata,
+  443          bytes calldata _sig,
+  444          uint _receiveAmount
+  445      ) external {
+  446          require(Pause == false, "Contract is paused");
+  447          string memory data = Strings.strConcat(_rawdata, _uint2str(_receiveAmount));
+  448          require(SwapKey[data] == false, "Key Already Claimed");
+  449          require(isValidData(data, _sig), "Invalid Signature");
+  450          require(_receiveAmount > 0, "Invalid fund");
+  451  
+  452          SwapKey[data] = true;
+  453          USDT.transfer(msg.sender, _receiveAmount);

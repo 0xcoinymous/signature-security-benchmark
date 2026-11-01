@@ -1,0 +1,27 @@
+D5-Ethereum  0x7779793628B968cEaa3B43423F0d848801dc0F60_MasterChef.sol  0x7779793628B968cEaa3B43423F0d848801dc0F60_MasterChef.sol:1200  (solc 0.6.12)
+
+ 1188          return _delegate(msg.sender, delegatee);
+ 1189      }
+ 1190  
+ 1191      /**
+ 1192       * @notice Delegates votes from signatory to `delegatee`
+ 1193       * @param delegatee The address to delegate votes to
+ 1194       * @param nonce The contract state required to match the signature
+ 1195       * @param expiry The time at which to expire the signature
+ 1196       * @param v The recovery byte of the signature
+ 1197       * @param r Half of the ECDSA signature pair
+ 1198       * @param s Half of the ECDSA signature pair
+ 1199       */
+ 1200>     function delegateBySig(
+ 1201          address delegatee,
+ 1202          uint nonce,
+ 1203          uint expiry,
+ 1204          uint8 v,
+ 1205          bytes32 r,
+ 1206          bytes32 s
+ 1207      )
+ 1208          external
+ 1209      {
+ 1210          bytes32 domainSeparator = keccak256(
+ 1211              abi.encode(
+ 1212                  DOMAIN_TYPEHASH,

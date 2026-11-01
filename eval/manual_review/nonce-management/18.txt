@@ -1,0 +1,27 @@
+D5-BSC  0xe744be68a5f1ab4af0c027bdd4ba9b0c3333023f_safe1.sol  0xe744be68a5f1ab4af0c027bdd4ba9b0c3333023f_safe1.sol:1058  (solc 0.8.1)
+
+ 1046          item.payAmount = _amount;
+ 1047          item.payTokenAddr = KORO_ADDRESS;
+ 1048          item.owner = msg.sender;
+ 1049          _payAdrOf[msg.sender].add(item);
+ 1050          _payAdrOf[address(0)].add(item);
+ 1051          
+ 1052  
+ 1053          payOrderIdOf[orderId] = true;
+ 1054          addressAmountsOf[msg.sender] += _amount;
+ 1055  
+ 1056      }
+ 1057  
+ 1058>     function signOrder(uint orderId,uint _amount,address _owner, uint8 _v, bytes32 _r, bytes32 _s) external {
+ 1059          require(!payOrderIdOf[orderId], "signOrder: orderId expired!");
+ 1060          require(0 < _amount, "signOrder: 0 < _amount");
+ 1061          require(_owner == msg.sender, "signOrder: The authorization operation address is abnormal");
+ 1062          require(address(0) != secretSigner, "signOrder: address(0) != secretSigner");
+ 1063          bytes32 msgHash = keccak256(abi.encodePacked( orderId, _amount,_owner));
+ 1064          require(ecrecover(msgHash, _v, _r, _s) == secretSigner, "signOrder: incorrect signer");
+ 1065          
+ 1066          // create _payOf
+ 1067          PaySet.Item memory item;
+ 1068          item.id = ++payId;
+ 1069          item.orderId = orderId;
+ 1070          item.createTime = block.timestamp;

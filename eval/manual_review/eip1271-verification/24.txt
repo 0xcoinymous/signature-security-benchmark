@@ -1,0 +1,27 @@
+D5-BSC  0x2C50e70A19Fb8780415154f78664c95aFE63e70f_ERC721FactoryC2.sol  0x2C50e70A19Fb8780415154f78664c95aFE63e70f_ERC721FactoryC2.sol:2033  (solc 0.7.6)
+
+ 2021      function transferFromOrMint(
+ 2022          LibERC721LazyMint.Mint721Data memory data,
+ 2023          address from,
+ 2024          address to
+ 2025      ) override external {
+ 2026          if (_exists(data.tokenId)) {
+ 2027              safeTransferFrom(from, to, data.tokenId);
+ 2028          } else {
+ 2029              mintAndTransfer(data, to);
+ 2030          }
+ 2031      }
+ 2032  
+ 2033>     function mintAndTransfer(LibERC721LazyMint.Mint721Data memory data, address to) public override virtual {
+ 2034          address minter = address(data.tokenId >> 96);
+ 2035          address sender = _msgSender();
+ 2036  
+ 2037          require(minter == data.creators[0].account, "tokenId incorrect");
+ 2038          require(data.creators.length == data.signatures.length);
+ 2039          require(minter == sender || isApprovedForAll(minter, sender), "ERC721: transfer caller is not owner nor approved");
+ 2040  
+ 2041          bytes32 hash = LibERC721LazyMint.hash(data);
+ 2042          for (uint i = 0; i < data.creators.length; i++) {
+ 2043              address creator = data.creators[i].account;
+ 2044              if (creator != sender) {
+ 2045                  validate(creator, hash, data.signatures[i]);

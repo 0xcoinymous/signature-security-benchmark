@@ -1,0 +1,27 @@
+D5-Polygon  0xdD3fC7F85B75Da036d10C9a625498caD6b787370_CampNFT721.sol  0xdD3fC7F85B75Da036d10C9a625498caD6b787370_CampNFT721.sol:1239  (solc 0.8.4)
+
+ 1227              "Owner sign verification failed"
+ 1228          );
+ 1229      }
+ 1230  
+ 1231      /**
+ 1232       * @dev Internal function to mint a new token.
+ 1233       * Reverts if the given token ID already exists.
+ 1234       * @param sign struct combination of uint8, bytes32, bytes32 are v, r, s.
+ 1235       * @param tokenURI string memory URI of the token to be minted.
+ 1236       * @param fee uint256 royalty of the token to be minted.
+ 1237       */
+ 1238  
+ 1239>     function createCollectible(
+ 1240          string memory tokenURI,
+ 1241          uint256 fee,
+ 1242          uint256 price,
+ 1243          uint256 cardtype,
+ 1244          Sign memory sign
+ 1245      ) external isWhitelisted(msg.sender) returns (uint256) {
+ 1246          // (!usedNonce[sign.nonce], "Nonce : Invalid Nonce");
+ 1247          uint256 currentTime = block.timestamp;
+ 1248          require(
+ 1249              (currentTime - deployTime) / 86400 < saleEndDate,
+ 1250              "Sale period is invalid"
+ 1251          );

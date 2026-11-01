@@ -1,0 +1,27 @@
+D5-Polygon  0x3ab44687f97DEC03A186ba9D5fA5dC57F9Db93bB_NFTMarketplace.sol  0x3ab44687f97DEC03A186ba9D5fA5dC57F9Db93bB_NFTMarketplace.sol:4190  (solc 0.8.17)
+
+ 4178      );
+ 4179  
+ 4180      function initialize() public virtual initializer {
+ 4181          __EIP712_init("NFTMarketplace", "1");
+ 4182          __Ownable_init();
+ 4183          _LISTING_TYPEHASH = keccak256(
+ 4184              "List(address erc721,uint256 tokenId,address erc20,uint256 price,address seller,uint256 deadline)"
+ 4185          );
+ 4186          feeFraction = 1250;
+ 4187          feeDenominator = 10000;
+ 4188      }
+ 4189  
+ 4190>     function buy(
+ 4191          IERC721 _erc721,
+ 4192          uint256 _tokenId,
+ 4193          IERC20 _erc20,
+ 4194          uint256 _price,
+ 4195          address _seller,
+ 4196          uint256 _deadline,
+ 4197          bytes calldata _signature
+ 4198      ) external payable {
+ 4199          address buyer = msg.sender;
+ 4200  
+ 4201          require(_price > 0, "This NFT is not for sale");
+ 4202          require(block.timestamp <= _deadline, "This listing has expired");

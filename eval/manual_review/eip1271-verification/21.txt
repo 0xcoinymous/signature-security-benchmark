@@ -1,0 +1,27 @@
+D5-Polygon  0x025bb570c626fb1143d32a2296b94f385d2655af_ERC721Lyrra.sol  0x025bb570c626fb1143d32a2296b94f385d2655af_ERC721Lyrra.sol:1548  (solc 0.7.6)
+
+ 1536          
+ 1537          return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash));
+ 1538      }
+ 1539  }
+ 1540  
+ 1541  abstract contract ERC1271Validator is EIP712Upgradeable {
+ 1542      using AddressUpgradeable for address;
+ 1543      using ECDSAUpgradeable for bytes32;
+ 1544  
+ 1545      string constant SIGNATURE_ERROR = "signature verification error";
+ 1546      bytes4 constant internal MAGICVALUE = 0x1626ba7e;
+ 1547  
+ 1548>     function validate1271(address signer, bytes32 structHash, bytes memory signature) internal view {
+ 1549          bytes32 hash = _hashTypedDataV4(structHash);
+ 1550          if (signer.isContract()) {
+ 1551              require(
+ 1552                  ERC1271(signer).isValidSignature(hash, signature) == MAGICVALUE,
+ 1553                  SIGNATURE_ERROR
+ 1554              );
+ 1555          } else {
+ 1556              require(
+ 1557                  hash.recover(signature) == signer,
+ 1558                  SIGNATURE_ERROR
+ 1559              );
+ 1560          }

@@ -1,0 +1,27 @@
+D5-Ethereum  0x96491ac1F680c76EB8610b4389b8Dfa6F3a3C872_AGFIGovernor.sol  0x96491ac1F680c76EB8610b4389b8Dfa6F3a3C872_AGFIGovernor.sol:1729  (solc 0.8.13)
+
+ 1717              return ProposalState.Executed;
+ 1718          } else if (block.timestamp >= add256(proposal.eta, timelock.GRACE_PERIOD())) {
+ 1719              return ProposalState.Expired;
+ 1720          } else {
+ 1721              return ProposalState.Queued;
+ 1722          }
+ 1723      }
+ 1724  
+ 1725      function castVote(uint proposalId, bool support) public {
+ 1726          return _castVote(msg.sender, proposalId, support);
+ 1727      }
+ 1728  
+ 1729>     function castVoteBySig(uint proposalId, bool support, uint8 v, bytes32 r, bytes32 s) public {
+ 1730          bytes32 domainSeparator = keccak256(abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name)), getChainId(), address(this)));
+ 1731          bytes32 structHash = keccak256(abi.encode(BALLOT_TYPEHASH, proposalId, support));
+ 1732          bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
+ 1733          address signatory = ecrecover(digest, v, r, s);
+ 1734          require(signatory != address(0), "AGFIGovernor::castVoteBySig: invalid signature");
+ 1735          return _castVote(signatory, proposalId, support);
+ 1736      }
+ 1737  
+ 1738      function _castVote(address voter, uint proposalId, bool support) internal {
+ 1739          require(state(proposalId) == ProposalState.Active, "AGFIGovernor::_castVote: voting is closed");
+ 1740          Proposal storage proposal = proposals[proposalId];
+ 1741          Receipt storage receipt = proposal.receipts[voter];

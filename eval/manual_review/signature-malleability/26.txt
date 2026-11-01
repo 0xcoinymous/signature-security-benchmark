@@ -1,0 +1,27 @@
+D5-BSC  0x6ae3af0c978af1aed71edef4d386c9606fdb7468_Address.sol  0x6ae3af0c978af1aed71edef4d386c9606fdb7468_Address.sol:968  (solc 0.6.12)
+
+  956          return _delegate(msg.sender, delegatee);
+  957      }
+  958  
+  959      /**
+  960       * @notice Delegates votes from signatory to `delegatee`
+  961       * @param delegatee The address to delegate votes to
+  962       * @param nonce The contract state required to match the signature
+  963       * @param expiry The time at which to expire the signature
+  964       * @param v The recovery byte of the signature
+  965       * @param r Half of the ECDSA signature pair
+  966       * @param s Half of the ECDSA signature pair
+  967       */
+  968>     function delegateBySig(
+  969          address delegatee,
+  970          uint nonce,
+  971          uint expiry,
+  972          uint8 v,
+  973          bytes32 r,
+  974          bytes32 s
+  975      )
+  976          external
+  977      {
+  978          bytes32 domainSeparator = keccak256(
+  979              abi.encode(
+  980                  DOMAIN_TYPEHASH,

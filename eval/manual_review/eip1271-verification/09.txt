@@ -1,0 +1,27 @@
+D5-Ethereum  0xcb2e9fa32603cdc2740b82a9a67ed3e977c33416_GnosisSafe.sol  0xcb2e9fa32603cdc2740b82a9a67ed3e977c33416_GnosisSafe.sol:967  (solc 0.5.17)
+
+  955          emit SignMsg(msgHash);
+  956      }
+  957  
+  958      /**
+  959      * Implementation of ISignatureValidator (see `interfaces/ISignatureValidator.sol`)
+  960      * @dev Should return whether the signature provided is valid for the provided data.
+  961      *       The save does not implement the interface since `checkSignatures` is not a view method.
+  962      *       The method will not perform any state changes (see parameters of `checkSignatures`)
+  963      * @param _data Arbitrary length data signed on the behalf of address(this)
+  964      * @param _signature Signature byte array associated with _data
+  965      * @return a bool upon valid or invalid signature with corresponding _data
+  966      */
+  967>     function isValidSignature(bytes calldata _data, bytes calldata _signature)
+  968          external
+  969          returns (bytes4)
+  970      {
+  971          bytes32 messageHash = getMessageHash(_data);
+  972          if (_signature.length == 0) {
+  973              require(signedMessages[messageHash] != 0, "Hash not approved");
+  974          } else {
+  975              // consumeHash needs to be false, as the state should not be changed
+  976              checkSignatures(messageHash, _data, _signature, false);
+  977          }
+  978          return EIP1271_MAGIC_VALUE;
+  979      }

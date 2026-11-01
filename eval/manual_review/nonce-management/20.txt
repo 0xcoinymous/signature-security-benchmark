@@ -1,0 +1,27 @@
+D5-Polygon  0x4f148d661AfD27bfc2c5252cDB9B3a1db0a05b47_Trade.sol  0x4f148d661AfD27bfc2c5252cDB9B3a1db0a05b47_Trade.sol:473  (solc 0.8.4)
+
+  461              transferProxy.erc1155mintAndTransfer(IERC1155(order.nftAddress), order.seller, order.buyer, order.tokenId, order.fee, order.supply,order.tokenURI,order.qty,"" );
+  462          }
+  463  
+  464          if(fee.platformFee > 0) {
+  465              transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, owner, fee.platformFee);
+  466          }
+  467          if(fee.royaltyFee > 0) {
+  468              transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, fee.tokenCreator, fee.royaltyFee);
+  469          }
+  470          transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, order.seller, fee.assetFee);
+  471      }
+  472  
+  473>     function mintAndBuyAsset(Order memory order, Sign memory ownerSign, Sign memory sign) public payable returns(bool){
+  474          require(!usedNonce[sign.nonce] && !usedNonce[ownerSign.nonce],"Nonce: Invalid Nonce");
+  475          if(order.nftType == BuyingAssetType.ERC721 || order.nftType == BuyingAssetType.LazyMintERC721 ) usedNonce[sign.nonce] = true;
+  476          if(order.nftType == BuyingAssetType.ERC721 || order.nftType == BuyingAssetType.LazyMintERC721 ) usedNonce[ownerSign.nonce] = true;
+  477          Fee memory fee = getFees(order);
+  478          require((fee.price >= order.unitPrice * order.qty), "Paid invalid amount");
+  479          verifyOwnerSign(order.nftAddress, order.seller, order.tokenURI, ownerSign);
+  480          verifySellerSign(order.seller, order.tokenId, order.unitPrice, order.erc20Address, order.nftAddress, sign);
+  481          order.buyer = msg.sender;
+  482          tradeAsset(order, fee);
+  483          emit BuyAsset(order.seller , order.tokenId, order.qty, msg.sender);
+  484          return true;
+  485      }

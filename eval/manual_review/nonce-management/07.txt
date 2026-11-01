@@ -1,0 +1,27 @@
+D5-Ethereum  0x781b4b6e093946c8f0215f477e993b7dd492810e_Address.sol  0x781b4b6e093946c8f0215f477e993b7dd492810e_Address.sol:1416  (solc 0.8.4)
+
+ 1404    mapping(uint256 => bytes32) public _petGenetics;
+ 1405  
+ 1406    constructor(string memory baseURI, address ccContractAddress) ERC721("Cool Pets", "PETS") {
+ 1407      _baseTokenURI = baseURI;
+ 1408      _ccAddress = ccContractAddress;
+ 1409    }
+ 1410  
+ 1411    /// @notice Adopt via public minting
+ 1412    /// @dev Id tracking starts at 9999 to prevent id contamination
+ 1413    /// @dev Signature to help avoid bot minting
+ 1414    /// @param salt Some simple salting for the signature
+ 1415    /// @param signature Verify that this transaction came from the desired location
+ 1416>   function publicAdopt(uint256 salt, bytes memory signature) external payable {
+ 1417      uint256 currentPetId = _currentPetId;
+ 1418      require(msg.sender == tx.origin, "CP: We like real users");
+ 1419      require(_publicMintStatus == EPublicMintStatus.OPEN, "CP: Minting closed");
+ 1420      require(currentPetId < MAX_PET_ID, "CP: Exceeds maximum Pet supply");
+ 1421      require(msg.value == _price, "CP: Invalid Eth sent");
+ 1422      require(_minted[msg.sender] == false, "CP: Address has minted a pet");
+ 1423  
+ 1424      // Mark address as minted
+ 1425      _minted[msg.sender] = true;
+ 1426  
+ 1427      // verify
+ 1428      require(_isValidSignature(keccak256(abi.encodePacked(msg.sender, salt)), signature), "CP: Invalid signature");

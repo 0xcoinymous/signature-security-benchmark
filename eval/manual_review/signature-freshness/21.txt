@@ -1,0 +1,27 @@
+D5-Ethereum  0x0743cde04b930cf45c307d99d9c6983c9e1898d8_HappyRedPacket_ERC721.sol  0x0743cde04b930cf45c307d99d9c6983c9e1898d8_HappyRedPacket_ERC721.sol:452  (solc 0.8.0)
+
+  440                  _name,
+  441                  _message, 
+  442                  msg.sender, 
+  443                  block.timestamp, 
+  444                  _token_addr, 
+  445                  number, 
+  446                  duration, 
+  447                  _erc721_token_ids
+  448              );
+  449          }
+  450      }
+  451  
+  452>     function claim(bytes32 pkt_id, bytes memory signedMsg, address payable recipient)
+  453          external 
+  454          returns (uint256 claimed)
+  455      {
+  456          RedPacket storage rp = redpacket_by_id[pkt_id];
+  457          uint256[] storage erc721_token_id_list = rp.erc721_list;
+  458          require(rp.end_time > block.timestamp, "Expired"); 
+  459          require(_verify(signedMsg, rp.public_key), "verification failed");
+  460          uint16 remaining_tokens = rp.remaining_tokens;
+  461          require(remaining_tokens > 0, "No available token remain");
+  462  
+  463          uint256 claimed_index;
+  464          uint256 claimed_token_id;
