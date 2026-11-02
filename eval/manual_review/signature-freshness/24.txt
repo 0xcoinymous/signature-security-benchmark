@@ -1,27 +1,27 @@
-D5-Ethereum  0xc0384cda6bb2128d8c77e1aa39d0eb75347c1710_Trade.sol  0xc0384cda6bb2128d8c77e1aa39d0eb75347c1710_Trade.sol:483  (solc 0.8.4)
+D5-Polygon  0xdFcBCc1D5333c95F88CA869D56cAA308c1C30b77_InfinityFlies.sol  0xdFcBCc1D5333c95F88CA869D56cAA308c1C30b77_InfinityFlies.sol:1815  (solc 0.8.9)
 
-  471          if(order.nftType == BuyingAssetType.ERC1155)  {
-  472              transferProxy.erc1155safeTransferFrom(IERC1155(order.nftAddress), order.seller, order.buyer, order.tokenId, order.qty, ""); 
-  473          }
-  474          if(fee.platformFee > 0) {
-  475              transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, owner, fee.platformFee);
-  476          }
-  477          if(fee.royaltyFee > 0) {
-  478              transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, fee.tokenCreator, fee.royaltyFee);
-  479          }
-  480          transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, order.seller, fee.assetFee);
-  481      }
-  482  
-  483>     function buyAsset(Order memory order, Sign memory sign) public returns(bool) {
-  484          Fee memory fee = getFees(order.amount, order.nftType, order.nftAddress, order.tokenId);
-  485          require((fee.price >= order.unitPrice * order.qty), "Paid invalid amount");
-  486          verifySellerSign(order.seller, order.tokenId, order.unitPrice, order.erc20Address, order.nftAddress, sign);
-  487          order.buyer = msg.sender;
-  488          tradeAsset(order, fee);
-  489          emit BuyAsset(order.seller , order.tokenId, order.qty, msg.sender);
-  490          return true;
-  491      }
-  492  
-  493      function executeBid(Order memory order, Sign memory sign) public returns(bool) {
-  494          Fee memory fee = getFees(order.amount, order.nftType, order.nftAddress, order.tokenId);
-  495          verifyBuyerSign(order.buyer, order.tokenId, order.amount, order.erc20Address, order.nftAddress, order.qty, sign);
+ 1803      function _baseURI() internal view virtual override returns (string memory) {
+ 1804          return baseTokenURI;
+ 1805      }
+ 1806  
+ 1807      function setBaseURI(string memory baseURI) public onlyOwner {
+ 1808          baseTokenURI = baseURI;
+ 1809      }
+ 1810  
+ 1811      function totalToken() public view returns (uint256) {
+ 1812          return _tokenIdTracker.current();
+ 1813      }
+ 1814  
+ 1815>     function claim(
+ 1816          uint256[] memory _tokensId,
+ 1817          uint256 _timestamp,
+ 1818          bytes memory _signature
+ 1819      ) public saleIsOpen {
+ 1820          uint256 total = totalToken();
+ 1821          require(total + _tokensId.length <= TOTAL_SUPPLY, "Max limit");
+ 1822  
+ 1823          address wallet = _msgSender();
+ 1824  
+ 1825          address signerOwner = signatureWallet(
+ 1826              wallet,
+ 1827              _tokensId,

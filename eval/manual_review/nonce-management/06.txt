@@ -1,27 +1,27 @@
-D5-Arbitrum  0x248a431116c6f6FCD5Fe1097d16d0597E24100f5_StaticATokenV3.sol  0x248a431116c6f6FCD5Fe1097d16d0597E24100f5_StaticATokenV3.sol:2615  (solc 0.8.13)
+D5-Arbitrum  0xEe43fEa294DBBefE821176389058BC72d6C05b04_StealthKeyRegistry.sol  0xEe43fEa294DBBefE821176389058BC72d6C05b04_StealthKeyRegistry.sol:92  (solc 0.8.7)
 
- 2603    /**
- 2604     * @dev Implements the permit function as for
- 2605     * https://github.com/ethereum/EIPs/blob/8a34d644aacf0f9f8f00815307fd7dd5da07655f/EIPS/eip-2612.md
- 2606     * @param owner The owner of the funds
- 2607     * @param spender The spender
- 2608     * @param value The amount
- 2609     * @param deadline The deadline timestamp, type(uint256).max for max deadline
- 2610     * @param v Signature param
- 2611     * @param s Signature param
- 2612     * @param r Signature param
- 2613     * @param chainId Passing the chainId in order to be fork-compatible
- 2614     */
- 2615>   function permit(
- 2616      address owner,
- 2617      address spender,
- 2618      uint256 value,
- 2619      uint256 deadline,
- 2620      uint8 v,
- 2621      bytes32 r,
- 2622      bytes32 s,
- 2623      uint256 chainId
- 2624    ) external {
- 2625      require(owner != address(0), 'INVALID_OWNER');
- 2626      //solium-disable-next-line
- 2627      require(block.timestamp <= deadline, 'INVALID_EXPIRATION');
+   80     * @notice Sets stealth keys for the registrant using an EIP-712 signature to
+   81     * authenticate the update on their behalf.
+   82     * @param _registrant The address for which stealth keys are being registered,
+   83     * i.e. the address expected to be recovered from the provided signature
+   84     * @param _spendingPubKeyPrefix Prefix of the spending public key (2 or 3)
+   85     * @param _spendingPubKey The public key for generating a stealth address
+   86     * @param _viewingPubKeyPrefix Prefix of the viewing public key (2 or 3)
+   87     * @param _viewingPubKey The public key to use for encryption
+   88     * @param _v ECDSA signature component: Parity of the `y` coordinate of point `R`
+   89     * @param _r ECDSA signature component: x-coordinate of `R`
+   90     * @param _s ECDSA signature component: `s` value of the signature
+   91     */
+   92>   function setStealthKeysOnBehalf(
+   93      address _registrant,
+   94      uint256 _spendingPubKeyPrefix,
+   95      uint256 _spendingPubKey,
+   96      uint256 _viewingPubKeyPrefix,
+   97      uint256 _viewingPubKey,
+   98      uint8 _v,
+   99      bytes32 _r,
+  100      bytes32 _s
+  101    ) external {
+  102      // create EIP-712 Digest
+  103      bytes32 _digest =
+  104        keccak256(

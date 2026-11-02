@@ -1,27 +1,27 @@
-D5-Ethereum  0xb53de031602cd825febe9f2eedf962cd8cc3805d_CHAOS.sol  0xb53de031602cd825febe9f2eedf962cd8cc3805d_CHAOS.sol:1459  (solc 0.5.17)
+D5-Ethereum  0x3a803e2d7df464334e3d6cf1559d10f9650807f6_CAFE.sol  0x3a803e2d7df464334e3d6cf1559d10f9650807f6_CAFE.sol:2078  (solc 0.8.3)
 
- 1447      // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
- 1448      bytes32 public constant EIP712_PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
- 1449      string private constant EIP712_VERSION = "1";
- 1450      
- 1451      bytes32 public EIP712_DOMAIN_SEPARATOR;
- 1452      
- 1453      mapping(address => uint256) nonces;
- 1454      
- 1455      constructor() public {
- 1456          EIP712_DOMAIN_SEPARATOR = LibEIP712.hashEIP712Domain(name(), EIP712_VERSION, Constants.getChainId(), address(this));
- 1457      }
- 1458      
- 1459>     function permit(
- 1460          address owner,
- 1461          address spender,
- 1462          uint256 value,
- 1463          uint256 deadline,
- 1464          uint8 v,
- 1465          bytes32 r,
- 1466          bytes32 s
- 1467      ) external {
- 1468          bytes32 digest = LibEIP712.hashEIP712Message(
- 1469              EIP712_DOMAIN_SEPARATOR,
- 1470              keccak256(abi.encode(
- 1471                  EIP712_PERMIT_TYPEHASH,
+ 2066          uint _currencyValue,
+ 2067          uint _minTokensBought
+ 2068      ) public payable
+ 2069      {
+ 2070          _collectInvestment(payable(msg.sender), _currencyValue, msg.value);
+ 2071          //deduct gas fee and send it to feeCollector
+ 2072          uint256 currencyValue = _currencyValue - gasFee;
+ 2073          _transferCurrency(feeCollector, gasFee);
+ 2074          _buy(payable(msg.sender), _to, currencyValue, _minTokensBought, false);
+ 2075      }
+ 2076  
+ 2077      /// @notice Allow users to sign a message authorizing a buy
+ 2078>     function permitBuy(
+ 2079          address payable _from,
+ 2080          address _to,
+ 2081          uint _currencyValue,
+ 2082          uint _minTokensBought,
+ 2083          uint _deadline,
+ 2084          uint8 _v,
+ 2085          bytes32 _r,
+ 2086          bytes32 _s
+ 2087      ) external
+ 2088      {
+ 2089          require(_deadline >= block.timestamp, "EXPIRED");
+ 2090          bytes32 digest = keccak256(abi.encode(PERMIT_BUY_TYPEHASH, _from, _to, _currencyValue, _minTokensBought, nonces[_from]++, _deadline));

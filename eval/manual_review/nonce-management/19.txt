@@ -1,27 +1,27 @@
-D5-Polygon  0xdD3fC7F85B75Da036d10C9a625498caD6b787370_CampNFT721.sol  0xdD3fC7F85B75Da036d10C9a625498caD6b787370_CampNFT721.sol:1239  (solc 0.8.4)
+D5-Polygon  0xfF3f6D14DF43c112aB98834Ee1F82083E07c26BF_QuickAccManager.sol  0xfF3f6D14DF43c112aB98834Ee1F82083E07c26BF_QuickAccManager.sol:193  (solc 0.8.7)
 
- 1227              "Owner sign verification failed"
- 1228          );
- 1229      }
- 1230  
- 1231      /**
- 1232       * @dev Internal function to mint a new token.
- 1233       * Reverts if the given token ID already exists.
- 1234       * @param sign struct combination of uint8, bytes32, bytes32 are v, r, s.
- 1235       * @param tokenURI string memory URI of the token to be minted.
- 1236       * @param fee uint256 royalty of the token to be minted.
- 1237       */
- 1238  
- 1239>     function createCollectible(
- 1240          string memory tokenURI,
- 1241          uint256 fee,
- 1242          uint256 price,
- 1243          uint256 cardtype,
- 1244          Sign memory sign
- 1245      ) external isWhitelisted(msg.sender) returns (uint256) {
- 1246          // (!usedNonce[sign.nonce], "Nonce : Invalid Nonce");
- 1247          uint256 currentTime = block.timestamp;
- 1248          require(
- 1249              (currentTime - deployTime) / 86400 < saleEndDate,
- 1250              "Sale period is invalid"
- 1251          );
+  181  	}
+  182  
+  183  	function tryCatch(address to, uint value, bytes calldata data)
+  184  		external
+  185  	{
+  186  		require(msg.sender == address(this), 'ONLY_IDENTITY_CAN_CALL');
+  187  		(bool success, bytes memory returnData) = to.call{value: value, gas: gasleft()}(data);
+  188  		if (!success) emit LogErr(to, value, data, returnData);
+  189  	}
+  190  
+  191  
+  192  	// WARNING: if the signature of this is changed, we have to change IdentityFactory
+  193> 	function execute(Transaction[] calldata txns, bytes calldata signature)
+  194  		external
+  195  	{
+  196  		require(txns.length > 0, 'MUST_PASS_TX');
+  197  		uint currentNonce = nonce;
+  198  		// NOTE: abi.encode is safer than abi.encodePacked in terms of collision safety
+  199  		bytes32 hash = keccak256(abi.encode(address(this), block.chainid, currentNonce, txns));
+  200  		// We have to increment before execution cause it protects from reentrancies
+  201  		nonce = currentNonce + 1;
+  202  
+  203  		address signer = SignatureValidator.recoverAddrImpl(hash, signature, true);
+  204  		require(privileges[signer] != bytes32(0), 'INSUFFICIENT_PRIVILEGE');
+  205  		uint len = txns.length;

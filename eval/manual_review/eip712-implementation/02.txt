@@ -1,27 +1,27 @@
-D5-BSC  0x0b386D1bb9665EDbd02566cf499C76Cd8A1a4712_ERC1155Azuki.sol  0x0b386D1bb9665EDbd02566cf499C76Cd8A1a4712_ERC1155Azuki.sol:2221  (solc 0.8.4)
+D5-BSC  0x2E7cd12384A495104463aEa6209789c7aFab5e53_ApeFarmerNFT.sol  0x2E7cd12384A495104463aEa6209789c7aFab5e53_ApeFarmerNFT.sol:3039  (solc 0.8.4)
 
- 2209          ERC1155Marketplace(_owner, _admin, _commissionRate, _royaltiesCommissionRate, name, symbol, _anyoneCanMint, uri)
- 2210          EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {}
- 2211  
- 2212      // minted qty for each voucher ID
- 2213      mapping(uint256 => uint256) public vouchersMintedQty;
- 2214  
- 2215      // minted NFT ID for each voucher ID
- 2216      mapping(uint256 => uint256) public vouchersNFTIds;
- 2217  
- 2218      event LazyMint(uint256 indexed tokenId, address indexed from, address indexed to, uint256 value);
- 2219  
- 2220      /// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
- 2221>     function redeem(
- 2222          uint256 nftId, uint256 id, uint256 nftPostId, uint256 qty, uint256 price, uint256 collectionId, uint256 chainId, address author, uint256 salt, bytes memory signature, uint256 qtyToMint
- 2223      ) external payable nonReentrant {
- 2224  
- 2225          require(chainId == getChainId(), "Azuki: Wrong chain");
- 2226          require(vouchersMintedQty[id] + qtyToMint <= qty, "Azuki: the qty exceeds the amount available for minting");
- 2227          require(nftId == 0 || exists(nftId), "Azuki: Wrong NFT ID");
- 2228  
- 2229          // require enough funds
- 2230          require(msg.value >= qtyToMint * price, "Azuki: payment is too low");
- 2231  
- 2232          // return the change
- 2233          returnTheChange(qtyToMint * price);
+ 3027      function cancelSelling(
+ 3028          uint256 tokenId
+ 3029      ) external {
+ 3030          address sender = _msgSender();
+ 3031          require(ownerOf(tokenId) == sender, "OWNER_FAIL");
+ 3032          isSelling[tokenId] = false;
+ 3033  
+ 3034          totalHashPower += hashPowerOfToken(tokenId);
+ 3035          hashPowerOfOwner[sender] += hashPowerOfToken(tokenId);
+ 3036          emit SellingChanged (sender, address(0), tokenId, hashPowerOfOwner[sender], 0, 3);
+ 3037      }
+ 3038  
+ 3039>     function redeem(
+ 3040          address owner,
+ 3041          address redeemer,
+ 3042          uint256 tokenId,
+ 3043          bytes calldata signature
+ 3044      ) external {
+ 3045          address _signer = _verify(_hash(owner, tokenId), signature);
+ 3046  
+ 3047          require(signers[_signer], "ERR_INVALID_SIGNATURE");
+ 3048          require(_exists(tokenId), "ERR_TOKEN_NOT_EXISTS");
+ 3049          require(owner != redeemer, "ERR_INVALID_TARGET_REDEEMER");
+ 3050  
+ 3051          require(

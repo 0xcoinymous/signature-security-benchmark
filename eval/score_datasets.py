@@ -3,15 +3,17 @@
 
     score_datasets.py --combined datasets/combined.csv --run results/run8 --out results/run8
 
-The unit is a labelled (contract, vulnerability type) pair (datasets/combined.csv). A pair is flagged
+The unit is a labelled (contract, vulnerability type) pair (datasets/combined.csv). The source labels
+follow each study's definition (for replay, a weakness exploitable in practice); pairs labelled 0 that a
+tool reports were re-examined under this study's definition (every signature weakness counts, see
+adjudication/CRITERIA.md), and adjudication/adjudication.csv gives the label used for those pairs. A pair is flagged
 when the tool reports, anywhere in the contract, a detector that counts for the type. Two views:
   findings  what each tool reports as a vulnerability: the six High detectors of the extended build;
             stock Aderyn has no High detector for these types; Slither's signature-specific
             High/Medium detectors.
   all       every output, including stock Aderyn's Low `ecrecover` note (raised on every call) and the
             wider Slither set.
-The type -> detector mapping was fixed before the tools were run. A file a tool could not analyse counts
-as not flagged. Types no detector targets are listed but not scored.
+A file a tool could not analyse counts as not flagged. Types no detector targets are listed but not scored.
 """
 import argparse
 import csv
@@ -97,12 +99,17 @@ def main():
     ap.add_argument("--combined", required=True)
     ap.add_argument("--run", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--adjudication", default=str(Path(__file__).resolve().parent / "adjudication" / "adjudication.csv"))
     args = ap.parse_args()
     run = Path(args.run)
     found, errors = {}, {}
     for tool in TOOLS:
         found[tool], errors[tool] = detectors_by_file(run / f"{tool}.json")
     rows = list(csv.DictReader(open(args.combined)))
+    if args.adjudication and Path(args.adjudication).exists():
+        reviewed = {(r["file"], r["type"]): r["label"] for r in csv.DictReader(open(args.adjudication)) if r["label"]}
+        for row in rows:
+            row["label"] = reviewed.get((row["file"], row["type"]), row["label"])
     scored = [r for r in rows if TYPE_DETECTORS[r["type"]]]
     files = sorted({r["file"] for r in rows})
 

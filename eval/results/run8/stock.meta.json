@@ -3,7 +3,7 @@
  "binary": "bin/aderyn-stock",
  "files": 1099,
  "errors": 105,
- "wall_seconds": 194.0,
+ "wall_seconds": 49.2,
  "jobs": 4,
  "compilers": "datasets/compilers.csv",
  "chain": "Ethereum",

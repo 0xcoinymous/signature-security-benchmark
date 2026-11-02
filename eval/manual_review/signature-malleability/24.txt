@@ -1,27 +1,27 @@
-D5-BSC  0x289f9098ee3e501c741de22d3b820ba756712f56_ERC1155Mintable.sol  0x289f9098ee3e501c741de22d3b820ba756712f56_ERC1155Mintable.sol:2482  (solc 0.8.13)
+D5-BSC  0x27fF084910F6193caDD732BE9da4DAadF65636e6_MasterBuilder.sol  0x27fF084910F6193caDD732BE9da4DAadF65636e6_MasterBuilder.sol:1297  (solc 0.6.12)
 
- 2470      function mint(
- 2471          string memory tokenURI,
- 2472          uint96 _royalty,
- 2473          uint256 amount
- 2474      ) external payable {
- 2475          require(
- 2476              msg.value >= mintingChargePerToken() * amount,
- 2477              "ERC1155Mintable: Minting charges required"
- 2478          );
- 2479          _mint(msg.sender, amount, _royalty, tokenURI);
- 2480      }
- 2481  
- 2482>     function lazyMint(
- 2483          address to,
- 2484          uint96 royalty,
- 2485          string memory _tokenURI,
- 2486          uint256 nonce,
- 2487          uint256 price,
- 2488          uint256 _maxSupply,
- 2489          uint256 amount,
- 2490          bytes memory sign
- 2491      ) external payable {
- 2492          require(
- 2493              msg.value >= (price + mintingChargePerToken()) * amount,
- 2494              "ERC1155Mintable: Insufficent fund transferred."
+ 1285          return _delegate(msg.sender, delegatee);
+ 1286      }
+ 1287  
+ 1288      /**
+ 1289       * @notice Delegates votes from signatory to `delegatee`
+ 1290       * @param delegatee The address to delegate votes to
+ 1291       * @param nonce The contract state required to match the signature
+ 1292       * @param expiry The time at which to expire the signature
+ 1293       * @param v The recovery byte of the signature
+ 1294       * @param r Half of the ECDSA signature pair
+ 1295       * @param s Half of the ECDSA signature pair
+ 1296       */
+ 1297>     function delegateBySig(
+ 1298          address delegatee,
+ 1299          uint nonce,
+ 1300          uint expiry,
+ 1301          uint8 v,
+ 1302          bytes32 r,
+ 1303          bytes32 s
+ 1304      )
+ 1305          external
+ 1306      {
+ 1307          bytes32 domainSeparator = keccak256(
+ 1308              abi.encode(
+ 1309                  DOMAIN_TYPEHASH,

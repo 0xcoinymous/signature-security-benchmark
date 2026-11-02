@@ -1,27 +1,27 @@
-D5-BSC  0xa2167E43De7f83453d8711b3E0958d9a4fBEFba1_LPDi1.sol  0xa2167E43De7f83453d8711b3E0958d9a4fBEFba1_LPDi1.sol:818  (solc 0.6.12)
+D5-Ethereum  0x205dc661ee6946319ebb0698a017bcc20549910f_AccountLogic.sol  0x205dc661ee6946319ebb0698a017bcc20549910f_AccountLogic.sol:908  (solc 0.5.17)
 
-  806      function unwrapAmountDFL(uint256 _amount) external returns(bool) {
-  807          uint256 burn_amount = _amount;
-  808          _burn(msg.sender, burn_amount);
-  809          if(now < lastWrapTimestamp[msg.sender].add(timeout)){
-  810              burn_amount = burn_amount.div(2);
-  811              assert(ERC20(DFL).transfer(DEAD, burn_amount));
-  812          }
-  813          assert(ERC20(DFL).transfer(msg.sender, burn_amount));
-  814          return true;
-  815      }
-  816  
-  817  
-  818>     function permit(address _owner, address _spender, uint256 _amount, uint256 _expiry, bytes calldata _signature) external returns(bool) {
-  819          assert(_owner != address(0));
-  820          assert(_expiry == 0 || _expiry >= block.timestamp);
-  821          uint256 nonce = nonces[_owner];
-  822          bytes32 digest = keccak256(
-  823                              abi.encodePacked(
-  824                                  '\x19\x01',
-  825                                  DOMAIN_SEPARATOR,
-  826                                  keccak256(
-  827                                      abi.encodePacked(
-  828                                          PERMIT_TYPE_HASH,
-  829                                          abi.encodePacked(_owner),
-  830                                          abi.encodePacked(_spender),
+  896  	{
+  897  	}
+  898  
+  899  	// *************** action entry ********************** //
+  900  
+  901      /**
+  902      * @dev Entry method of AccountLogic.
+  903      * AccountLogic has 12 actions called from 'enter':
+  904          changeAdminKey, addOperationKey, changeAllOperationKeys, freeze, unfreeze,
+  905  		removeBackup, cancelDelay, cancelAddBackup, cancelRemoveBackup,
+  906  		proposeAsBackup, approveProposal, cancelProposal
+  907      */
+  908> 	function enter(bytes calldata _data, bytes calldata _signature, uint256 _nonce) external {
+  909  		address account = getSignerAddress(_data);
+  910  		uint256 keyIndex = getKeyIndex(_data);
+  911  		checkKeyStatus(account, keyIndex);
+  912  		address signingKey = accountStorage.getKeyData(account, keyIndex);
+  913  		checkAndUpdateNonce(signingKey, _nonce);
+  914  		bytes32 signHash = getSignHash(_data, _nonce);
+  915  		verifySig(signingKey, _signature, signHash);
+  916  
+  917  		// solium-disable-next-line security/no-low-level-calls
+  918  		(bool success,) = address(this).call(_data);
+  919  		require(success, "calling self failed");
+  920  		emit AccountLogicEntered(_data, _nonce);

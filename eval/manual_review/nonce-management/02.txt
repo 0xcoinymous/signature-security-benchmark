@@ -1,27 +1,27 @@
-D5-Ethereum  0x663cBf0F8ac632ff6eEa2A249e2f6e147e65a04B_VSCToken.sol  0x663cBf0F8ac632ff6eEa2A249e2f6e147e65a04B_VSCToken.sol:942  (solc 0.6.7)
+D5-Ethereum  0x5d1312a878ca5705334e99f1de3dc6945675413b_HypexlaBiennale2022.sol  0x5d1312a878ca5705334e99f1de3dc6945675413b_HypexlaBiennale2022.sol:1407  (solc 0.8.0)
 
-  930    }
-  931  
-  932    modifier onlyOwnTokens {
-  933      require(msg.sender == address(this), "onlyOwnTokens");
-  934      _;
-  935    }
-  936  
-  937    modifier addressNotNull(address _address) {
-  938      require(_address != address(0), "Address cannot be null");
-  939      _;
-  940    }
-  941  
-  942>   function tokensReceived(address /* _operator */, address /* _from */, address /* _to */, uint256 _amount,
-  943        bytes calldata _data, bytes calldata /* _operatorData */)
-  944      external
-  945      override
-  946      onlyOwnTokens
-  947    {
-  948      (address from, address to, uint256 amount, bytes memory data, uint256 nonce, bytes memory proof) =
-  949          abi.decode(_data, (address, address, uint256, bytes, uint256, bytes));
-  950      checkProxying(from, to, amount, data, nonce, proof);
-  951  
-  952      if (_amount != 0)
-  953        this.send(from, _amount, "");
-  954  
+ 1395      function burn(address account, uint256 id, uint256 amount) external onlyOwner {
+ 1396          _burn(account, id, amount);
+ 1397      }
+ 1398      
+ 1399      function burnBatch(address account, uint256[] memory ids, uint256[] memory amounts) external onlyOwner {
+ 1400          _burnBatch(account, ids, amounts);
+ 1401      }
+ 1402      
+ 1403      function setBaseURI(string memory _uri) external onlyOwner {
+ 1404          _setURI(_uri);
+ 1405      }
+ 1406      
+ 1407>     function tokenSaleFrom( //sig from buyer
+ 1408          address from,
+ 1409          address to,
+ 1410          uint256 id,
+ 1411          uint256 amount,
+ 1412          uint256 price,
+ 1413          uint256 _buyerNonce,
+ 1414          address tradingTokenAddress,
+ 1415          uint256 _deadline,
+ 1416          bytes calldata sig
+ 1417      ) 
+ 1418          external 
+ 1419      {

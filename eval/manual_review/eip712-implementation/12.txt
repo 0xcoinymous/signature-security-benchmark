@@ -1,27 +1,27 @@
-D5-Polygon  0xfF3f6D14DF43c112aB98834Ee1F82083E07c26BF_QuickAccManager.sol  0xfF3f6D14DF43c112aB98834Ee1F82083E07c26BF_QuickAccManager.sol:445  (solc 0.8.7)
+D5-Arbitrum  0x75ba0b2d7602ebcc22e7a2521ce7a6db29f18db9_CoinSwapV2Pair.sol  0x75ba0b2d7602ebcc22e7a2521ce7a6db29f18db9_CoinSwapV2Pair.sol:1197  (solc 0.8.17)
 
-  433  			)
-  434  		);
-  435  	}
-  436  
-  437  	/// @notice EIP-712 typehash for this contract's domain.
-  438  	function DOMAIN_SEPARATOR() public view returns (bytes32) {
-  439  		return block.chainid == DOMAIN_SEPARATOR_CHAIN_ID ? _DOMAIN_SEPARATOR : calculateDomainSeparator();
-  440  	}
-  441  
-  442  	bytes32 private constant TRANSFER_TYPEHASH = keccak256('Transfer(address tokenAddr,address to,uint256 value,uint256 fee,address identity,uint256 nonce)');
-  443  	struct Transfer { address token; address to; uint amount; uint fee; }
-  444  	// WARNING: if the signature of this is changed, we have to change IdentityFactory
-  445> 	function sendTransfer(Identity identity, QuickAccount calldata acc, DualSigAlwaysBoth calldata sigs, Transfer calldata t) external {
-  446  		require(identity.privileges(address(this)) == keccak256(abi.encode(acc)), 'WRONG_ACC_OR_NO_PRIV');
-  447  
-  448  		bytes32 hash = keccak256(abi.encodePacked(
-  449  			'\x19\x01',
-  450  			DOMAIN_SEPARATOR(),
-  451  			keccak256(abi.encode(TRANSFER_TYPEHASH, t.token, t.to, t.amount, t.fee, address(identity), nonces[address(identity)]++))
-  452  		));
-  453  		require(acc.one == SignatureValidator.recoverAddr(hash, sigs.one), 'SIG_ONE');
-  454  		require(acc.two == SignatureValidator.recoverAddr(hash, sigs.two), 'SIG_TWO');
-  455  		Identity.Transaction[] memory txns = new Identity.Transaction[](2);
-  456  		txns[0].to = t.token;
-  457  		txns[0].data = abi.encodeWithSelector(IERC20.transfer.selector, t.to, t.amount);
+ 1185          totalSupply -= amount;
+ 1186          balanceOf[dst] -= amount;
+ 1187          emit Transfer(dst, address(0), amount);
+ 1188      }
+ 1189  
+ 1190      function approve(address spender, uint256 amount) external returns (bool) {
+ 1191          allowance[msg.sender][spender] = amount;
+ 1192  
+ 1193          emit Approval(msg.sender, spender, amount);
+ 1194          return true;
+ 1195      }
+ 1196  
+ 1197>     function permit(
+ 1198          address owner,
+ 1199          address spender,
+ 1200          uint256 value,
+ 1201          uint256 deadline,
+ 1202          uint8 v,
+ 1203          bytes32 r,
+ 1204          bytes32 s
+ 1205      ) external {
+ 1206          if (deadline < block.timestamp) revert DeadlineExpired();
+ 1207          DOMAIN_SEPARATOR = keccak256(
+ 1208              abi.encode(
+ 1209                  keccak256(

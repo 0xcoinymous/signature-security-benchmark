@@ -1,27 +1,27 @@
-D5-Polygon  0x43cc55157d3a4e51ab99cad6189726d768d7a124_KaliAccessManager.sol  0x43cc55157d3a4e51ab99cad6189726d768d7a124_KaliAccessManager.sol:214  (solc 0.8.11)
+D5-BSC  0x21587ffa03f3601e33fa70f7aa0e691d39cdfc2a_Mining.sol  0x21587ffa03f3601e33fa70f7aa0e691d39cdfc2a_Mining.sol:359  (solc 0.8.17)
 
-  202          if (msg.sender != operatorOf[listId]) revert NotOperator();
-  203  
-  204          if (accounts.length != approvals.length) revert NoArrayParity();
-  205  
-  206          // cannot realistically overflow on human timescales
-  207          unchecked {
-  208              for (uint256 i; i < accounts.length; i++) {
-  209                  _listAccount(listId, accounts[i], approvals[i]);
-  210              }
-  211          }
-  212      }
-  213  
-  214>     function listAccountBySig(
-  215          uint256 listId,
-  216          address account,
-  217          bool approved,
-  218          uint256 deadline,
-  219          uint8 v,
-  220          bytes32 r,
-  221          bytes32 s
-  222      ) public virtual {
-  223          if (block.timestamp > deadline) revert SignatureExpired();
-  224  
-  225          bytes32 digest = keccak256(
-  226              abi.encodePacked(
+  347          DOMAIN_SEPARATOR = keccak256(
+  348              abi.encode(
+  349                  keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)'),
+  350                  keccak256(bytes(name)),
+  351                  keccak256(bytes('1')),
+  352                  chainId,
+  353                  address(this)
+  354              )
+  355          );
+  356          emit Popularize(address(this), msg.sender,cycle,block.timestamp);
+  357      }
+  358  
+  359>     function popularizeFast(address addr,address temp,
+  360          uint8 addr_v, bytes32 addr_r, bytes32 addr_s,
+  361          uint8 temp_v, bytes32 temp_r, bytes32 temp_s)
+  362          external returns (bool ret)
+  363      {
+  364          bytes32 digest = keccak256(
+  365              abi.encodePacked(
+  366                  '\x19\x01',
+  367                  DOMAIN_SEPARATOR,
+  368                  keccak256(abi.encode(PERMIT_TYPEHASH, temp))
+  369              )
+  370          );
+  371          require(addr == ecrecover(digest, addr_v, addr_r, addr_s),"signature data1 error");

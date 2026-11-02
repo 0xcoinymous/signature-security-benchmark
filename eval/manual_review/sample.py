@@ -85,7 +85,8 @@ def main():
         rows.append({"case": case, "dataset": dataset, "file": path.name, "path": finding[2],
                      "line": finding[1], "verdict": "", "reason": "", "confirmed_by_student": ""})
     with open(out, "w", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(fh, fieldnames=["case", "dataset", "file", "path", "line", "verdict", "reason",
+                                                "confirmed_by_student"])
         writer.writeheader()
         writer.writerows(rows)
     print(f"{args.detector}: population {len(pool)} contracts, sampled {len(rows)}")

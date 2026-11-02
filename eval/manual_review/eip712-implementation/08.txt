@@ -1,27 +1,27 @@
-D5-BSC  0xd01a1BE07f53f52E3EaAD2b37F7d8f42e320A31e_ERC1155FactoryC2.sol  0xd01a1BE07f53f52E3EaAD2b37F7d8f42e320A31e_ERC1155FactoryC2.sol:2021  (solc 0.7.6)
+D5-BSC  0xf837366894d557548c56b8290a7eb5ab2d02b6cc_PrivateSaleWithVoucherV2.sol  0xf837366894d557548c56b8290a7eb5ab2d02b6cc_PrivateSaleWithVoucherV2.sol:1707  (solc 0.8.9)
 
- 2009              uint transfer = amount;
- 2010              if (balance < amount) {
- 2011                  transfer = balance;
- 2012              }
- 2013              safeTransferFrom(from, to, data.tokenId, transfer, "");
- 2014              left = amount - transfer;
- 2015          }
- 2016          if (left > 0) {
- 2017              mintAndTransfer(data, to, left);
- 2018          }
- 2019      }
- 2020  
- 2021>     function mintAndTransfer(LibERC1155LazyMint.Mint1155Data memory data, address to, uint256 _amount) public override virtual {
- 2022          address minter = address(data.tokenId >> 96);
- 2023          address sender = _msgSender();
- 2024  
- 2025          require(minter == sender || isApprovedForAll(minter, sender), "ERC1155: transfer caller is not approved");
- 2026          require(_amount > 0, "amount incorrect");
- 2027  
- 2028          if (supply[data.tokenId] == 0) {
- 2029              require(minter == data.creators[0].account, "tokenId incorrect");
- 2030              require(data.supply > 0, "supply incorrect");
- 2031              require(data.creators.length == data.signatures.length);
- 2032  
- 2033              bytes32 hash = LibERC1155LazyMint.hash(data);
+ 1695  		_setupRole(VOUCHER_ISSUER_ROLE, msg.sender);
+ 1696  	}
+ 1697  
+ 1698  	// Function to receive Ether. msg.data must be empty
+ 1699  	receive() external payable {}
+ 1700  
+ 1701  	fallback() external payable {}
+ 1702  
+ 1703  	/**
+ 1704  	 * SALE FUNCTIONS
+ 1705  	 */
+ 1706  
+ 1707> 	function redeem(TokenVoucher calldata voucher_, uint32 nSlot_) public whenNotPaused
+ 1708  	{
+ 1709  		require(block.timestamp >= tOpenSale, "privateSale: sale not begin");
+ 1710  		require(block.timestamp <= tCloseSale, "privateSale: sale has ended");
+ 1711  		require(nTotalSoldSlot + nSlot_ <= nMaxSlot, "privateSale: sold out");
+ 1712  
+ 1713  		// check voucher
+ 1714  		require(nSlot_ > 0 && nSlot_ <= nMaxSlotPerVoucher, "privateSale: invalid numSlots");
+ 1715  		require(isNotVoidVoucher(voucher_.id), "privateSale: already redeemed");
+ 1716  		require(isValidVoucher(voucher_), "privateSale: unauthorized");
+ 1717  
+ 1718  		uint256 currentBuyInBusd = nSlot_ * busdPerSlot;
+ 1719  		uint256 currentBuyInToken = nSlot_ * nTokenPerSlot;

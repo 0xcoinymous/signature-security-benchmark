@@ -1,27 +1,27 @@
-D5-Ethereum  0xf577959c9071751599b4596c299168d576a55428_NFTMarketplace.sol  0xf577959c9071751599b4596c299168d576a55428_NFTMarketplace.sol:1573  (solc 0.7.4)
+D5-BSC  0x08d702E93FC84Af765B3e98F6817875938Ddb457_ARTContract.sol  0x08d702E93FC84Af765B3e98F6817875938Ddb457_ARTContract.sol:318  (solc 0.8.15)
 
- 1561      pure
- 1562      returns (bytes4 outBytes4)
- 1563    {
- 1564      if (inBytes.length == 0) {
- 1565        return 0x0;
- 1566      }
- 1567  
- 1568      assembly {
- 1569        outBytes4 := mload(add(inBytes, 32))
- 1570      }
- 1571    }
- 1572  
- 1573>   function executeMetaTransaction(
- 1574      address userAddress,
- 1575      bytes memory functionSignature,
- 1576      bytes32 sigR,
- 1577      bytes32 sigS,
- 1578      uint8 sigV
- 1579    ) public payable virtual returns (bytes memory) {
- 1580      bytes4 destinationFunctionSig = convertBytesToBytes4(functionSignature);
- 1581      require(
- 1582        destinationFunctionSig != msg.sig,
- 1583        "functionSignature can not be of executeMetaTransaction method"
- 1584      );
- 1585      MetaTransaction memory metaTx =
+  306          uthreeAddress = 0xc3A0D9F5C2Aa951Bc34D1889809ba82B18bDD6bF;// USDT30%地址
+  307          ufourAddress = 0x3Ee550062DAA04b25aB3fa6f0Eb7D0162b0e9989;//USDT 40%地址
+  308          ulpAddress = 0x3449bcC760027702f79ad51806b46357eD502E2B; //USDT lp接收地址
+  309  
+  310          artthreeAddress = 0xd0949E3B71b90763234DdD5283f57940F8156d94; //ARt30%地址
+  311          artlpAddress = 0x063b30Fa43DadE2468B469fE16b9000e6C58B806; //ART lp接收地址
+  312  
+  313          ART = Token(artAddress);
+  314          USDT = Token(usdtAddress);
+  315          ARTUSDTLP = Token(lpAddress);
+  316      }
+  317  
+  318>     function cashDeposit(uint256 t,uint256 level,uint256 amount,uint256 buy_level,address beneficiary,uint256 noce, bytes memory issuerSig)  public {
+  319          _cashDepositInternal(t, level,amount,buy_level,beneficiary,noce,issuerSig);
+  320      }  
+  321  
+  322      function cashWithdraw(uint256 t,uint256 user_id, uint256 amount, address beneficiary, uint256 itype,uint256 noce, bytes memory issuerSig, uint256 timestamp) public {
+  323          _cashWithdrawInternal(t,user_id,amount,beneficiary,itype,noce,issuerSig,timestamp);
+  324      }
+  325  
+  326      function _cashDepositInternal(
+  327          uint256 t,uint256 level,uint256 amount,uint256 buy_level,address beneficiary,uint256 noce, bytes memory issuerSig
+  328      ) internal {
+  329          if (msg.sender != owner()) {
+  330              require(owner() == recoverEIP712(depositHash(t,level,amount,buy_level,beneficiary,noce), issuerSig), "invalid issuer signature");

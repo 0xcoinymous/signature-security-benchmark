@@ -1,27 +1,27 @@
-D5-Ethereum  0xf218cb602b0f24dd5e246aa0058f2363f45eb04d_HappyRedPacket.sol  0xf218cb602b0f24dd5e246aa0058f2363f45eb04d_HappyRedPacket.sol:826  (solc 0.8.0)
+D5-Polygon  0xf16f44845bfdcf3ef4149c38f770a5a5b83f9cb3_OffChainOracle.sol  0xf16f44845bfdcf3ef4149c38f770a5a5b83f9cb3_OffChainOracle.sol:49  (solc 0.8.4)
 
-  814              redp.creator = msg.sender;
-  815          }
-  816          {
-  817              // as a workaround for "CompilerError: Stack too deep, try removing local variables"
-  818              uint number = _number;
-  819              bool ifrandom = _ifrandom;
-  820              uint duration = _duration;
-  821              emit CreationSuccess(received_amount, _id, _name, _message, msg.sender, block.timestamp, _token_addr, number, ifrandom, duration);
-  822          }
-  823      }
-  824  
-  825      // It takes the signed msg.sender message as verification passcode
-  826>     function claim(bytes32 id, bytes memory signedMsg, address payable recipient) 
-  827      public returns (uint claimed) {
-  828  
-  829          RedPacket storage rp = redpacket_by_id[id];
-  830          Packed memory packed = rp.packed;
-  831          // Unsuccessful
-  832          require (unbox(packed.packed1, 224, 32) > block.timestamp, "Expired");
-  833          uint total_number = unbox(packed.packed2, 239, 15);
-  834          uint claimed_number = unbox(packed.packed2, 224, 15);
-  835          require (claimed_number < total_number, "Out of stock");
-  836          
-  837          address public_key = rp.public_key;
-  838          require(_verify(signedMsg, public_key), "Verification failed");
+   37      function setDelayAllowance(uint256 newDelayAllowance) external {
+   38          require(msg.sender == owner, 'only owner');
+   39          delayAllowance = newDelayAllowance;
+   40      }
+   41  
+   42      function getPrice() external view returns (uint256) {
+   43          require(block.timestamp - timestamp < delayAllowance, 'price expired');
+   44          return price;
+   45      }
+   46  
+   47      // update oracle price using off chain signed price
+   48      // the signature must be verified in order for the price to be updated
+   49>     function updatePrice(uint256 timestamp_, uint256 price_, uint8 v_, bytes32 r_, bytes32 s_) external {
+   50          uint256 lastTimestamp = timestamp;
+   51          if (timestamp_ > lastTimestamp) {
+   52              if (v_ == 27 || v_ == 28) {
+   53                  bytes32 message = keccak256(abi.encodePacked(symbol, timestamp_, price_));
+   54                  bytes32 hash = keccak256(abi.encodePacked('\x19Ethereum Signed Message:\n32', message));
+   55                  address signatory = ecrecover(hash, v_, r_, s_);
+   56                  if (signatory == signer) {
+   57                      timestamp = timestamp_;
+   58                      price = price_;
+   59                  }
+   60              }
+   61          }

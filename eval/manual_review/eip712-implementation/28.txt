@@ -1,27 +1,27 @@
-D5-Ethereum  0x65442Eca46c6dDa71831337aB4eecF6BA4b465c9_Vesting.sol  0x65442Eca46c6dDa71831337aB4eecF6BA4b465c9_Vesting.sol:1524  (solc 0.8.4)
+D5-Polygon  0x533de50a545dc0b8df27ccf67c71eb279047a518_IMUSDMinkeVault.sol  0x533de50a545dc0b8df27ccf67c71eb279047a518_IMUSDMinkeVault.sol:724  (solc 0.6.6)
 
- 1512      function withdrawFunds() external nonReentrant onlyOwner {
- 1513          require(!isWithdrawFunds, "Withdraw funds was called before");
- 1514          require(_isVestingStarted(), "Vesting can't be started");
- 1515          isWithdrawFunds = true;
- 1516  
- 1517          uint256 unSoldToken = _totalSupply - convertToToken(_totalDeposited);
- 1518          _rewardToken.burn(unSoldToken);
- 1519  
- 1520          uint256 balance = _depositToken.balanceOf(address(this));
- 1521          _depositToken.safeTransfer(msg.sender, balance);
- 1522      }
- 1523  
- 1524>     function deposite(
- 1525          uint256 _amount,
- 1526          bool _fiat,
- 1527          uint256 _nonce,
- 1528          uint8 _v,
- 1529          bytes32 _r,
- 1530          bytes32 _s
- 1531      ) external nonReentrant {
- 1532          require(!nonces[msg.sender][_nonce], "Nonce used before");
- 1533          require(
- 1534              _isValidSigner(msg.sender, _amount, _fiat, _nonce, _v, _r, _s),
- 1535              "Invalid signer"
- 1536          );
+  712      constructor(string memory name, string memory version) public EIP712Base(name, version) {}
+  713  
+  714      function convertBytesToBytes4(bytes memory inBytes) internal pure returns (bytes4 outBytes4) {
+  715          if (inBytes.length == 0) {
+  716              return 0x0;
+  717          }
+  718  
+  719          assembly {
+  720              outBytes4 := mload(add(inBytes, 32))
+  721          }
+  722      }
+  723  
+  724>     function executeMetaTransaction(address userAddress,
+  725          bytes memory functionSignature, bytes32 sigR, bytes32 sigS, uint8 sigV) public payable returns(bytes memory) {
+  726          bytes4 destinationFunctionSig = convertBytesToBytes4(functionSignature);
+  727          require(destinationFunctionSig != msg.sig, "functionSignature can not be of executeMetaTransaction method");
+  728          MetaTransaction memory metaTx = MetaTransaction({
+  729              nonce: nonces[userAddress],
+  730              from: userAddress,
+  731              functionSignature: functionSignature
+  732          });
+  733          require(verify(userAddress, metaTx, sigR, sigS, sigV), "Signer and signature do not match");
+  734          nonces[userAddress] = nonces[userAddress].add(1);
+  735          // Append userAddress at the end to extract it from calling context
+  736          (bool success, bytes memory returnData) = address(this).call(abi.encodePacked(functionSignature, userAddress));

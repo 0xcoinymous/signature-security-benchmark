@@ -1,27 +1,27 @@
-D5-Polygon  0xC0AF453d7beC57b9A2460E5D5cF117B6921F1431_Fountain.sol  0xC0AF453d7beC57b9A2460E5D5cF117B6921F1431_Fountain.sol:2358  (solc 0.6.12)
+D5-Polygon  0xadf42058360d5339e1cee29686abc6a0f4f6f2c2_VIPSaleContract.sol  0xadf42058360d5339e1cee29686abc6a0f4f6f2c2_VIPSaleContract.sol:1282  (solc 0.8.17)
 
- 2346          harvestPermit(from, _msgSender(), timeLimit, deadline, v, r, s);
- 2347          harvestFrom(angel, from, to);
- 2348      }
- 2349  
- 2350      /// @notice Perform harvestAllFrom after permit.
- 2351      /// @param from The owner address.
- 2352      /// @param to The recipient address.
- 2353      /// @param timeLimit The time limit to be approved.
- 2354      /// @param deadline The permit available deadline.
- 2355      /// @param v Signature v.
- 2356      /// @param r Signature r.
- 2357      /// @param s Signature s.
- 2358>     function harvestAllFromWithPermit(
- 2359          address from,
- 2360          address to,
- 2361          uint256 timeLimit,
- 2362          uint256 deadline,
- 2363          uint8 v,
- 2364          bytes32 r,
- 2365          bytes32 s
- 2366      ) external {
- 2367          harvestPermit(from, _msgSender(), timeLimit, deadline, v, r, s);
- 2368          harvestAllFrom(from, to);
- 2369      }
- 2370  
+ 1270          uint256 len = contracts[_address].vipTokenIdItemMap[tokenId].length;
+ 1271          if(_item < len){
+ 1272              require(contracts[_address].vipTokenIdItemMap[tokenId][_item] == 0, "This vip pass is already used");
+ 1273          }else{
+ 1274              for(uint256 i =  len; i<=_item; i++){
+ 1275                  contracts[_address].vipTokenIdItemMap[tokenId].push(0);
+ 1276              }
+ 1277          }
+ 1278          contracts[_address].vipTokenIdItemMap[tokenId][_item] = 1;
+ 1279          contracts[_address].tokenIds.push(tokenId);
+ 1280      }
+ 1281  
+ 1282>     function executeMetaTransaction(
+ 1283          address userAddress,
+ 1284          bytes memory functionSignature,
+ 1285          bytes32 sigR,
+ 1286          bytes32 sigS,
+ 1287          uint8 sigV
+ 1288      ) external onlyRole(METATNX_EXECUTOR_ROLL) returns (bytes memory) {
+ 1289          return _executeMetaTransaction(userAddress, functionSignature, sigR, sigS,sigV);
+ 1290      }
+ 1291  
+ 1292      function setTokenContract(address _address) external onlyRole(DEFAULT_ADMIN_ROLE){
+ 1293          token.token_contract = IERC20(_address);
+ 1294          token.token_address = _address;

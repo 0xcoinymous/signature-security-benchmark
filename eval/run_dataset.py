@@ -16,7 +16,8 @@ prepared the same way for every tool:
     the address that starts the file name). Without it, the newest release of each minor series that
     satisfies every `pragma solidity` is tried, newest first, until one compiles.
 Aderyn gets the version and remappings through a foundry.toml; Slither compiles a single file with
-solc-select and a multi-file project with Foundry.
+solc-select and a multi-file project with Foundry. Aderyn runs with --skip-update-check, so its time does
+not include the request for the newest release that it otherwise sends to GitHub on every run.
 
 Output: {file: {"findings": [[detector, line, path], ...]} | {"error": "..."}, with "solc"} plus
 OUT.meta.json with timing and versions.
@@ -246,7 +247,7 @@ def run_aderyn(binary, files, remappings, solc):
         write_project(project, files, remappings, solc)
         out = project / "out.json"
         try:
-            proc = subprocess.run([*LIMIT, binary, str(project), "-s", SRC, "-o", str(out)],
+            proc = subprocess.run([*LIMIT, binary, str(project), "-s", SRC, "-o", str(out), "--skip-update-check"],
                                   capture_output=True, text=True, timeout=TIMEOUT)
         except subprocess.TimeoutExpired:
             return {"error": "timeout"}
@@ -309,7 +310,7 @@ def install_for_aderyn(binary, solc):
     with tempfile.TemporaryDirectory() as tmp:
         project = Path(tmp)
         write_project(project, {"Stub.sol": f"pragma solidity {solc};\ncontract Stub {{}}\n"}, [], solc)
-        subprocess.run([binary, str(project), "-s", SRC, "-o", str(project / "out.json")],
+        subprocess.run([binary, str(project), "-s", SRC, "-o", str(project / "out.json"), "--skip-update-check"],
                        capture_output=True, timeout=TIMEOUT)
 
 

@@ -1,27 +1,27 @@
-D5-Polygon  0x028511FfA8D408FD9D8f1EfEcfc1733164F7566d_OlympusERC20Token.sol  0x028511FfA8D408FD9D8f1EfEcfc1733164F7566d_OlympusERC20Token.sol:787  (solc 0.7.5)
+D5-Polygon  0x01d01a020d8d745cb538624cd9c37e4c00f770fe_IdentityFactory.sol  0x01d01a020d8d745cb538624cd9c37e4c00f770fe_IdentityFactory.sol:306  (solc 0.8.7)
 
-  775  
-  776          DOMAIN_SEPARATOR = keccak256(
-  777              abi.encode(
-  778                  keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
-  779                  keccak256(bytes(name())),
-  780                  keccak256(bytes("1")), // Version
-  781                  chainID,
-  782                  address(this)
-  783              )
-  784          );
-  785      }
-  786  
-  787>     function permit(
-  788          address owner,
-  789          address spender,
-  790          uint256 amount,
-  791          uint256 deadline,
-  792          uint8 v,
-  793          bytes32 r,
-  794          bytes32 s
-  795      ) public virtual override {
-  796          require(block.timestamp <= deadline, "Permit: expired deadline");
-  797  
-  798          bytes32 hashStruct =
-  799              keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, amount, _nonces[owner].current(), deadline));
+  294  	address public creator;
+  295  	constructor() {
+  296  		creator = msg.sender;
+  297  	}
+  298  
+  299  	function deploy(bytes calldata code, uint256 salt) external {
+  300  		deploySafe(code, salt);
+  301  	}
+  302  
+  303  	// When the relayer needs to act upon an /execute call, it'll either call execute on the Identity directly
+  304  	// if it's already deployed, or call `deployAndExecute` if the account is still counterfactual
+  305  	// can't have deployAndExecuteBySender, because the sender will be the factory
+  306> 	function deployAndExecute(
+  307  		bytes calldata code, uint256 salt,
+  308  		Identity.Transaction[] calldata txns, bytes calldata signature
+  309  	) external {
+  310  		address payable addr = payable(deploySafe(code, salt));
+  311  		Identity(addr).execute(txns, signature);
+  312  	}
+  313  
+  314  	// Withdraw the earnings from various fees (deploy fees and execute fees earned cause of `deployAndExecute`)
+  315  	function withdraw(IERC20 token, address to, uint256 tokenAmount) public {
+  316  		require(msg.sender == creator, 'ONLY_CREATOR');
+  317  		token.transfer(to, tokenAmount);
+  318  	}

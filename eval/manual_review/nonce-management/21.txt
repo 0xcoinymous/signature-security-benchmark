@@ -1,27 +1,27 @@
-D5-Ethereum  0x09CD34f5491b0e202739DE3F3929Cac5198024d7_PelxpMarketplace.sol  0x09CD34f5491b0e202739DE3F3929Cac5198024d7_PelxpMarketplace.sol:1383  (solc 0.8.13)
+D5-Ethereum  0x0560e8081654b465593595c152be9cf5d8214bdf_NFTits.sol  0x0560e8081654b465593595c152be9cf5d8214bdf_NFTits.sol:1554  (solc 0.8.7)
 
- 1371                          if(fee.royaltyFee > 0) {
- 1372                                  paymentToken.transferFrom( signer.buyer, fee.tokenCreator, fee.royaltyFee);
- 1373                          }
- 1374                          paymentToken.transferFrom( signer.buyer, signer._user, fee.assetFee);
- 1375                          if(!is721)
- 1376                          IERC1155Upgradeable(signer._nftAddress).safeTransferFrom(signer._user, signer.buyer, signer.tokenId, 1, "");
- 1377                          else
- 1378                          IERC721Upgradeable(signer._nftAddress).safeTransferFrom(signer._user,signer.buyer,signer.tokenId);
- 1379  
- 1380                  }
- 1381          }
- 1382  
- 1383>         function executeOrder(Signer memory signer,bool isroyalty,bool is721) external payable {
- 1384                  require(getSigner(signer)==designatedSigner,"!Signer");
- 1385                  require (!nonceStatus[msg.sender][signer.nonce],'Nonce Used');
- 1386                  require(signer.nonce+ 5 minutes >= block.timestamp,'!Signature Expired');
- 1387                  require(msg.sender==signer._user || msg.sender==signer.buyer,"Not Allowd");
- 1388                     nonceStatus[msg.sender][signer.nonce] = true;
- 1389                  Fee memory fee;
- 1390                  if (signer.inEth) {
- 1391                          require (msg.value >=signer.amount ,'Incorrect amount passed from buyer wallet');
- 1392                          if(isroyalty)
- 1393                          fee = calculateFees(msg.value,signer._nftAddress,signer.tokenId,true);
- 1394                          else
- 1395                          fee=calculateFees(msg.value,signer._nftAddress,signer.tokenId,false);
+ 1542      uint256 public saleMintAmount = 50;
+ 1543      address public signerAddress = 0xBA3Daf4d95A0B5A31eD0278CfeceDCe54EB23C16;
+ 1544      constructor() ERC721A(
+ 1545        "The NFTits Club", 
+ 1546        "TIT",
+ 1547         saleMintAmount){    
+ 1548         }
+ 1549  
+ 1550      function matchAddressSigner(address account, bytes calldata signature) internal view returns (bool){
+ 1551        return ECDSA.recover(keccak256(abi.encodePacked(account)).toEthSignedMessageHash(), signature) == signerAddress;
+ 1552        }
+ 1553  
+ 1554>     function presaleMint(uint256 quantity,  bytes calldata signature) external payable nonReentrant{
+ 1555        require(matchAddressSigner(msg.sender, signature), "not on whitelist");
+ 1556        require(whitelistMintedAmount[msg.sender] + quantity <= presaleMaxMint);
+ 1557        require(msg.value >= quantity * presalePrice);
+ 1558        require(!presalePaused);
+ 1559        whitelistMintedAmount[msg.sender] += quantity;
+ 1560        _safeMint(msg.sender, quantity);
+ 1561        } 
+ 1562  
+ 1563      function mint(address _to, uint quantity) external payable {
+ 1564        uint256 supply = totalSupply();
+ 1565        require (quantity <= saleMintAmount);
+ 1566        require(supply + quantity <= maxSupply);      

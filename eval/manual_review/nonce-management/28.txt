@@ -1,27 +1,27 @@
-D5-BSC  0x0Ed2b6a6Bd7bB547BE33C407250cCb374fe9A04d_Withdrawl.sol  0x0Ed2b6a6Bd7bB547BE33C407250cCb374fe9A04d_Withdrawl.sol:200  (solc 0.8.17)
+D5-Ethereum  0x065930B78137FC937914D4900281e3DF14bE229E_PortContract.sol  0x065930B78137FC937914D4900281e3DF14bE229E_PortContract.sol:1119  (solc 0.8.7)
 
-  188      uint256 public Amount = 10500000000000000000000;
-  189      uint256 public MaticAmount = 400000000000000000;
-  190      mapping (address => uint256) Passed;
-  191      mapping (bytes32 => bool) public usedHash;
-  192  
-  193      constructor(address signerAddress_, IERC20 ULE_)
-  194      {
-  195          signerAddress = signerAddress_;
-  196          ULE = ULE_;
-  197      }
-  198  
-  199  
-  200>     function userWithdraw(uint256 amount, uint256 MATICamount, uint256 _nonce, bytes memory signature)
-  201      external
-  202      nonReentrant
-  203      whenNotPaused
-  204      {
-  205          require(msg.sender == tx.origin," External Err ");
-  206          require(Passed[msg.sender] < block.timestamp," Wait for Next Transection ");
-  207          require(amount <= Amount , "Daily Limit Exceeds");
-  208          require(MATICamount <= MaticAmount, " Daily Limit Exceeds");
-  209          internalWithdraw(amount, MATICamount, _nonce, signature);
-  210      }
-  211  
-  212      function internalWithdraw(uint256 amount, uint256 MATICamount, uint256 _nonce, bytes memory signature)
+ 1107          signatureCheck(sigV, sigR, sigS, hashes);
+ 1108          chainId = _chainId;
+ 1109      }
+ 1110      
+ 1111      function setContractStatus(
+ 1112          address _contract, 
+ 1113          bool status,
+ 1114          uint8[] memory sigV, bytes32[] memory sigR, bytes32[] memory sigS, bytes32[] memory hashes) public {
+ 1115          signatureCheck(sigV, sigR, sigS, hashes);
+ 1116          allowedContracts[_contract] = status;
+ 1117      }
+ 1118      
+ 1119>     function setDistributionContract(
+ 1120          address _contract,
+ 1121          uint8[] memory sigV, bytes32[] memory sigR, bytes32[] memory sigS, bytes32[] memory hashes) public {
+ 1122          signatureCheck(sigV, sigR, sigS, hashes);
+ 1123          distributionContract = _contract;
+ 1124      }
+ 1125      
+ 1126      
+ 1127      function setPriceMapping(
+ 1128          string memory chain, 
+ 1129          uint256 price,
+ 1130          uint8[] memory sigV, bytes32[] memory sigR, bytes32[] memory sigS, bytes32[] memory hashes) public {
+ 1131          signatureCheck(sigV, sigR, sigS, hashes);

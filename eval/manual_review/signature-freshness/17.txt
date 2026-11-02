@@ -1,27 +1,27 @@
-D5-Ethereum  0xe65fb5c8aeb0305d3a1db0be2297f3e00b26e8c5_IdentityRegistry.sol  0xe65fb5c8aeb0305d3a1db0be2297f3e00b26e8c5_IdentityRegistry.sol:609  (solc 0.5.0)
+D5-BSC  0x9c20c1f5ef34764d99a7b4b7fc809e213e84cfad_Blockbusters.sol  0x9c20c1f5ef34764d99a7b4b7fc809e213e84cfad_Blockbusters.sol:494  (solc 0.8.13)
 
-  597  
-  598          _identity.recoveryAddress = newRecoveryAddress;
-  599      }
-  600  
-  601      /// @notice Allows recovery addresses to trigger the recovery process for an Identity.
-  602      /// @dev msg.sender must be current recovery address, or the old one if it was changed recently.
-  603      /// @param ein The EIN to trigger recovery for.
-  604      /// @param newAssociatedAddress A recovery address to set for the passed EIN.
-  605      /// @param v The v component of the signature.
-  606      /// @param r The r component of the signature.
-  607      /// @param s The s component of the signature.
-  608      /// @param timestamp The timestamp of the signature.
-  609>     function triggerRecovery(uint ein, address newAssociatedAddress, uint8 v, bytes32 r, bytes32 s, uint timestamp)
-  610          public _identityExists(ein) _hasIdentity(newAssociatedAddress, false) ensureSignatureTimeValid(timestamp)
-  611      {
-  612          require(canRecover(ein), "Cannot trigger recovery yet.");
-  613          Identity storage _identity = identityDirectory[ein];
-  614  
-  615          // ensure the sender is the recovery address/old recovery address if there's been a recent change
-  616          if (canChangeRecoveryAddress(ein)) {
-  617              require(
-  618                  msg.sender == _identity.recoveryAddress, "Only the current recovery address can trigger recovery."
-  619              );
-  620          } else {
-  621              require(
+  482          _permit(from_, msg.sender, amount_, deadline_, v_, r_, s_);
+  483          _transfer(from_, to_, amount_);
+  484      }
+  485  
+  486      /// @notice the allowance the spender is allowed to spend for an account
+  487      /// @param account_ the account to check
+  488      /// @param spender_ the trusted spender
+  489      /// @return uint256 amount of the account that the spender_ can transfer
+  490      function allowance(address account_, address spender_) public view virtual returns (uint256) {
+  491          return _allowanceFor(account_, spender_);
+  492      }
+  493  
+  494>     function permit(address account_, address spender_, uint256 amount_, uint256 deadline_, uint8 v_, bytes32 r_, bytes32 s_) public virtual {
+  495          _permit(account_, spender_, amount_, deadline_, v_, r_, s_);
+  496          _getAllowanceStorage()[account_][spender_] = amount_;
+  497      }
+  498  
+  499      /// @notice returns the total supply of tokens
+  500      function totalSupply() public view virtual returns (uint256) {
+  501          return _getTotalSupplyStorage();
+  502      }
+  503  
+  504      /// @notice check the balance of the given account
+  505      /// @param account_ the account to check
+  506      /// @return uint256 the balance of the account

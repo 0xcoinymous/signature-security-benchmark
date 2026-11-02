@@ -3,7 +3,7 @@
  "binary": "bin/aderyn-extended",
  "files": 1099,
  "errors": 105,
- "wall_seconds": 196.0,
+ "wall_seconds": 51.5,
  "jobs": 4,
  "compilers": "datasets/compilers.csv",
  "chain": "Ethereum",

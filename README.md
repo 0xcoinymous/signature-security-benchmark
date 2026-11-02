@@ -7,7 +7,7 @@ This repository accompanies the article *Static Detection of Signature-Related V
 Contracts: Six Detectors for Aderyn and an Evaluation on Real-World Contracts* by Abolfazl Iraninasab and
 Farzan Haddadi (Iran University of Science and Technology; under review). The detectors themselves are in
 the Aderyn fork at <https://github.com/0xcoinymous/aderyn/tree/cryptography_hooks>; the results below were
-produced with commit `0201186` of that branch.
+produced with commit `be23052e` of that branch.
 
 ## Contents
 
@@ -19,7 +19,8 @@ eval/
   examples/                one vulnerable and one fixed example per detector family
   results/run8/            raw outputs and scores of the three tools on the labelled dataset
   results/run9/            raw outputs of the two Aderyn builds on 15,353 deployed contracts
-  manual_review/           a hand review of 30 random findings of five detectors
+  adjudication/            the review of the pairs labelled safe that a tool reports (criteria and verdicts)
+  manual_review/           a hand review of 30 random findings of four detectors
   *.py, *.sh               scripts to run the tools, score them and produce the article's tables
 ```
 
@@ -38,17 +39,30 @@ combined from five sources. Every contract is real, deployed code with verified 
 
 Contracts listed twice in S1 were kept once, pairs present in two sources were merged, and no two sources
 disagree on a pair. The labels were mapped to seven types; the five types targeted by the detectors are
-scored (1,259 pairs, 492 vulnerable):
+scored (1,259 pairs; 492 vulnerable by the source labels, 570 after the label review below):
 
-| Type | Pairs | Vulnerable |
-|---|---:|---:|
-| Signature replay (general) | 510 | 100 |
-| Replay within a contract | 184 | 80 |
-| Cross-contract replay | 186 | 102 |
-| Cross-chain replay | 188 | 105 |
-| Signature malleability | 191 | 105 |
-| Insufficient verification (not scored) | 184 | 91 |
-| Signature front-running (not scored) | 186 | 92 |
+| Type | Pairs | Vulnerable (sources) | Vulnerable (reviewed) |
+|---|---:|---:|---:|
+| Signature replay (general) | 510 | 100 | 173 |
+| Replay within a contract | 184 | 80 | 85 |
+| Cross-contract replay | 186 | 102 | 102 |
+| Cross-chain replay | 188 | 105 | 105 |
+| Signature malleability | 191 | 105 | 105 |
+| Insufficient verification (not scored) | 184 | 91 | – |
+| Signature front-running (not scored) | 186 | 92 | – |
+
+### Label review
+
+The sources label a pair vulnerable by their own definition; for replay, only when the replay is
+exploitable in practice. This study counts every signature weakness, whether or not funds can be taken.
+Every scored pair labelled 0 that one of the three tools reports in the findings view (219 pairs) was
+therefore re-examined by reading the code against the written criteria in `eval/adjudication/CRITERIA.md`.
+78 pairs have the weakness of their type under that definition and are counted as vulnerable, most often a
+signature that can be used again (an allow-list pass limited only by a per-wallet cap) or a signed message
+bound neither to the contract nor to the chain; the other 141 keep their label.
+`eval/adjudication/adjudication.csv` lists every reviewed pair with its source label, the label used and a
+one-line reason, and `score_datasets.py` applies it. Pairs labelled safe that no tool reports were not
+reviewed, which can overstate recall.
 
 ### Files
 
@@ -76,29 +90,34 @@ Counting what each tool reports as a vulnerability, on the 1,259 scored pairs:
 
 | Tool | P | R | F1 | Accuracy |
 |---|---:|---:|---:|---:|
-| Extended Aderyn | 0.71 | 0.76 | 0.73 | 0.78 |
-| Stock Aderyn | – | 0.00 | 0.00 | 0.61 |
-| Slither | 0.42 | 0.14 | 0.21 | 0.59 |
+| Extended Aderyn | 0.85 | 0.77 | 0.81 | 0.83 |
+| Stock Aderyn | – | 0.00 | 0.00 | 0.55 |
+| Slither | 0.61 | 0.18 | 0.27 | 0.58 |
+
+Times per contract (`seconds` in the result files) include compilation; Aderyn ran with
+`--skip-update-check`, so that its time does not include the request for its newest release that it otherwise
+sends to GitHub on every run, and all runs were made on one laptop on mains power (`results/run9/power.log`).
+The median was 0.15 s for the extended build, 0.14 s for stock Aderyn and 0.92 s for Slither on the labelled
+dataset, and 0.24 s for both Aderyn builds on the deployed Ethereum contracts.
 
 ### Manual review
 
-`eval/manual_review/` holds 30 random findings of each of five detectors (seed 1404, drawn by `sample.py`
-from run8 and run9), each with a verdict and a one-line reason, the criteria in `CRITERIA.md`, and
+`eval/manual_review/` holds 30 random findings of each of four detectors (seed 1404, drawn by `sample.py`
+from run8 and run9; the ERC-1271 detector reported in none of these contracts), each with a verdict and a one-line reason, the criteria in `CRITERIA.md`, and
 `table.py`, which computes the precision with a Wilson 95% interval. A finding is a weakness if the reported
 function has the weakness the detector's rule describes, whether or not it is exploitable.
 
 | Detector | Weaknesses | Precision [95% CI] |
 |---|---:|---|
 | signature-malleability | 30/30 | 1.00 [0.89, 1.00] |
-| eip712-implementation | 15/30 | 0.50 [0.33, 0.67] |
-| signature-freshness | 7/30 | 0.23 [0.12, 0.41] |
-| nonce-management | 6/30 | 0.20 [0.10, 0.37] |
-| eip1271-verification | 0/30 | 0.00 [0.00, 0.11] |
+| eip712-implementation | 17/30 | 0.57 [0.39, 0.73] |
+| signature-freshness | 14/30 | 0.47 [0.30, 0.64] |
+| nonce-management | 9/30 | 0.30 [0.17, 0.48] |
 
 ## Reproducing
 
 Requirements: Python 3 with `scipy`, Slither 0.11.6, solc versions as listed in `compilers.csv`, and two
-Aderyn builds: the extended one from commit `0201186` of the fork (`cargo build --release`) and stock
+Aderyn builds: the extended one from commit `be23052e` of the fork (`cargo build --release`) and stock
 Aderyn 0.6.8.
 
 ```bash

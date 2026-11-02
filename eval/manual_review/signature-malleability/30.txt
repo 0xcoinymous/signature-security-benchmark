@@ -1,27 +1,27 @@
-D5-Arbitrum  0x9873795f5dab11e1c0342c4a58904c59827ede0c_AnyswapV5ERC20.sol  0x9873795f5dab11e1c0342c4a58904c59827ede0c_AnyswapV5ERC20.sol:469  (solc 0.8.2)
+D5-Arbitrum  0x916644cB30A94dE9CA3050d32E13E3Bc685B84B5_CokeToken.sol  0x916644cB30A94dE9CA3050d32E13E3Bc685B84B5_CokeToken.sol:3409  (solc 0.8.18)
 
-  457          return IApprovalReceiver(spender).onTokenApproval(msg.sender, value, data);
-  458      }
-  459  
-  460      /// @dev Sets `value` as allowance of `spender` account over `owner` account's AnyswapV3ERC20 token, given `owner` account's signed approval.
-  461      /// Emits {Approval} event.
-  462      /// Requirements:
-  463      ///   - `deadline` must be timestamp in future.
-  464      ///   - `v`, `r` and `s` must be valid `secp256k1` signature from `owner` account over EIP712-formatted function arguments.
-  465      ///   - the signature must use `owner` account's current nonce (see {nonces}).
-  466      ///   - the signer cannot be zero address and must be `owner` account.
-  467      /// For more information on signature format, see https://eips.ethereum.org/EIPS/eip-2612#specification[relevant EIP section].
-  468      /// AnyswapV3ERC20 token implementation adapted from https://github.com/albertocuestacanada/ERC20Permit/blob/master/contracts/ERC20Permit.sol.
-  469>     function permit(address target, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external override {
-  470          require(block.timestamp <= deadline, "AnyswapV3ERC20: Expired permit");
-  471  
-  472          bytes32 hashStruct = keccak256(
-  473              abi.encode(
-  474                  PERMIT_TYPEHASH,
-  475                  target,
-  476                  spender,
-  477                  value,
-  478                  nonces[target]++,
-  479                  deadline));
-  480  
-  481          require(verifyEIP712(target, hashStruct, v, r, s) || verifyPersonalSign(target, hashStruct, v, r, s));
+ 3397                  subtractedValue
+ 3398              );
+ 3399          }
+ 3400          emit Approval(
+ 3401              msg.sender,
+ 3402              spender,
+ 3403              _allowedFragments[msg.sender][spender]
+ 3404          );
+ 3405          return true;
+ 3406      }
+ 3407  
+ 3408      // --- Approve by signature ---
+ 3409>     function permit(
+ 3410          address owner,
+ 3411          address spender,
+ 3412          uint256 value,
+ 3413          uint256 deadline,
+ 3414          uint8 v,
+ 3415          bytes32 r,
+ 3416          bytes32 s
+ 3417      ) public {
+ 3418          require(block.timestamp <= deadline, "COKE/permit-expired");
+ 3419  
+ 3420          bytes32 digest = keccak256(
+ 3421              abi.encodePacked(

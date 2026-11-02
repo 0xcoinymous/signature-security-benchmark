@@ -50,8 +50,7 @@ Added while reviewing the eip712-implementation sample: a domain separator compu
 constructor or an initializer) and never recomputed when `block.chainid` changes is read as "fixes the
 chain id"; EIP-2612 names this replay risk after a chain split. Such rows are tagged `[cached domain]`.
 
-Added while reviewing the samples of the final detector version (results/run8 and results/run9, drawn
-with the same seed):
+Added while reviewing the samples drawn from results/run8 and results/run9:
 - signature-freshness: a signed one-time identifier that is consumed (a voucher counter, a transaction
   id, a mint key) counts as the nonce of the criterion.
 - eip1271-verification: a wallet that verifies the supplied hash as it is, without binding it to its own

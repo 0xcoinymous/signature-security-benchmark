@@ -1,27 +1,27 @@
-D5-Ethereum  0x1bb21b6edb83e3db63bde9f51616da6909a368d2_ForeignBridge.sol  0x1bb21b6edb83e3db63bde9f51616da6909a368d2_ForeignBridge.sol:520  (solc 0.4.24)
+D5-Ethereum  0x1b91518648f8f153ce954a18d53bef5047e39c73_Crowdsale.sol  0x1b91518648f8f153ce954a18d53bef5047e39c73_Crowdsale.sol:990  (solc 0.4.19)
 
-  508              emit Deposit(recipient, value, transactionHash);
-  509          }
-  510      }
-  511  
-  512      /// Should be used as sync tool
-  513      ///
-  514      /// Message is a message that should be relayed to main chain once authorities sign it.
-  515      ///
-  516      /// for withdraw message contains:
-  517      /// withdrawal recipient (bytes20)
-  518      /// withdrawal value (uint)
-  519      /// foreign transaction hash (bytes32) // to avoid transaction duplication
-  520>     function submitSignature(bytes signature, bytes message) external onlyValidator {
-  521          // ensure that `signature` is really `message` signed by `msg.sender`
-  522          require(Message.isMessageValid(message));
-  523          require(msg.sender == Message.recoverAddressFromSignedMessage(signature, message));
-  524          bytes32 hashMsg = keccak256(message);
-  525          bytes32 hashSender = keccak256(msg.sender, hashMsg);
-  526  
-  527          uint256 signed = numMessagesSigned(hashMsg);
-  528          require(!isAlreadyProcessed(signed));
-  529          // the check above assumes that the case when the value could be overflew will not happen in the addition operation below
-  530          signed = signed + 1;
-  531          if (signed > 1) {
-  532              // Duplicated signatures
+  978      tokensSold = tokensSold.add(tokenAmount);
+  979  
+  980      assignTokens(receiver, tokenAmount);
+  981      // Tell us that the investment was completed successfully
+  982      Invested(receiver, weiAmount, tokenAmount, customerId);
+  983    }
+  984  
+  985    /**
+  986     * Investing function that recognizes the receiver and verifies he is allowed to invest.
+  987     *
+  988     * @param customerId UUIDv4 that identifies this contributor
+  989     */
+  990>   function buyOnBehalfWithSignedAddress(address receiver, uint128 customerId, uint8 v, bytes32 r, bytes32 s) public payable validCustomerId(customerId) {
+  991      bytes32 hash = sha256(receiver);
+  992      require(ecrecover(hash, v, r, s) == signerAddress);
+  993      investInternal(receiver, customerId);
+  994    }
+  995  
+  996    /**
+  997     * Investing function that recognizes the receiver.
+  998     * 
+  999     * @param customerId UUIDv4 that identifies this contributor
+ 1000     */
+ 1001    function buyOnBehalfWithCustomerId(address receiver, uint128 customerId) public payable validCustomerId(customerId) unsignedBuyAllowed {
+ 1002      investInternal(receiver, customerId);

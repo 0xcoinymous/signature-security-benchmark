@@ -1,27 +1,27 @@
-D5-Ethereum  0x253d1e6345c6b66187635b8a2015c19cec0151fd_UPYOERC721Mintable.sol  0x253d1e6345c6b66187635b8a2015c19cec0151fd_UPYOERC721Mintable.sol:2723  (solc 0.8.13)
+D5-Ethereum  0x1fdAB049401f5dEc1d665e82883Ae5cb454712D5_PlanetDegen.sol  0x1fdAB049401f5dEc1d665e82883Ae5cb454712D5_PlanetDegen.sol:1073  (solc 0.8.7)
 
- 2711          brokerage = brokerage_;
- 2712      }
- 2713  
- 2714      function mint(string memory tokenURI, uint96 _royalty) external payable {
- 2715          require(
- 2716              msg.value >= mintingCharge,
- 2717              "ERC721Mintable: Minting charges required"
- 2718          );
- 2719          _mint(msg.sender, _royalty, tokenURI);
- 2720          broker.transfer(msg.value);
- 2721      }
- 2722  
- 2723>     function lazyMint(
- 2724          address to,
- 2725          uint96 _royalty,
- 2726          string memory _tokenURI,
- 2727          uint256 nonce,
- 2728          uint256 price,
- 2729          bytes memory sign
- 2730      ) external payable {
- 2731          uint256 buyingBrokerage = (brokerage.buyer * price) /
- 2732              (100 * decimalPrecision);
- 2733          require(
- 2734              msg.value >= price + mintingCharge + buyingBrokerage,
- 2735              "ERC721Minatable: Insufficent fund transferred."
+ 1061  
+ 1062      function mint(uint amount) external payable {
+ 1063          require(_mintingEnabled, "minting disabled");
+ 1064          uint tokenId = totalSupply;
+ 1065          require(amount + tokenId < 3334, "Request exceeds max supply!");
+ 1066          require(amount < 3 && amount != 0, "Request exceeds max per txn!");
+ 1067          require(msg.value == amount * 19e15, "ETH Amount is not correct!");
+ 1068  
+ 1069          _mint(amount, msg.sender, tokenId);
+ 1070  
+ 1071      }
+ 1072  
+ 1073>     function wlMint(bytes calldata sig) external payable {
+ 1074          require(_mintingEnabled, "minting disabled");
+ 1075          require(_checkSigWL(msg.sender, sig), "User not whitelisted!");
+ 1076          uint tokenId = totalSupply;
+ 1077          require(tokenId < uint16(3333) - ogRes, "Request exceeds max supply!");
+ 1078          require(msg.value == 19e15, "ETH Amount is not correct!");
+ 1079          require(amountMinted[msg.sender] == 0);
+ 1080  
+ 1081          ++amountMinted[msg.sender];
+ 1082          _mint(1, msg.sender, tokenId);
+ 1083      }
+ 1084  
+ 1085      function ogMint(bytes calldata sig, uint256 amount) external payable {

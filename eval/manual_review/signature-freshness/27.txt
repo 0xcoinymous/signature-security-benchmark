@@ -1,27 +1,27 @@
-D5-Polygon  0x3c438CBEC8CF581f6843191228402B9A5801Fb76_CapitalStake.sol  0x3c438CBEC8CF581f6843191228402B9A5801Fb76_CapitalStake.sol:1385  (solc 0.6.12)
+D5-BSC  0x2b2e22ea3f5de705259e1bf97a94c112c726f956_Staking2local.sol  0x2b2e22ea3f5de705259e1bf97a94c112c726f956_Staking2local.sol:894  (solc 0.6.12)
 
- 1373          user.pendingWithdrawal = user.pendingWithdrawal.add(_amount);
- 1374  
- 1375          pool.pending = pool.pending.add(_amount);
- 1376  
- 1377          safeNsureTransfer(msg.sender, pending);
- 1378  
- 1379          emit Unstake(msg.sender,_pid,_amount,nonces[msg.sender]-1);
- 1380      }
- 1381  
- 1382  
- 1383        // unstake, need pending sometime
- 1384        // won't use this function, for we don't use it now.
- 1385>     function deposit(
- 1386              uint256 _pid,
- 1387              uint256 _amount,
- 1388              uint8 v,
- 1389              bytes32 r,
- 1390              bytes32 s,
- 1391              uint256 deadline) external nonReentrant whenNotPaused {
- 1392  
- 1393     
- 1394          bytes32 domainSeparator =
- 1395              keccak256(
- 1396                  abi.encode(
- 1397                      DOMAIN_TYPEHASH,
+  882          return _delegate(msg.sender, delegatee);
+  883      }
+  884  
+  885      /**
+  886       * @notice Delegates votes from signatory to `delegatee`
+  887       * @param delegatee The address to delegate votes to
+  888       * @param nonce The contract state required to match the signature
+  889       * @param expiry The time at which to expire the signature
+  890       * @param v The recovery byte of the signature
+  891       * @param r Half of the ECDSA signature pair
+  892       * @param s Half of the ECDSA signature pair
+  893       */
+  894>     function delegateBySig(
+  895          address delegatee,
+  896          uint nonce,
+  897          uint expiry,
+  898          uint8 v,
+  899          bytes32 r,
+  900          bytes32 s
+  901      )
+  902          external
+  903      {
+  904          bytes32 domainSeparator = keccak256(
+  905              abi.encode(
+  906                  DOMAIN_TYPEHASH,

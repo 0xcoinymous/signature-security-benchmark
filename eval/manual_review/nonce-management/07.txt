@@ -1,27 +1,27 @@
-D5-Ethereum  0x781b4b6e093946c8f0215f477e993b7dd492810e_Address.sol  0x781b4b6e093946c8f0215f477e993b7dd492810e_Address.sol:1416  (solc 0.8.4)
+D5-Ethereum  0x686f7d0b698b6780a8ce1d6ae13bb8c813552ff3_DutchAuctionCloser.sol  0x686f7d0b698b6780a8ce1d6ae13bb8c813552ff3_DutchAuctionCloser.sol:6170  (solc 0.4.24)
 
- 1404    mapping(uint256 => bytes32) public _petGenetics;
- 1405  
- 1406    constructor(string memory baseURI, address ccContractAddress) ERC721("Cool Pets", "PETS") {
- 1407      _baseTokenURI = baseURI;
- 1408      _ccAddress = ccContractAddress;
- 1409    }
- 1410  
- 1411    /// @notice Adopt via public minting
- 1412    /// @dev Id tracking starts at 9999 to prevent id contamination
- 1413    /// @dev Signature to help avoid bot minting
- 1414    /// @param salt Some simple salting for the signature
- 1415    /// @param signature Verify that this transaction came from the desired location
- 1416>   function publicAdopt(uint256 salt, bytes memory signature) external payable {
- 1417      uint256 currentPetId = _currentPetId;
- 1418      require(msg.sender == tx.origin, "CP: We like real users");
- 1419      require(_publicMintStatus == EPublicMintStatus.OPEN, "CP: Minting closed");
- 1420      require(currentPetId < MAX_PET_ID, "CP: Exceeds maximum Pet supply");
- 1421      require(msg.value == _price, "CP: Invalid Eth sent");
- 1422      require(_minted[msg.sender] == false, "CP: Address has minted a pet");
- 1423  
- 1424      // Mark address as minted
- 1425      _minted[msg.sender] = true;
- 1426  
- 1427      // verify
- 1428      require(_isValidSignature(keccak256(abi.encodePacked(msg.sender, salt)), signature), "CP: Invalid signature");
+ 6158       *  [1] = loan maxDuration (in seconds)
+ 6159       *
+ 6160       * @param  depositInHeldToken  True if the trader wishes to pay the margin deposit in heldToken.
+ 6161       *                             False if the margin deposit will be pulled in owedToken
+ 6162       *                             and then sold along with the owedToken borrowed from the lender
+ 6163       * @param  signature           If loan payer is an account, then this must be the tightly-packed
+ 6164       *                             ECDSA V/R/S parameters from signing the loan hash. If loan payer
+ 6165       *                             is a smart contract, these are arbitrary bytes that the contract
+ 6166       *                             will recieve when choosing whether to approve the loan.
+ 6167       * @param  order               Order object to be passed to the exchange wrapper
+ 6168       * @return                     Amount of owedTokens pulled from the lender
+ 6169       */
+ 6170>     function increasePosition(
+ 6171          bytes32    positionId,
+ 6172          address[7] addresses,
+ 6173          uint256[8] values256,
+ 6174          uint32[2]  values32,
+ 6175          bool       depositInHeldToken,
+ 6176          bytes      signature,
+ 6177          bytes      order
+ 6178      )
+ 6179          external
+ 6180          onlyWhileOperational
+ 6181          nonReentrant
+ 6182          returns (uint256)

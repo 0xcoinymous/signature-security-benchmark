@@ -1,27 +1,23 @@
-D5-Ethereum  0xf756042f382f081954cead84ddb9dc9bbcfac0cd_OVEN.sol  0xf756042f382f081954cead84ddb9dc9bbcfac0cd_OVEN.sol:112  (solc 0.5.17)
+D5-Polygon  0x6ffe1D45a2d4D1fb780B2da53065070ac5994305_Trade.sol  0x6ffe1D45a2d4D1fb780B2da53065070ac5994305_Trade.sol:493  (solc 0.8.4)
 
-  100          return true;
-  101      }
-  102  
-  103      // --- Approve and call contract ---
-  104      function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool) {
-  105          allowance[msg.sender][spender] = amount;
-  106          emit Approval(msg.sender, spender, amount);
-  107          ApproveAndCallFallBack(spender).receiveApproval(msg.sender, amount, address(this), data);
-  108          return true;
-  109      }
-  110  
-  111      // --- Approve by signature ---
-  112>     function permit(address holder, address spender, uint256 nonce, uint256 expiry,
-  113                      bool allowed, uint8 v, bytes32 r, bytes32 s) external
-  114      {
-  115          bytes32 digest =
-  116              keccak256(abi.encodePacked(
-  117                  "\x19\x01",
-  118                  DOMAIN_SEPARATOR,
-  119                  keccak256(abi.encode(PERMIT_TYPEHASH,
-  120                                       holder,
-  121                                       spender,
-  122                                       nonce,
-  123                                       expiry,
-  124                                       allowed))
+  481      }
+  482  
+  483      function buyAsset(Order memory order, Sign memory sign) public returns(bool) {
+  484          Fee memory fee = getFees(order.amount, order.nftType, order.nftAddress, order.tokenId);
+  485          require((fee.price >= order.unitPrice * order.qty), "Paid invalid amount");
+  486          verifySellerSign(order.seller, order.tokenId, order.unitPrice, order.erc20Address, order.nftAddress, sign);
+  487          order.buyer = msg.sender;
+  488          tradeAsset(order, fee);
+  489          emit BuyAsset(order.seller , order.tokenId, order.qty, msg.sender);
+  490          return true;
+  491      }
+  492  
+  493>     function executeBid(Order memory order, Sign memory sign) public returns(bool) {
+  494          Fee memory fee = getFees(order.amount, order.nftType, order.nftAddress, order.tokenId);
+  495          verifyBuyerSign(order.buyer, order.tokenId, order.amount, order.erc20Address, order.nftAddress, order.qty, sign);
+  496          order.seller = msg.sender;
+  497          tradeAsset(order, fee);
+  498          emit ExecuteBid(msg.sender , order.tokenId, order.qty, order.buyer);
+  499          return true;
+  500      }
+  501  }

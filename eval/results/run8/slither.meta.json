@@ -3,7 +3,7 @@
  "binary": null,
  "files": 1099,
  "errors": 79,
- "wall_seconds": 358.8,
+ "wall_seconds": 363.0,
  "jobs": 4,
  "compilers": "datasets/compilers.csv",
  "chain": "Ethereum",

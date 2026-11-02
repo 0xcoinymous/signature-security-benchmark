@@ -1,27 +1,27 @@
-D5-Polygon  0x7143056327aca43af6881196fa95f4902cc0064d_Registry.sol  0x7143056327aca43af6881196fa95f4902cc0064d_Registry.sol:668  (solc 0.8.2)
+D5-Ethereum  0xe519a01a5fab7432bbe25a1433d62041c20d2d33_SportsIcon.sol  0xe519a01a5fab7432bbe25a1433d62041c20d2d33_SportsIcon.sol:809  (solc 0.7.5)
 
-  656          view
-  657          returns (uint256)
-  658      {
-  659          uint256 decimals;
-  660          if (assetAddress == address(0)) {
-  661              decimals = Ibridge(owner()).standardDecimals();
-  662          } else {
-  663              decimals = IERCOwnable(assetAddress).decimals();
-  664          }
-  665          return amount / (10**(Ibridge(owner()).standardDecimals() - decimals));
-  666      }
-  667  
-  668>     function validateTransaction(
-  669          bytes32 transactionId,
-  670          bytes[] memory signatures,
-  671          bool mintable
-  672      ) external {
-  673          require(
-  674              IController(Ibridge(owner()).controller()).isValidator(msg.sender),
-  675              "U_A"
-  676          );
-  677          require(
-  678              Isettings(Ibridge(owner()).settings()).minValidations() != 0,
-  679              "minvalidator_err"
-  680          );
+  797      mapping(uint256 => bytes32) public domainSeparators;
+  798  
+  799      constructor() {
+  800          _updateDomainSeparator();
+  801      }
+  802  
+  803      /**
+  804       * @dev See {IERC2612Permit-permit}.
+  805       *
+  806       * If https://eips.ethereum.org/EIPS/eip-1344[ChainID] ever changes, the
+  807       * EIP712 Domain Separator is automatically recalculated.
+  808       */
+  809>     function permit(
+  810          address owner,
+  811          address spender,
+  812          uint256 amount,
+  813          uint256 deadline,
+  814          uint8 v,
+  815          bytes32 r,
+  816          bytes32 s
+  817      ) public virtual override {
+  818          require(block.timestamp <= deadline, "ERC20Permit: expired deadline");
+  819  
+  820          // Assembly for more efficiently computing:
+  821          // bytes32 hashStruct = keccak256(

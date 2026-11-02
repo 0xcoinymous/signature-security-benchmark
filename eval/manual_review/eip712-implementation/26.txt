@@ -1,27 +1,27 @@
-D5-BSC  0x6a0c6529c259FEC8240D7FCeBdf42860D562A0aD_Bridge.sol  0x6a0c6529c259FEC8240D7FCeBdf42860D562A0aD_Bridge.sol:2045  (solc 0.8.11)
+D5-Polygon  0xf40388b593efb236d1ab314a6aa969f9487890d8_Archangel.sol  0xf40388b593efb236d1ab314a6aa969f9487890d8_Archangel.sol:2141  (solc 0.6.12)
 
- 2033      }
- 2034  
- 2035      /// @notice Remove some liquidity amount from token
- 2036      /// @dev Remove some liquidity amount from token
- 2037      /// @param tokenAddress_ Address of token
- 2038      /// @param amount_ Liquidity amount
- 2039      /// @param deadline_ Deadline timestamp
- 2040      /// @param maxAvailAmount_ Maximum available liquidity amount
- 2041      /// @param nonce_ Nonce of sender transaction
- 2042      /// @param v_ Signature parameter
- 2043      /// @param r_ Signature parameter
- 2044      /// @param s_ Signature parameter
- 2045>     function withdrawLiquidity(
- 2046          address tokenAddress_,
- 2047          uint256 amount_,
- 2048          uint256 deadline_,
- 2049          uint256 maxAvailAmount_,
- 2050          uint256 nonce_,
- 2051          uint8[] calldata v_,
- 2052          bytes32[] calldata r_,
- 2053          bytes32[] calldata s_
- 2054      ) external override {
- 2055          require(!_nonces[_msgSender()][nonce_], ERROR_INVALID_NONCE);
- 2056          require(block.timestamp < deadline_, ERROR_TIME_OUT);
- 2057          _isValidSigners(
+ 2129          joinAngelFor(angel, user);
+ 2130      }
+ 2131  
+ 2132      /// @notice Perform joinForMany after permit.
+ 2133      /// @param angels The angel addresses.
+ 2134      /// @param user The user address.
+ 2135      /// @param timeLimit The time limit to be approved. Will set to current
+ 2136      /// time if set as 1 (for one time usage)
+ 2137      /// @param deadline The permit available deadline.
+ 2138      /// @param v Signature v.
+ 2139      /// @param r Signature r.
+ 2140      /// @param s Signature s.
+ 2141>     function joinAngelsForWithPermit(
+ 2142          IAngel[] calldata angels,
+ 2143          address user,
+ 2144          uint256 timeLimit,
+ 2145          uint256 deadline,
+ 2146          uint8 v,
+ 2147          bytes32 r,
+ 2148          bytes32 s
+ 2149      ) external {
+ 2150          joinPermit(user, _msgSender(), timeLimit, deadline, v, r, s);
+ 2151          joinAngelsFor(angels, user);
+ 2152      }
+ 2153  

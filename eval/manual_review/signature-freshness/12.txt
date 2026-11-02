@@ -1,27 +1,27 @@
-D5-Ethereum  0x0215cc1eed633665d3cd385f7a891df616ab1706_DPRBridge.sol  0x0215cc1eed633665d3cd385f7a891df616ab1706_DPRBridge.sol:714  (solc 0.5.17)
+D5-Ethereum  0x6645b3C149f311a9C696Cb26B92BfCB87788C1e7_OpenMarketplace.sol  0x6645b3C149f311a9C696Cb26B92BfCB87788C1e7_OpenMarketplace.sol:2734  (solc 0.8.0)
 
-  702              setMessageAndEmitEvent(messageID, substrateSender, recipient, availableAmount, sig);
-  703          }
-  704  
-  705          function setMessageAndEmitEvent(bytes32 messageID, bytes32  substrateSender, address recipient, uint availableAmount, bytes memory sig) private {
-  706               Message  memory message = Message(messageID, recipient, substrateSender, availableAmount, Status.WITHDRAW);
-  707               messages[messageID] = message;
-  708               emit WithdrawMessage(messageID,msg.sender , substrateSender, availableAmount, sig);
-  709          }
-  710  
-  711          /*
-  712          * Confirm Withdraw tranfer by message ID after approve from Substrate
-  713          */
-  714>         function confirmWithdrawTransfer(bytes32 messageID, bytes memory signature) public withdrawMessage(messageID) 
-  715          //onlyManyValidatorsConfirm(messageID, msg.sender) 
-  716          {
-  717              bytes32 data = keccak256(abi.encodePacked(messageID));
-  718              bytes32 sign_data = keccak256(abi.encodePacked(SIGN_HASH_PREFIX, data));
-  719              address recover_address = ECDSA.recover(sign_data, signature);
-  720              require(recover_address == submiter, "DPRBridge: Address not match");
-  721              Message storage message = messages[messageID];
-  722              uint256 withdraw_amount = message.availableAmount;
-  723              //setWithdrawData(message.spender, withdraw_amount);
-  724              message.status = Status.CONFIRMED_WITHDRAW;
-  725              token.safeTransfer(message.spender, withdraw_amount);
-  726              emit ConfirmWithdrawMessage(messageID);
+ 2722       * @param _priceInWei - Price in Wei for the supported coin
+ 2723       * @param _expiresAt - Duration of the order (in hours)
+ 2724       * @param _uri - Duration of the order (in hours)
+ 2725       */
+ 2726      function createOrder(uint256 _priceInWei, uint256 _expiresAt, address _currency, string memory _uri, bytes memory _signature, uint256 _royalty, bool _isNewColl, string memory _name, string memory _symbol, string memory _baseURI, string memory _lockedContent) public whenNotPaused {
+ 2727          _createOrder(_priceInWei, _expiresAt, _currency, _uri, _signature, _royalty, _isNewColl, _name, _symbol, _baseURI, _lockedContent);
+ 2728      }
+ 2729  
+ 2730      /**
+ 2731       * @dev Cancel an already published order
+ 2732       *  can only be canceled by seller or the contract owner
+ 2733       */
+ 2734>     function cancelOrder(Order memory _order) public whenNotPaused {
+ 2735          // Order memory order = orderByAssetId[nftToken][_assetId];
+ 2736  
+ 2737          address signer = _verify(_order);
+ 2738  
+ 2739          require(_order.seller == msg.sender || msg.sender == owner(), "Marketplace: unauthorized sender");
+ 2740  
+ 2741          // Remove pending bid if any
+ 2742          Bid memory bid = bidByOrderId[_order.signature];
+ 2743  
+ 2744          if (bid.id != 0) {
+ 2745              _cancelBid(_order, bid.id, bid.bidder, bid.price);
+ 2746          }

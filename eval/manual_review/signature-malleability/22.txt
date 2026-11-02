@@ -1,27 +1,27 @@
-D5-Polygon  0xd8eb5dbaaa3300e090c322731ad2d7efde580651_BeeFarmToken.sol  0xd8eb5dbaaa3300e090c322731ad2d7efde580651_BeeFarmToken.sol:1011  (solc 0.6.12)
+D5-Polygon  0xd8479db542f5b74acaadba9ba3e0a9c11964f915_BRPart.sol  0xd8479db542f5b74acaadba9ba3e0a9c11964f915_BRPart.sol:1288  (solc 0.8.7)
 
-  999          return _delegate(msg.sender, delegatee);
- 1000      }
- 1001  
- 1002      /**
- 1003       * @notice Delegates votes from signatory to `delegatee`
- 1004       * @param delegatee The address to delegate votes to
- 1005       * @param nonce The contract state required to match the signature
- 1006       * @param expiry The time at which to expire the signature
- 1007       * @param v The recovery byte of the signature
- 1008       * @param r Half of the ECDSA signature pair
- 1009       * @param s Half of the ECDSA signature pair
- 1010       */
- 1011>     function delegateBySig(
- 1012          address delegatee,
- 1013          uint nonce,
- 1014          uint expiry,
- 1015          uint8 v,
- 1016          bytes32 r,
- 1017          bytes32 s
- 1018      )
- 1019          external
- 1020      {
- 1021          bytes32 domainSeparator = keccak256(
- 1022              abi.encode(
- 1023                  DOMAIN_TYPEHASH,
+ 1276  
+ 1277      /*
+ 1278       * Meta transaction structure.
+ 1279       * No point of including value field here as if user is doing value transfer then he has the funds to pay for gas
+ 1280       * He should call the desired function directly in that case.
+ 1281       */
+ 1282      struct MetaTransaction {
+ 1283          uint256 nonce;
+ 1284          address from;
+ 1285          bytes functionSignature;
+ 1286      }
+ 1287  
+ 1288>     function executeMetaTransaction(
+ 1289          address signerAddress,
+ 1290          bytes memory functionSignature,
+ 1291          bytes32 sigR,
+ 1292          bytes32 sigS,
+ 1293          uint8 sigV
+ 1294      ) public payable returns (bytes memory) {
+ 1295          address payable sender = payable(_msgSender());
+ 1296  
+ 1297          MetaTransaction memory metaTx = MetaTransaction({
+ 1298              //nonce: nonces[userAddress], //this will be the nonce for the user that sends and pays this transaction
+ 1299              nonce: nonces[signerAddress][sender], //this will be the nonce for the user that relays and pays this transaction
+ 1300              from: signerAddress, //signer stays the same, whomever is authorized to do the transaction

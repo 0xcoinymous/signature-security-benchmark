@@ -1,27 +1,27 @@
-D5-Ethereum  0x96491ac1F680c76EB8610b4389b8Dfa6F3a3C872_AGFIGovernor.sol  0x96491ac1F680c76EB8610b4389b8Dfa6F3a3C872_AGFIGovernor.sol:1729  (solc 0.8.13)
+D5-Ethereum  0x9616bc5b7bb6318c32c6971354c3ff491c81755f_nft.sol  0x9616bc5b7bb6318c32c6971354c3ff491c81755f_nft.sol:1177  (solc 0.8.7)
 
- 1717              return ProposalState.Executed;
- 1718          } else if (block.timestamp >= add256(proposal.eta, timelock.GRACE_PERIOD())) {
- 1719              return ProposalState.Expired;
- 1720          } else {
- 1721              return ProposalState.Queued;
- 1722          }
- 1723      }
- 1724  
- 1725      function castVote(uint proposalId, bool support) public {
- 1726          return _castVote(msg.sender, proposalId, support);
- 1727      }
- 1728  
- 1729>     function castVoteBySig(uint proposalId, bool support, uint8 v, bytes32 r, bytes32 s) public {
- 1730          bytes32 domainSeparator = keccak256(abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name)), getChainId(), address(this)));
- 1731          bytes32 structHash = keccak256(abi.encode(BALLOT_TYPEHASH, proposalId, support));
- 1732          bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
- 1733          address signatory = ecrecover(digest, v, r, s);
- 1734          require(signatory != address(0), "AGFIGovernor::castVoteBySig: invalid signature");
- 1735          return _castVote(signatory, proposalId, support);
- 1736      }
- 1737  
- 1738      function _castVote(address voter, uint proposalId, bool support) internal {
- 1739          require(state(proposalId) == ProposalState.Active, "AGFIGovernor::_castVote: voting is closed");
- 1740          Proposal storage proposal = proposals[proposalId];
- 1741          Receipt storage receipt = proposal.receipts[voter];
+ 1165          _;
+ 1166      }
+ 1167   
+ 1168      /* 
+ 1169      * @dev Verifies if message was signed by owner to give access to _add for this contract.
+ 1170      *      Assumes Geth signature prefix.
+ 1171      * @param _add Address of agent with access
+ 1172      * @param _v ECDSA signature parameter v.
+ 1173      * @param _r ECDSA signature parameters r.
+ 1174      * @param _s ECDSA signature parameters s.
+ 1175      * @return Validity of access message for a given address.
+ 1176      */
+ 1177>     function isValidAccessMessage(address _add, uint8 _v, bytes32 _r, bytes32 _s) view public returns (bool) {
+ 1178          bytes32 hash = keccak256(abi.encodePacked(address(this), _add));
+ 1179          return dummy == ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)), _v, _r, _s);
+ 1180      }
+ 1181      
+ 1182      //mint a @param number of NFTs
+ 1183      function mint(uint256 number, uint8 _v, bytes32 _r, bytes32 _s) onlyValidAccess(_v,  _r, _s) public payable {
+ 1184          State saleState_ = saleState();
+ 1185          require(saleState_ != State.NoSale, "Sale in not open yet!");
+ 1186          require(numberOfTotalTokens + number <= maxTotalTokens - (maxReservedMints - _reservedMints), "Not enough NFTs left to mint..");
+ 1187          
+ 1188          if (saleState_ == State.Presale) {
+ 1189                  require(mintsPerAddress[msg.sender] + number <= 5, "Maximum 5 Mints per Address in Presale");

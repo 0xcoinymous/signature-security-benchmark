@@ -1,27 +1,27 @@
-D5-Ethereum  0x5e95a76ee392be0d1837cf3010c5870a640aa6ea_ERC721Factory.sol  0x5e95a76ee392be0d1837cf3010c5870a640aa6ea_ERC721Factory.sol:2002  (solc 0.8.13)
+D5-Ethereum  0x5e6c3565c2a7b048f22e62e41fc829811d8de2ba_SnooKarma.sol  0x5e6c3565c2a7b048f22e62e41fc829811d8de2ba_SnooKarma.sol:122  (solc 0.4.24)
 
- 1990              "ERC721Collection: Internal contracts only"
- 1991          );
- 1992          _;
- 1993      }
- 1994  
- 1995  
- 1996      function mint(string memory tokenURI, uint96 _royalty) public payable{
- 1997          require(msg.value >= IERC721Mintable(mintableAddress).mintingCharge(), "ERC721Collection: Minting charges required");
- 1998          _mint(msg.sender, _royalty, tokenURI);
- 1999          mintableAddress.transfer(msg.value);
- 2000      }
- 2001  
- 2002>     function lazyMint(
- 2003          address to,
- 2004          uint96 _royalty,
- 2005          string memory _tokenURI,
- 2006          uint256 nonce,
- 2007          uint256 price,
- 2008          bytes memory sign
- 2009      ) external payable {
- 2010          IERC721Mintable erc721 = IERC721Mintable(mintableAddress);
- 2011          uint brokerage = erc721.brokerage();
- 2012  
- 2013          uint _brokerage = (brokerage * price) / (100 * decimalPrecision);
- 2014          uint mintingCharge = erc721.mintingCharge();
+  110      function removeOracle() public onlyBy(owner) {
+  111          oracle = address(0);
+  112      }
+  113      
+  114      //The owner can change the maintainer
+  115      function changeMaintainer(address newMaintainer) public onlyBy(owner) {
+  116          maintainer = newMaintainer;
+  117      }
+  118      
+  119      //Allows the user the redeem an amount of Karma verified by the oracle
+  120      //This function also grants a small extra amount of Karma to the maintainer
+  121      //The maintainer gets 1 extra karma for each 100 redeemed by a user
+  122>     function redeem(string username, uint karma, uint sigExp, uint8 sigV, bytes32 sigR, bytes32 sigS) public {
+  123          //The identity of the oracle is checked
+  124          require(
+  125              ecrecover(
+  126                  keccak256(abi.encodePacked(this, username, karma, sigExp)),
+  127                  sigV, sigR, sigS
+  128              ) == oracle
+  129          );
+  130          //The signature must not be expired
+  131          require(block.timestamp < sigExp);
+  132          //The amount of karma needs to be more than the previous redeemed amount
+  133          require(karma > redeemedKarma[username]);
+  134          //The new karma that is available to be redeemed

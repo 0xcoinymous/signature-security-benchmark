@@ -1,27 +1,27 @@
-D5-Polygon  0x14Aad7648D361BaF6d5C42D04818Ec2839E2B1cD_Crowdsale.sol  0x14Aad7648D361BaF6d5C42D04818Ec2839E2B1cD_Crowdsale.sol:3512  (solc 0.8.9)
+D5-Polygon  0x21430b55709FA0aaE181bfB4ACb78545a6cafFdb_DropmintsRelayer.sol  0x21430b55709FA0aaE181bfB4ACb78545a6cafFdb_DropmintsRelayer.sol:696  (solc 0.8.11)
 
- 3500      modifier requiresSignature(bytes calldata signature) {
- 3501          require(signingKey != address(0), "Signing not enabled");
- 3502          address recoveredAddress = recoverSigner(
- 3503              msg.sender,
- 3504              GIFT_TYPEHASH,
- 3505              signature
- 3506          );
- 3507          require(recoveredAddress == signingKey, "Invalid Signature");
- 3508          _;
- 3509          nonces[msg.sender] = nonces[msg.sender] + 1;
- 3510      }
- 3511  
- 3512>     function restorable(address sender, bytes calldata signature)
- 3513          public
- 3514          view
- 3515          returns (bool)
- 3516      {
- 3517          return signingKey == recoverSigner(sender, GIFT_TYPEHASH, signature);
- 3518      }
- 3519  
- 3520      function recoverSigner(
- 3521          address sender,
- 3522          bytes32 typehash,
- 3523          bytes calldata signature
- 3524      ) internal view returns (address) {
+  684              _TYPEHASH,
+  685              req.from,
+  686              req.to,
+  687              req.value,
+  688              req.gas,
+  689              req.nonce,
+  690              keccak256(req.data)
+  691          ))).recover(signature);
+  692          return _nonces[req.from] == req.nonce && signer == req.from;
+  693      }
+  694  
+  695      ///## @dev Main function; executes the meta-transaction via a low-level call.
+  696>     function execute(ForwardRequest calldata req, bytes calldata signature) public payable whenNotPaused() returns (bool, bytes memory) {
+  697          require(_senderWhitelist[msg.sender], "DropmintRelayer: sender of meta-transaction is not whitelisted");
+  698          require(verify(req, signature), "DropmintRelayer: signature does not match request");
+  699          _nonces[req.from] = req.nonce + 1;
+  700  
+  701          // solhint-disable-next-line avoid-low-level-calls
+  702          (bool success, bytes memory returndata) = req.to.call{gas: req.gas, value: req.value}(abi.encodePacked(req.data, req.from));
+  703          
+  704          if (!success) {
+  705              // solhint-disable-next-line no-inline-assembly
+  706              assembly {
+  707                  returndatacopy(0, 0, returndatasize())
+  708                  revert(0, returndatasize())

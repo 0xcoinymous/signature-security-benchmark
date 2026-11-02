@@ -1,27 +1,27 @@
-D5-BSC  0xBC1a3a39Ad2C0c5f2F5c4AB0DE477af1A5BCBc57_testgrow.sol  0xBC1a3a39Ad2C0c5f2F5c4AB0DE477af1A5BCBc57_testgrow.sol:1388  (solc 0.8.10)
+D5-Ethereum  0x9f2e4581d47c2851ea1150ab8126b45c5939d8f5_EthVaultImpl.sol  0x9f2e4581d47c2851ea1150ab8126b45c5939d8f5_EthVaultImpl.sol:504  (solc 0.5.0)
 
- 1376      function _setAllowance(
- 1377          address owner,
- 1378          address spender,
- 1379          uint256 wad
- 1380      ) internal virtual returns (bool) {
- 1381          _allowances[owner][spender] = wad;
- 1382          emit Approval(owner, spender, wad);
- 1383  
- 1384          return true;
- 1385      }
- 1386  
- 1387      // --- Approve by signature ---
- 1388>     function permit(
- 1389          address holder,
- 1390          address spender,
- 1391          uint256 nonce,
- 1392          uint256 expiry,
- 1393          bool allowed,
- 1394          uint8 v,
- 1395          bytes32 r,
- 1396          bytes32 s
- 1397      ) external {
- 1398          bytes32 digest = keccak256(
- 1399              abi.encodePacked(
- 1400                  "\x19\x01",
+  492          _transferToken(token, toAddr, uints[0]);
+  493  
+  494          if(isContract(toAddr) && data.length != 0){
+  495              (bool result, bytes memory returndata) = LibCallBridgeReceiver.callReceiver(true, gasLimitForBridgeReceiver, token, uints[0], data, toAddr);
+  496              emit BridgeReceiverResult(result, fromAddr, token, data);
+  497              emit OnBridgeReceived(result, returndata, fromAddr, token, data);
+  498          }
+  499      }
+  500  
+  501      // Fix Data Info
+  502      ///@param bytes32s [0]:govId, [1]:txHash
+  503      ///@param uints [0]:amount, [1]:tokenId
+  504>     function withdrawNFT(
+  505          address hubContract,
+  506          string memory fromChain,
+  507          bytes memory fromAddr,
+  508          address payable toAddr,
+  509          address token,
+  510          bytes32[] memory bytes32s,
+  511          uint[] memory uints,
+  512          bytes memory data,
+  513          uint8[] memory v,
+  514          bytes32[] memory r,
+  515          bytes32[] memory s
+  516      ) public onlyActivated {

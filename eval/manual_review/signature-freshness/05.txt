@@ -1,27 +1,27 @@
-D5-BSC  0xebb3c20d2c8a625b02eb50e52bbd72b10c2ac98e_e2pEscrow.sol  0xebb3c20d2c8a625b02eb50e52bbd72b10c2ac98e_e2pEscrow.sol:441  (solc 0.4.23)
+D5-Ethereum  0xbad4212d73561b240f10c56f27e6d9608963f17b_MedianLINKUSD.sol  0xbad4212d73561b240f10c56f27e6d9608963f17b_MedianLINKUSD.sol:99  (solc 0.5.17)
 
-  429  
-  430    /**
-  431     * @dev Withdraw transfer to recipient's address if it is correctly signed
-  432     * with private key for verification public key assigned to transfer.
-  433     * 
-  434     * @param _transitAddress transit address assigned to transfer
-  435     * @param _recipient address Signed address.
-  436     * @param _v ECDSA signature parameter v.
-  437     * @param _r ECDSA signature parameters r.
-  438     * @param _s ECDSA signature parameters s.
-  439     * @return True if success.
-  440     */
-  441>   function withdraw(
-  442  		    address _transitAddress,
-  443  		    address _recipient,
-  444  		    uint8 _v,
-  445  		    bytes32 _r,
-  446  		    bytes32 _s
-  447  		    )
-  448      public
-  449      onlyVerifier // only through verifier can withdraw transfer;
-  450      whenNotPaused
-  451      whenNotStopped
-  452      returns (bool success)
-  453    {
+   87  
+   88      function peek() external view toll returns (uint256,bool) {
+   89          return (val, val > 0);
+   90      }
+   91  
+   92      function recover(uint256 val_, uint256 age_, uint8 v, bytes32 r, bytes32 s) internal pure returns (address) {
+   93          return ecrecover(
+   94              keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", keccak256(abi.encodePacked(val_, age_, wat)))),
+   95              v, r, s
+   96          );
+   97      }
+   98  
+   99>     function poke(
+  100          uint256[] calldata val_, uint256[] calldata age_,
+  101          uint8[] calldata v, bytes32[] calldata r, bytes32[] calldata s) external
+  102      {
+  103          require(val_.length == bar, "Median/bar-too-low");
+  104  
+  105          uint256 bloom = 0;
+  106          uint256 last = 0;
+  107          uint256 zzz = age;
+  108  
+  109          for (uint i = 0; i < val_.length; i++) {
+  110              // Validate the values were signed by an authorized oracle
+  111              address signer = recover(val_[i], age_[i], v[i], r[i], s[i]);

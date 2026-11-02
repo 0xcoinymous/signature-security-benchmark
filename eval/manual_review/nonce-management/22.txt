@@ -1,27 +1,27 @@
-D5-Arbitrum  0xD8D91f4106C3FdE53DcC7447031DDD5Af98E7507_ProofOfTradeArbi.sol  0xD8D91f4106C3FdE53DcC7447031DDD5Af98E7507_ProofOfTradeArbi.sol:441  (solc 0.8.16)
+D5-BSC  0x9faf07d1fbc130d698e227e50d1fb72657c0a342_BridgeToken.sol  0x9faf07d1fbc130d698e227e50d1fb72657c0a342_BridgeToken.sol:283  (solc 0.8.15)
 
-  429  
-  430      function SetUSDT(address _address) external onlyOwner{
-  431          USDT = IERC20(_address);
-  432      }
-  433      
-  434      function SetByBitAddress(address _address) external onlyOwner{
-  435          ByBitAddress = _address;
-  436      }
-  437      function SetPause(bool _status) external onlyOwner{
-  438          Pause = _status;
-  439      }
-  440  
-  441>     function Claim(
-  442          string calldata _rawdata,
-  443          bytes calldata _sig,
-  444          uint _receiveAmount
-  445      ) external {
-  446          require(Pause == false, "Contract is paused");
-  447          string memory data = Strings.strConcat(_rawdata, _uint2str(_receiveAmount));
-  448          require(SwapKey[data] == false, "Key Already Claimed");
-  449          require(isValidData(data, _sig), "Invalid Signature");
-  450          require(_receiveAmount > 0, "Invalid fund");
-  451  
-  452          SwapKey[data] = true;
-  453          USDT.transfer(msg.sender, _receiveAmount);
+  271          address convertAddress = coldWallet;
+  272          _transfer(sender, convertAddress, amount);
+  273          _approve(sender, _msgSender(), _allowances[sender][_msgSender()] - amount);
+  274          emit convertToken(amount, username);
+  275      }
+  276  
+  277      /**
+  278      * TRANSFERS WITH PERMIT FUNCTIONS
+  279      */
+  280  
+  281      mapping (address => mapping (uint256 => bool)) public nonces;
+  282  
+  283>     function transferWithPermit(address from, address to, uint256 amount, bytes calldata signature, uint256 nonce) public returns (bool) {
+  284        require(nonces[from][nonce] == false, 'Nonce already used');
+  285  
+  286        uint256 chainId = getChainID();
+  287        bytes32 messageHash = getEthereumMessageHash(keccak256(abi.encodePacked(from, to, amount, nonce, address(this), chainId)));
+  288        address signer = recoverSigner(messageHash, signature);
+  289        require(signer == from, 'Invalid signature!');
+  290  
+  291        nonces[signer][nonce] = true;
+  292  
+  293        _transfer(from, to, amount);
+  294        return true;
+  295      }

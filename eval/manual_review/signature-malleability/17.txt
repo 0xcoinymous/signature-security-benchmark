@@ -1,27 +1,27 @@
-D5-BSC  0x50D35b9930a06d13A15593BBC8b9FE9CbC1a0D12_FlokidaoERC20Token.sol  0x50D35b9930a06d13A15593BBC8b9FE9CbC1a0D12_FlokidaoERC20Token.sol:1136  (solc 0.7.5)
+D5-BSC  0x5035ee6cE2cA892c9E97F4D52f0770C19374361F_GovernorBravoDelegate.sol  0x5035ee6cE2cA892c9E97F4D52f0770C19374361F_GovernorBravoDelegate.sol:1042  (solc 0.8.2)
 
- 1124                  keccak256(bytes(name())),
- 1125                  keccak256(bytes("1")), // Version
- 1126                  chainID,
- 1127                  address(this)
- 1128              )
- 1129          );
- 1130      }
- 1131  
- 1132      /**
- 1133       * @dev See {IERC2612Permit-permit}.
- 1134       *
- 1135       */
- 1136>     function permit(
- 1137          address owner,
- 1138          address spender,
- 1139          uint256 amount,
- 1140          uint256 deadline,
- 1141          uint8 v,
- 1142          bytes32 r,
- 1143          bytes32 s
- 1144      ) public virtual override {
- 1145          require(block.timestamp <= deadline, "Permit: expired deadline");
- 1146  
- 1147          bytes32 hashStruct =
- 1148              keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, amount, _nonces[owner].current(), deadline));
+ 1030        * @param proposalId The id of the proposal to vote on
+ 1031        * @param support The support value for the vote. 0=against, 1=for, 2=abstain
+ 1032        * @param reason The reason given for the vote by the voter
+ 1033        */
+ 1034      function castVoteWithReason(uint proposalId, uint8 support, string calldata reason) external {
+ 1035          emit VoteCast(msg.sender, proposalId, support, castVoteInternal(msg.sender, proposalId, support), reason);
+ 1036      }
+ 1037  
+ 1038      /**
+ 1039        * @notice Cast a vote for a proposal by signature
+ 1040        * @dev External function that accepts EIP-712 signatures for voting on proposals.
+ 1041        */
+ 1042>     function castVoteBySig(uint proposalId, uint8 support, uint8 v, bytes32 r, bytes32 s) external {
+ 1043          bytes32 domainSeparator = keccak256(abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name)), getChainIdInternal(), address(this)));
+ 1044          bytes32 structHash = keccak256(abi.encode(BALLOT_TYPEHASH, proposalId, support));
+ 1045          bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
+ 1046          address signatory = ecrecover(digest, v, r, s);
+ 1047          require(signatory != address(0), "GovernorBravo::castVoteBySig: invalid signature");
+ 1048          emit VoteCast(signatory, proposalId, support, castVoteInternal(signatory, proposalId, support), "");
+ 1049      }
+ 1050  
+ 1051      /**
+ 1052        * @notice Internal function that caries out voting logic
+ 1053        * @param voter The voter that is casting their vote
+ 1054        * @param proposalId The id of the proposal to vote on

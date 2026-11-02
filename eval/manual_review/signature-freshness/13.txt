@@ -1,27 +1,27 @@
-D5-Polygon  0x094b3fb347e36046fb506323ba792de4d56f80a9_Verification.sol  0x094b3fb347e36046fb506323ba792de4d56f80a9_Verification.sol:75  (solc 0.8.13)
+D5-BSC  0x46a516b593a5d17a8f056a9db275e71a106e6fec_LaunchPadPool.sol  0x46a516b593a5d17a8f056a9db275e71a106e6fec_LaunchPadPool.sol:1777  (solc 0.8.4)
 
-   63    }
-   64  
-   65    function payFeeFor(address account) public {
-   66      emit FeePaid(account);
-   67      bool received = feeToken.transferFrom(msg.sender, address(this), feeAmount);
-   68      require(received, "Fee transfer failed");
-   69    }
-   70  
-   71    function payFee() external {
-   72      payFeeFor(msg.sender);
-   73    }
-   74  
-   75>   function publishVerification(
-   76      uint256 expiration,
-   77      bytes32 countryAndDocNumberHash,
-   78      bytes calldata signature
-   79    ) external {
-   80      // Recreate hash as built by the client
-   81      bytes32 hash = keccak256(abi.encode(msg.sender, expiration, countryAndDocNumberHash));
-   82      (bytes32 r, bytes32 s, uint8 v) = splitSignature(signature);
-   83      bytes32 ethSignedHash = keccak256(
-   84        abi.encodePacked("\x19Ethereum Signed Message:\n32", hash));
-   85  
-   86      address sigAddr = ecrecover(ethSignedHash, v, r, s);
-   87      require(sigAddr == signer, "Invalid Signature");
+ 1765          require( pool.timeEnd > block.timestamp, "invalid time");
+ 1766  
+ 1767          //deposit
+ 1768          TransferHelper.safeTransferFrom( address(pool.payToken), msg.sender, address(this), _amount);
+ 1769          user.paidAmount = user.paidAmount.add(_amount);
+ 1770  
+ 1771          pool.totalAmount = pool.totalAmount.add(_amount);
+ 1772          emit Deposited( msg.sender, _pid, address(pool.payToken), _amount);
+ 1773      }
+ 1774  
+ 1775  
+ 1776      //claim reward token quota
+ 1777>     function claim(uint8 _pid, uint256 _rewardAmount, uint256 _refundAmount, uint8 v, bytes32 r, bytes32 s) external {
+ 1778          LaunchPadInfo storage pool = launchPadInfo[_pid];
+ 1779          UserInfo storage user = userInfo[_pid][ msg.sender ];
+ 1780  
+ 1781          require( pool.timeEnd <= block.timestamp, "waiting for end");
+ 1782  
+ 1783          require( user.paidAmount > 0 ,"invalid user");
+ 1784  
+ 1785          require( user.claimed == false, "user has claimed");
+ 1786  
+ 1787          require( pool.maxPerAddress >= _rewardAmount ,"limit max quota");
+ 1788  
+ 1789          //check rewardamount &refundamount

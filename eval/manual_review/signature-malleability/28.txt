@@ -1,27 +1,27 @@
-D5-BSC  0x71b154bF4a0076b27Aed6772a12275A93C494a0E_Address.sol  0x71b154bF4a0076b27Aed6772a12275A93C494a0E_Address.sol:930  (solc 0.6.12)
+D5-BSC  0x7136256435c464b394614d9c0b052b4c1eed3828_FishzToken.sol  0x7136256435c464b394614d9c0b052b4c1eed3828_FishzToken.sol:793  (solc 0.6.12)
 
-  918          return _delegate(msg.sender, delegatee);
-  919      }
-  920  
-  921      /**
-  922       * @notice Delegates votes from signatory to `delegatee`
-  923       * @param delegatee The address to delegate votes to
-  924       * @param nonce The contract state required to match the signature
-  925       * @param expiry The time at which to expire the signature
-  926       * @param v The recovery byte of the signature
-  927       * @param r Half of the ECDSA signature pair
-  928       * @param s Half of the ECDSA signature pair
-  929       */
-  930>     function delegateBySig(
-  931          address delegatee,
-  932          uint nonce,
-  933          uint expiry,
-  934          uint8 v,
-  935          bytes32 r,
-  936          bytes32 s
-  937      )
-  938          external
-  939      {
-  940          bytes32 domainSeparator = keccak256(
-  941              abi.encode(
-  942                  DOMAIN_TYPEHASH,
+  781          return _delegate(msg.sender, delegatee);
+  782      }
+  783  
+  784      /**
+  785       * @notice Delegates votes from signatory to `delegatee`
+  786       * @param delegatee The address to delegate votes to
+  787       * @param nonce The contract state required to match the signature
+  788       * @param expiry The time at which to expire the signature
+  789       * @param v The recovery byte of the signature
+  790       * @param r Half of the ECDSA signature pair
+  791       * @param s Half of the ECDSA signature pair
+  792       */
+  793>     function delegateBySig(
+  794          address delegatee,
+  795          uint nonce,
+  796          uint expiry,
+  797          uint8 v,
+  798          bytes32 r,
+  799          bytes32 s
+  800      )
+  801          external
+  802      {
+  803          bytes32 domainSeparator = keccak256(
+  804              abi.encode(
+  805                  DOMAIN_TYPEHASH,

@@ -1,27 +1,27 @@
-D5-Ethereum  0x21f15966e07a10554c364b988e91dab01d32794a_SMT.sol  0x21f15966e07a10554c364b988e91dab01d32794a_SMT.sol:203  (solc 0.4.23)
+D5-Ethereum  0x21a6251acea6158c673daf1458288aa03dd529e9_MonitorHelper.sol  0x21a6251acea6158c673daf1458288aa03dd529e9_MonitorHelper.sol:621  (solc 0.5.9)
 
-  191  
-  192      /*
-  193       * Proxy transfer SmartMesh token. When some users of the ethereum account has no ether,
-  194       * he or she can authorize the agent for broadcast transactions, and agents may charge agency fees
-  195       * @param _from
-  196       * @param _to
-  197       * @param _value
-  198       * @param feeSmt
-  199       * @param _v
-  200       * @param _r
-  201       * @param _s
-  202       */
-  203>     function transferProxy(address _from, address _to, uint256 _value, uint256 _feeSmt,
-  204          uint8 _v,bytes32 _r, bytes32 _s) public transferAllowed(_from) returns (bool){
-  205  
-  206          if(balances[_from] < _feeSmt + _value 
-  207              || _feeSmt > _feeSmt + _value) revert();
-  208  
-  209          uint256 nonce = nonces[_from];
-  210          bytes32 h = keccak256(_from,_to,_value,_feeSmt,nonce,address(this));
-  211          if(_from != ecrecover(h,_v,_r,_s)) revert();
-  212  
-  213          if(balances[_to] + _value < balances[_to]
-  214              || balances[msg.sender] + _feeSmt < balances[msg.sender]) revert();
-  215          balances[_to] += _value;
+  609          ERC20 srcToken;
+  610          uint256 srcQty;
+  611          ERC20 destToken;
+  612          address payable destAddress;
+  613          uint256 minConversionRate;
+  614          uint256 feeInPrecision;
+  615      }
+  616  
+  617      event LimitOrderExecute(address indexed user, uint256 nonce, address indexed srcToken,
+  618          uint256 actualSrcQty, uint256 destAmount, address indexed destToken,
+  619          address destAddress, uint256 feeInSrcTokenWei);
+  620  
+  621>     function executeLimitOrder(
+  622          address user,
+  623          uint256 nonce,
+  624          ERC20 srcToken,
+  625          uint256 srcQty,
+  626          ERC20 destToken,
+  627          address payable destAddress,
+  628          uint256 minConversionRate,
+  629          uint256 feeInPrecision,
+  630          uint8 v,
+  631          bytes32 r,
+  632          bytes32 s
+  633      )

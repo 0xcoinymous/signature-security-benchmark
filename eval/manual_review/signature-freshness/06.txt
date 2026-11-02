@@ -1,27 +1,27 @@
-D5-Polygon  0xdc5407987351ad11af43cfe6cc50faaec642a5fd_Trade.sol  0xdc5407987351ad11af43cfe6cc50faaec642a5fd_Trade.sol:483  (solc 0.8.10)
+D5-BSC  0x8162b1dF2de2CF6e1e4410eF16f22BaB4637298E_LifeFormExchange.sol  0x8162b1dF2de2CF6e1e4410eF16f22BaB4637298E_LifeFormExchange.sol:1398  (solc 0.4.26)
 
-  471          if(order.nftType == BuyingAssetType.ERC1155)  {
-  472              transferProxy.erc1155safeTransferFrom(IERC1155(order.nftAddress), order.seller, order.buyer, order.tokenId, order.qty, ""); 
-  473          }
-  474          if(fee.platformFee > 0) {
-  475              transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, owner, fee.platformFee);
-  476          }
-  477          if(fee.royaltyFee > 0) {
-  478              transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, fee.tokenCreator, fee.royaltyFee);
-  479          }
-  480          transferProxy.erc20safeTransferFrom(IERC20(order.erc20Address), order.buyer, order.seller, fee.assetFee);
-  481      }
-  482  
-  483>     function buyAsset(Order memory order, Sign memory sign) public returns(bool) {
-  484          Fee memory fee = getFees(order.amount, order.nftType, order.nftAddress, order.tokenId);
-  485          require((fee.price >= order.unitPrice * order.qty), "Paid invalid amount");
-  486          verifySellerSign(order.seller, order.tokenId, order.unitPrice, order.erc20Address, order.nftAddress, sign);
-  487          order.buyer = msg.sender;
-  488          tradeAsset(order, fee);
-  489          emit BuyAsset(order.seller , order.tokenId, order.qty, msg.sender);
-  490          return true;
-  491      }
-  492  
-  493      function executeBid(Order memory order, Sign memory sign) public returns(bool) {
-  494          Fee memory fee = getFees(order.amount, order.nftType, order.nftAddress, order.tokenId);
-  495          verifyBuyerSign(order.buyer, order.tokenId, order.amount, order.erc20Address, order.nftAddress, order.qty, sign);
+ 1386          Order memory order = Order(addrs[0], addrs[1], addrs[2], uints[0], uints[1], uints[2], uints[3], addrs[3], feeMethod, side, saleKind, addrs[4], howToCall, calldata, replacementPattern, addrs[5], staticExtradata, ERC20(addrs[6]), uints[4], uints[5], uints[6], uints[7], uints[8]);
+ 1387          return cancelOrder(
+ 1388            order,
+ 1389            Sig(v, r, s),
+ 1390            nonces[order.maker]
+ 1391          );
+ 1392      }
+ 1393  
+ 1394      /**
+ 1395       * @dev Call cancelOrder, supplying a specific nonce — enables cancelling orders
+ 1396       that were signed with nonces greater than the current nonce.
+ 1397       */
+ 1398>     function cancelOrderWithNonce_(
+ 1399          address[7] addrs,
+ 1400          uint[9] uints,
+ 1401          FeeMethod feeMethod,
+ 1402          SaleKindInterface.Side side,
+ 1403          SaleKindInterface.SaleKind saleKind,
+ 1404          AuthenticatedProxy.HowToCall howToCall,
+ 1405          bytes calldata,
+ 1406          bytes replacementPattern,
+ 1407          bytes staticExtradata,
+ 1408          uint8 v,
+ 1409          bytes32 r,
+ 1410          bytes32 s,

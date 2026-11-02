@@ -1,27 +1,27 @@
-D5-Polygon  0x3badc57e048013a3b192f7928ac3100719ebe3df_ERC1155Marketplace.sol  0x3badc57e048013a3b192f7928ac3100719ebe3df_ERC1155Marketplace.sol:2249  (solc 0.8.2)
+D5-Polygon  0x47ca87b72b431401a06b885243eaaa205cbe8cb0_Types.sol  0x47ca87b72b431401a06b885243eaaa205cbe8cb0_Types.sol:1871  (solc 0.5.12)
 
- 2237          ERC1155Marketplace(_paymentToken, _owner, _admin, _commissionRate, _royaltiesCommissionRate, name, symbol, _anyoneCanMint, uri)
- 2238          EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {}
- 2239  
- 2240      // minted qty for each voucher ID
- 2241      mapping(uint256 => uint256) public vouchersMintedQty;
- 2242  
- 2243      // minted NFT ID for each voucher ID
- 2244      mapping(uint256 => uint256) public vouchersNFTIds;
- 2245  
- 2246      event LazyMint(uint256 indexed tokenId, address indexed from, address indexed to, uint256 value);
- 2247  
- 2248      /// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
- 2249>     function redeem(
- 2250          uint256 nftId, uint256 id, uint256 nftPostId, uint256 qty, uint256 price, uint256 collectionId, uint256 chainId, address author, uint256 salt, bytes memory signature, uint256 qtyToMint
- 2251      ) external nonReentrant {
- 2252  
- 2253          require(chainId == getChainId(), "tucasafda: Wrong chain");
- 2254          require(vouchersMintedQty[id] + qtyToMint <= qty, "tucasafda: the qty exceeds the amount available for minting");
- 2255          require(nftId == 0 || exists(nftId), "tucasafda: Wrong NFT ID");
- 2256  
- 2257          // make sure signature is valid and get the address of the signer
- 2258          verify(id, nftPostId, qty, price, collectionId, chainId, author, salt, address(this), signature, owner());
- 2259  
- 2260          // allow to mint less qty of the amounts in voucher, until all qtys are minted
- 2261          // first time minting? find the next available tokenId or use the existing NFT Id if it was passed to the function
+ 1859    constructor(TransferHandlerRegistry swapRegistry) public {
+ 1860      _domainSeparator = Types.hashDomain(
+ 1861        DOMAIN_NAME,
+ 1862        DOMAIN_VERSION,
+ 1863        address(this)
+ 1864      );
+ 1865      registry = swapRegistry;
+ 1866    }
+ 1867    /**
+ 1868      * @notice Atomic Token Swap
+ 1869      * @param order Types.Order Order to settle
+ 1870      */
+ 1871>   function swap(
+ 1872      Types.Order calldata order
+ 1873    ) external {
+ 1874      // Ensure the order is not expired.
+ 1875      require(order.expiry > block.timestamp,
+ 1876        "ORDER_EXPIRED");
+ 1877      // Ensure the nonce is AVAILABLE (0x00).
+ 1878      require(signerNonceStatus[order.signer.wallet][order.nonce] == AVAILABLE,
+ 1879        "ORDER_TAKEN_OR_CANCELLED");
+ 1880      // Ensure the order nonce is above the minimum.
+ 1881      require(order.nonce >= signerMinimumNonce[order.signer.wallet],
+ 1882        "NONCE_TOO_LOW");
+ 1883      // Mark the nonce UNAVAILABLE (0x01).

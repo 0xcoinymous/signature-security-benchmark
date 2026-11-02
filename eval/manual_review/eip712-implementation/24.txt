@@ -1,27 +1,27 @@
-D5-Polygon  0x3ab44687f97DEC03A186ba9D5fA5dC57F9Db93bB_NFTMarketplace.sol  0x3ab44687f97DEC03A186ba9D5fA5dC57F9Db93bB_NFTMarketplace.sol:4190  (solc 0.8.17)
+D5-Ethereum  0x55622e8580d3417b4164588b250a63ad3d5d5dbd_BXHNFTCollection.sol  0x55622e8580d3417b4164588b250a63ad3d5d5dbd_BXHNFTCollection.sol:2522  (solc 0.8.7)
 
- 4178      );
- 4179  
- 4180      function initialize() public virtual initializer {
- 4181          __EIP712_init("NFTMarketplace", "1");
- 4182          __Ownable_init();
- 4183          _LISTING_TYPEHASH = keccak256(
- 4184              "List(address erc721,uint256 tokenId,address erc20,uint256 price,address seller,uint256 deadline)"
- 4185          );
- 4186          feeFraction = 1250;
- 4187          feeDenominator = 10000;
- 4188      }
- 4189  
- 4190>     function buy(
- 4191          IERC721 _erc721,
- 4192          uint256 _tokenId,
- 4193          IERC20 _erc20,
- 4194          uint256 _price,
- 4195          address _seller,
- 4196          uint256 _deadline,
- 4197          bytes calldata _signature
- 4198      ) external payable {
- 4199          address buyer = msg.sender;
- 4200  
- 4201          require(_price > 0, "This NFT is not for sale");
- 4202          require(block.timestamp <= _deadline, "This listing has expired");
+ 2510              ChildInfo storage _child = childInfo[_config.baseIndex];
+ 2511              _child.tokenId = _config.baseIndex;
+ 2512  
+ 2513              _safeMint(msg.sender, _config.baseIndex);
+ 2514              emit newNFTMineted(msg.sender, _eventID, _config.baseIndex);
+ 2515  
+ 2516              _config.baseIndex = _config.baseIndex.add(1);
+ 2517          }
+ 2518  
+ 2519      }
+ 2520  
+ 2521      //operate command
+ 2522>     function operateCommand( uint256 _tokenId,uint256 _cmdId, address _feeToken,uint256 _feeTokenAmount, uint256 _saltSeed, uint8 v, bytes32 r, bytes32 s) external {
+ 2523          //check nft owner
+ 2524          if( _tokenId > 0 ){
+ 2525              require(_isApprovedOrOwner( msg.sender, _tokenId ),"NFT is not your asset.");
+ 2526          }
+ 2527  
+ 2528          bytes32 digest = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32",
+ 2529              ECDSA.toTypedDataHash(_domainSeparatorV4(),
+ 2530                  keccak256(abi.encode(OPERATE_CALL_HASH_TYPE, msg.sender, _tokenId, _cmdId, _feeToken,_feeTokenAmount,_saltSeed))
+ 2531          )));
+ 2532          require(ECDSA.recover(digest, v, r, s) == cSigner, "OperateCommand: Invalid signer");
+ 2533  
+ 2534          require( saltSeeds[_saltSeed] == false , "seed is repeat!");

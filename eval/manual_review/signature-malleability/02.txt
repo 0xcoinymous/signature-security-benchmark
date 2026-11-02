@@ -1,27 +1,27 @@
-D5-Ethereum  0xa6d116f9272fdfb77acdd8f13ad81bc44fda3cf4_Generator.sol  0xa6d116f9272fdfb77acdd8f13ad81bc44fda3cf4_Generator.sol:1188  (solc 0.6.12)
+D5-Ethereum  0xa649325aa7c5093d12d6f98eb4378deae68ce23f_AnyswapV5ERC20.sol  0xa649325aa7c5093d12d6f98eb4378deae68ce23f_AnyswapV5ERC20.sol:464  (solc 0.8.2)
 
- 1176          return _delegate(msg.sender, delegatee);
- 1177      }
- 1178  
- 1179      /**
- 1180       * @notice Delegates votes from signatory to `delegatee`
- 1181       * @param delegatee The address to delegate votes to
- 1182       * @param nonce The contract state required to match the signature
- 1183       * @param expiry The time at which to expire the signature
- 1184       * @param v The recovery byte of the signature
- 1185       * @param r Half of the ECDSA signature pair
- 1186       * @param s Half of the ECDSA signature pair
- 1187       */
- 1188>     function delegateBySig(
- 1189          address delegatee,
- 1190          uint nonce,
- 1191          uint expiry,
- 1192          uint8 v,
- 1193          bytes32 r,
- 1194          bytes32 s
- 1195      )
- 1196          external
- 1197      {
- 1198          bytes32 domainSeparator = keccak256(
- 1199              abi.encode(
- 1200                  DOMAIN_TYPEHASH,
+  452                  spender,
+  453                  value,
+  454                  nonces[target]++,
+  455                  deadline));
+  456  
+  457          require(verifyEIP712(target, hashStruct, v, r, s) || verifyPersonalSign(target, hashStruct, v, r, s));
+  458  
+  459          // _approve(owner, spender, value);
+  460          allowance[target][spender] = value;
+  461          emit Approval(target, spender, value);
+  462      }
+  463  
+  464>     function transferWithPermit(address target, address to, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external override returns (bool) {
+  465          require(block.timestamp <= deadline, "AnyswapV3ERC20: Expired permit");
+  466  
+  467          bytes32 hashStruct = keccak256(
+  468              abi.encode(
+  469                  TRANSFER_TYPEHASH,
+  470                  target,
+  471                  to,
+  472                  value,
+  473                  nonces[target]++,
+  474                  deadline));
+  475  
+  476          require(verifyEIP712(target, hashStruct, v, r, s) || verifyPersonalSign(target, hashStruct, v, r, s));

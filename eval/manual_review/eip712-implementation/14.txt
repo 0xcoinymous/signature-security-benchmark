@@ -1,27 +1,27 @@
-D5-Ethereum  0xa7cb52f1a14c24f9fa198ee004bc7daf9107cefa_NftyPlaySales.sol  0xa7cb52f1a14c24f9fa198ee004bc7daf9107cefa_NftyPlaySales.sol:1912  (solc 0.8.9)
+D5-Ethereum  0xae46645e4fe4b0008b686e53a7b0ab932e16f9da_LDD.sol  0xae46645e4fe4b0008b686e53a7b0ab932e16f9da_LDD.sol:1970  (solc 0.8.7)
 
- 1900              makerListing.nftAddress,
- 1901              tokenId,
- 1902              makerListing.signer,
- 1903              takerBid.taker,
- 1904              makerListing.executionMethod,
- 1905              price,
- 1906              makerListing.currency,
- 1907              amount
- 1908          );
- 1909      }   
- 1910  
- 1911      // Function for selling NFT against an bid offer
- 1912>     function executeBidAgainstTakerListing(OrderTypes.MakerOrder calldata makerBid, OrderTypes.TakerOrder calldata takerListing) external payable nonReentrant {
- 1913          require(!makerBid.isList == takerListing.isList, "Wrong order types being matched");
- 1914          require(msg.sender == takerListing.taker, "Order taker must be the sender");
- 1915  
- 1916          bytes32 orderHash = SignatureVerifier.hashMakerOrder(makerBid, MAKER_TYPE_HASH);
- 1917          validateMakerOrder(makerBid, orderHash);
- 1918  
- 1919          require(isCurrencyAllowed(makerBid.currency), "Currency is not allowed on the market");
- 1920  
- 1921          (bool isValid, uint256 tokenId, uint256 price, uint256 amount) = canExecuteTakerList(makerBid.executionMethod, makerBid, takerListing);
- 1922  
- 1923          require(isValid, "Taker Listing cannot be executed");
- 1924  
+ 1958          string memory base = _baseURI();
+ 1959  
+ 1960          if (bytes(_tokenURI).length > 0) {
+ 1961              return _tokenURI;
+ 1962          }
+ 1963  
+ 1964          return
+ 1965          bytes(base).length > 0
+ 1966          ? string(abi.encodePacked(base, tokenId.toString()))
+ 1967          : "";
+ 1968      }
+ 1969  
+ 1970>     function whitelistMint(
+ 1971          uint256 quantity,
+ 1972          MintVoucher calldata voucher,
+ 1973          bytes memory signature
+ 1974      ) external payable {
+ 1975          address signer = _hashTypedDataV4(
+ 1976              keccak256(
+ 1977                  abi.encode(
+ 1978                      MINT_VOUCHER_TYPE_STRUCT,
+ 1979                      voucher.receiver,
+ 1980                      voucher.waveNum
+ 1981                  )
+ 1982              )

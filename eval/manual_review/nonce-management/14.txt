@@ -1,27 +1,27 @@
-D5-Ethereum  0x2b78a837c37549539c62ab54a235a8e19fea812f_CentWallet.sol  0x2b78a837c37549539c62ab54a235a8e19fea812f_CentWallet.sol:118  (solc 0.4.25)
+D5-Ethereum  0x244076b99Fb84363D4E7d7b4779bFFb7eB4e982D_TokenNetworkRegistry.sol  0x244076b99Fb84363D4E7d7b4779bFFb7eB4e982D_TokenNetworkRegistry.sol:630  (solc 0.8.10)
 
-  106  
-  107              if (wallet.linked[signer] || walletID == getWalletDigest(nameIDs[i], signer)) {
-  108                  wallet.linked[agent] = true;
-  109  
-  110                  emit Link(walletID, agent);
-  111              }
-  112          }
-  113      }
-  114  
-  115      /**
-  116       * Debit funds from a user's balance and add them to the escrow balance.
-  117       */
-  118>     function debit(
-  119          bytes32[] walletIDs,
-  120          uint256[] values,
-  121          uint64[] nonces,
-  122          uint8[] v, bytes32[] r, bytes32[] s) onlyAdmin public
-  123      {
-  124          require(
-  125              walletIDs.length == values.length &&
-  126              walletIDs.length == nonces.length &&
-  127              walletIDs.length == v.length &&
-  128              walletIDs.length == r.length &&
-  129              walletIDs.length == s.length
-  130          );
+  618      /// @notice Allows `participant` to withdraw tokens from the channel that he
+  619      /// has with `partner`, without closing it. Can be called by anyone. Can
+  620      /// only be called once per each signed withdraw message
+  621      /// @param channel_identifier Identifier for the channel on which this
+  622      /// operation takes place
+  623      /// @param participant Channel participant, who will receive the withdrawn
+  624      /// amount
+  625      /// @param total_withdraw Total amount of tokens that are marked as
+  626      /// withdrawn from the channel during the channel lifecycle
+  627      /// @param participant_signature Participant's signature on the withdraw
+  628      /// data
+  629      /// @param partner_signature Partner's signature on the withdraw data
+  630>     function setTotalWithdraw(
+  631          uint256 channel_identifier,
+  632          address participant,
+  633          uint256 total_withdraw,
+  634          uint256 expiration_block,
+  635          bytes calldata participant_signature,
+  636          bytes calldata partner_signature
+  637      )
+  638          external
+  639          isOpen(channel_identifier)
+  640      {
+  641          this.setTotalWithdraw2(
+  642              channel_identifier,

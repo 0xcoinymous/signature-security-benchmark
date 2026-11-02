@@ -1,27 +1,27 @@
-D5-Ethereum  0x0c8dbfb40a324674ad26fe7aeccd4c654036aa82_WalletFactory.sol  0x0c8dbfb40a324674ad26fe7aeccd4c654036aa82_WalletFactory.sol:3817  (solc 0.7.6)
+D5-Ethereum  0x7a848abebea15a4bc2c27a40fa78f44c3daecd2c_TaskRegister.sol  0x7a848abebea15a4bc2c27a40fa78f44c3daecd2c_TaskRegister.sol:910  (solc 0.4.24)
 
- 3805          }
- 3806      }
- 3807  
- 3808      /// @dev Create a new wallet by deploying a proxy.
- 3809      /// @param _owner The wallet's owner.
- 3810      /// @param _salt A salt to adjust address.
- 3811      /// @param _ensLabel The ENS subdomain to register, use "" to skip.
- 3812      /// @param _ensApproval The signature for ENS subdomain approval.
- 3813      /// @param _ensRegisterReverse True to register reverse ENS.
- 3814      /// @param _modules The wallet's modules.
- 3815      /// @param _signature The wallet owner's signature.
- 3816      /// @return _wallet The new wallet address
- 3817>     function createWallet(
- 3818          address            _owner,
- 3819          uint               _salt,
- 3820          string    calldata _ensLabel,
- 3821          bytes     calldata _ensApproval,
- 3822          bool               _ensRegisterReverse,
- 3823          address[] calldata _modules,
- 3824          bytes     calldata _signature
- 3825          )
- 3826          external
- 3827          payable
- 3828          returns (address _wallet)
- 3829      {
+  898              data: data,
+  899              requestPublicXPoint: requestPublicXPoint,
+  900              requestPublicYPoint: requestPublicYPoint,
+  901              answerPrivateKey: 0
+  902          });
+  903  
+  904          indexOfTaskId[taskId] = allTasks.push(task); // incremented to avoid 0 index
+  905          indexOfActiveTaskId[taskId] = taskIds.push(taskId);
+  906          emit TaskCreated(taskId);
+  907          payForTask(taskId);
+  908      }
+  909  
+  910>     function solveTask(uint _taskId, uint256 _answerPrivateKey, uint256 publicXPoint, uint256 publicYPoint) public isLastestVersion {
+  911          uint taskIndex = indexOfTaskId[_taskId].sub(1);
+  912          Task storage task = allTasks[taskIndex];
+  913          require(task.answerPrivateKey == 0, "solveTask: task is already solved");
+  914          
+  915          // Require private key to be part of address to prevent front-running attack
+  916          require(_answerPrivateKey >> 128 == uint256(msg.sender) >> 32, "solveTask: this solution does not match miner address");
+  917  
+  918          if (TaskType(task.taskId >> 128) == TaskType.BITCOIN_ADDRESS_PREFIX) {
+  919              ///(publicXPoint, publicYPoint) = ec.publicKey(_answerPrivateKey);
+  920              require(ec.publicKeyVerify(_answerPrivateKey, publicXPoint, publicYPoint));
+  921              (publicXPoint, publicYPoint) = ec.ecadd(
+  922                  task.requestPublicXPoint,

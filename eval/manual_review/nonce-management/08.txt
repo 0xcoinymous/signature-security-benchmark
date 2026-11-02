@@ -1,27 +1,27 @@
-D5-Ethereum  0x5e5af2c86b9114d7884a81228d342318c54a0815_SaveTheDate.sol  0x5e5af2c86b9114d7884a81228d342318c54a0815_SaveTheDate.sol:2458  (solc 0.8.9)
+D5-Ethereum  0x4f7f56d57607e346ff8719c9f34cba3bbccae71f_CelerLedger.sol  0x4f7f56d57607e346ff8719c9f34cba3bbccae71f_CelerLedger.sol:3323  (solc 0.5.17)
 
- 2446       * @dev A little less complicated brake if for ;)
- 2447       */
- 2448      function validateCommunityClaim(address claimer) external view returns (bool eligible, bool exempt) {
- 2449          (eligible, exempt,,) = _verifyCommunityClaim(claimer);
- 2450      }
- 2451  
- 2452      /**
- 2453       * @notice Date minting function
- 2454       * @param tokenDate The object representing the date by respectively year, month and day.
- 2455       * @param merkleProof Proof data for vverification against whitelist, empty for public sale.
- 2456       * @return Token ID.
- 2457       */
- 2458>     function mintDate(DateToMint calldata tokenDate, bytes32[] calldata merkleProof) external payable ensureAvailability nonReentrant returns (uint256) {
- 2459          require(suspendedSale == false, "The sale is suspended");
- 2460          require(salesPhase == SalesPhase.Presale || salesPhase == SalesPhase.Public, "Sale is not active");
- 2461          
- 2462          (bool _eligibleCommunity, bool _communityExempt, uint256 _communityIndex, uint256 _redeemIndex) = _verifyCommunityClaim(_msgSender());
- 2463  
- 2464          uint256 tokenPrice = (_communityExempt ? 0 : _dropTiers[dropSeries].regularPrice);
- 2465  
- 2466          if (tokenDate.isRandom && !_communityExempt && _validateDiscount(tokenDate)) {
- 2467              tokenPrice = _dropTiers[dropSeries].discountedPrice;
- 2468          } 
- 2469  
- 2470          require(msg.value >= tokenPrice, "Not enough ETH sent; check price!");
+ 3311       * @dev only peers can veto a withdrawal intent;
+ 3312       *   peers can veto a withdrawal intent even after (requestTime + disputeTimeout)
+ 3313       * @param _channelId ID of the channel
+ 3314       */
+ 3315      function vetoWithdraw(bytes32 _channelId) external {
+ 3316          ledger.vetoWithdraw(_channelId);
+ 3317      }
+ 3318  
+ 3319      /**
+ 3320       * @notice Cooperatively withdraw specific amount of deposit
+ 3321       * @param _cooperativeWithdrawRequest bytes of cooperative withdraw request message
+ 3322       */
+ 3323>     function cooperativeWithdraw(bytes calldata _cooperativeWithdrawRequest) external {
+ 3324          ledger.cooperativeWithdraw(_cooperativeWithdrawRequest);
+ 3325      }
+ 3326  
+ 3327      /**
+ 3328       * @notice Intend to settle channel(s) with an array of signed simplex states
+ 3329       * @dev simplex states in this array are not necessarily in the same channel,
+ 3330       *   which means intendSettle natively supports multi-channel batch processing.
+ 3331       *   A simplex state with non-zero seqNum (non-null state) must be co-signed by both peers,
+ 3332       *   while a simplex state with seqNum=0 (null state) only needs to be signed by one peer.
+ 3333       *   TODO: wait for Solidity's support to replace SignedSimplexStateArray with bytes[].
+ 3334       * @param _signedSimplexStateArray bytes of SignedSimplexStateArray message
+ 3335       */

@@ -1,27 +1,27 @@
-D5-Ethereum  0x77654e7e579b3c817a3672c1c66c050058b92b85_TCGDragons.sol  0x77654e7e579b3c817a3672c1c66c050058b92b85_TCGDragons.sol:1645  (solc 0.8.11)
+D5-Polygon  0x59e509af580730e7dbe102eeb364bb6e4ecdd50c_EthermonStaking.sol  0x59e509af580730e7dbe102eeb364bb6e4ecdd50c_EthermonStaking.sol:1185  (solc 0.6.6)
 
- 1633      address public original_signer = 0x839C90C930C635ec6E0052592A402D5E341d213e;
- 1634      mapping(string => bool) public mintKeys;
- 1635      event Dragon(address indexed _to, uint256 indexed _id);
- 1636      bytes32 public session_token;
- 1637      string public abii;
- 1638  
- 1639      // set signer address
- 1640      function setOriginalSigner(address _original_signer) public onlyOwner{
- 1641          original_signer = _original_signer;
- 1642      }
- 1643  
- 1644      // player claims price
- 1645>     function claimDragon(bytes32 _hashedMessage, uint8 _v, bytes32 _r, bytes32 _s, string memory _mintKey) public  returns (bool) {
- 1646          bytes memory prefix = "\x19Ethereum Signed Message:\n32";
- 1647  
- 1648  
- 1649          
- 1650          session_token = keccak256(abi.encodePacked(_mintKey));
- 1651  
- 1652  
- 1653          if(session_token != _hashedMessage){
- 1654              return false;
- 1655          }
- 1656          
- 1657          bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _hashedMessage));
+ 1173              stakingData.setMiscData(
+ 1174                  2,
+ 1175                  (totalStaked * stakingData.miscData(4)) / (365 * 24)
+ 1176              );
+ 1177          }
+ 1178  
+ 1179          stakingData.removePfpStaker(msgSender(), pfpId);
+ 1180  
+ 1181          for (uint256 i = 0; i < monId.length; i++)
+ 1182              stakingData.removeMonStaker(msgSender(), monId[i]);
+ 1183      }
+ 1184  
+ 1185>     function updateStakingData(
+ 1186          uint256 _lockId,
+ 1187          bytes32 _r,
+ 1188          bytes32 _s,
+ 1189          uint8 _v,
+ 1190          uint256 _nonce1,
+ 1191          uint256 _nonce2,
+ 1192          DepositeToken calldata _depositeToken
+ 1193      ) external isActive {
+ 1194          uint256 currentTime = now;
+ 1195  
+ 1196          require(
+ 1197              _depositeToken._monId.length <= maxMonCap &&

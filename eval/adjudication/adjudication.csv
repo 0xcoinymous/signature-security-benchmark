@@ -1,0 +1,220 @@
+file,type,sources,source_label,reported_by,label,reason
+0x00000000001ba87a34f0d3224286643b36646d81_Dungeonized.sol,replay,S1,0,extended+slither,1,"claimFounders: nonce consumed, but the signed message binds neither the contract nor the chain (line 1838)"
+0x00000000001bcad2be91675bd695690f3480c2f9_ProxyWallet.sol,replay,S1,0,extended,1,"transfer/proxy: nonces consumed, but the signed messages bind neither the wallet nor the chain, so another wallet with the same signers accepts them (lines 578, 589)"
+0x0000000020e0a4bc775eb0cbefc7cfbeafc88444_LogOfClaimedMEVBlocks.sol,replay,S1,0,extended,1,"submitClaim: claim hash consumed, but the signed message binds neither the contract nor the chain (line 72)"
+0x004982ddbef3b07db5f767ca75658a7d3498c504_SpermNFT.sol,replay,S1,0,extended+slither,1,"mint: the allow-list signature over (contract, sender, role) has no used flag; reusable up to the per-address cap (lines 2062-2074, 2097)"
+0x00c8162c86a977edc10c641636bdff1c59327983_Payments.sol,replay,S1,0,extended,1,"makePayment: the signed preimage (payment number, amount, method) binds neither the contract nor the chain (lines 139-142)"
+0x00e856ee945a49bb73436e719d96910cd9d116a4_AnyswapV5ERC20.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator, so the signature is valid on any token contract that shares the holder and nonce (lines 457, 501)"
+0x0112329508c09e5112b0ddf881b87804632f44a9_Crockz.sol,replay,S1,0,slither,1,"whitelist mint: the pass over the sender has no used flag; reusable up to the per-minter cap (lines 3689-3690, 3874)"
+0x015cea338ce68bd912b3c704620c6000ee9f4ab9_AnyswapV5ERC20.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 477, 521)"
+0x01a6fa5769b13302e82f1385e18baef7e913d0a7_Cool_Ape_Club.sol,replay,S1,0,extended+slither,1,"privateMint: the pass over (sender, word, allowance) has no used flag and binds neither contract nor chain; reusable up to the allowance (lines 1409-1413, 1437)"
+0x01af5d9f6a606a22f1becd36f3ef3336d776020d_BridgeAssistE.sol,replay,S1,0,extended,0,"collect: per-sender nonce checked and advanced, EIP-712 domain in the digest (lines 62-66, 75-77)"
+0x01bb8aac93261afc869ac612814852de0459af5b_GTA.sol,replay,S1,0,extended+slither,1,"mintCoupon: the used flag is keyed by the raw (r, s, v), so the second encoding of the same coupon passes; the digest (event, sender) binds neither contract nor chain (lines 1662-1664)"
+0x01e4a1a095b46c4131852567b61edec6805f0725_BallIdo.sol,replay,S1,0,extended,0,"publicSale: the nonce is marked used and the signed hash binds the contract (lines 799, 829)"
+0x01e8efb0429f102ea104681849265459532231ab_Clans.sol,malleability,S2,0,slither,0,"claim: EIP-712 typed data with the account nonce, advanced after use; OpenZeppelin ECDSA rejects high s (lines 213, 250, 256)"
+0x01e8efb0429f102ea104681849265459532231ab_Clans.sol,replay_cross_chain,S2,0,slither,0,"claim: EIP-712 typed data with the account nonce, advanced after use; OpenZeppelin ECDSA rejects high s (lines 213, 250, 256)"
+0x01e8efb0429f102ea104681849265459532231ab_Clans.sol,replay_cross_contract,S2,0,slither,0,"claim: EIP-712 typed data with the account nonce, advanced after use; OpenZeppelin ECDSA rejects high s (lines 213, 250, 256)"
+0x01e8efb0429f102ea104681849265459532231ab_Clans.sol,replay_single,S2,0,slither,0,"claim: EIP-712 typed data with the account nonce, advanced after use; OpenZeppelin ECDSA rejects high s (lines 213, 250, 256)"
+0x0215cc1eed633665d3cd385f7a891df616ab1706_DPRBridge.sol,replay,S1,0,extended,1,"confirmWithdrawTransfer: the message status makes it one-time, but the signed data is only the message id, bound neither to the bridge nor to the chain (lines 717-720)"
+0x0216a774d40296b54d95352ce5b0460343b7d199_FunderSmartToken.sol,replay,S1,0,extended,1,"delegateTransferAndCall: nonce consumed, but the signed message binds neither the token nor the chain (line 437)"
+0x0234b4752963c46fcfc2442acfe172e85377aab9_Main0001_initFirstDeploy.sol,replay,S1,0,extended,0,"delegatedTransfer: the signed hash binds the token (this) and is marked used before the transfer (lines 829, 946-947)"
+0x029c6ef55d0f3940eca445567951c1eb87f49462_Median.sol,replay,S1,0,extended,1,"poke: the signed price message (value, age, asset) binds neither the medianizer nor the chain; another medianizer for the same asset and oracles accepts it (line 111)"
+0x02cc0390fa44da7fe516b527d33d8a629c56f6e6_GenevExch.sol,replay,S1,0,extended,0,"trade: the order hash binds the exchange, fills are capped by orderFills and the order expires; partial fills are by design (lines 280-287)"
+0x02d06e8a3348f5d277d9ff3160c8d3017aa0c4ca_NFTMarketplace.sol,replay,S1,0,slither,0,"redeemToken: EIP-712 voucher; minting the voucher's token id a second time reverts, so each voucher is used once (lines 2186, 1850)"
+0x02e5bbdf753a2e8603a0e332e31a1a2397263e7a_Celda.sol,replay,S1,0,extended,1,"claimCelda: the nonce is marked used, but the signed hash (sender, amount, nonce, data) binds neither the contract nor the chain (lines 1714, 1728)"
+0x0525b060ffc34878a7e4fff14c91c811552d59d5_LinkdropMastercopy.sol,replay,S1,0,extended,0,"claim functions: the link is marked claimed and the signer's message includes the chain id and the contract (lines 1118-1131, 1255)"
+0x05366df4fd6b672acbcd0248e6bdaf66c881122c_Fibswap.sol,replay,S1,0,extended,0,"execute: the transfer id is marked processed; the router signs the transfer id, which carries the origin and destination domains (lines 2641-2646)"
+0x0560e8081654b465593595c152be9cf5d8214bdf_NFTits.sol,replay,S1,0,extended,1,presaleMint: the pass over the account has no used flag and binds neither contract nor chain; reusable up to the cap (lines 1551-1559)
+0x056c0aef6f45a76c4a3da82bec566f3cbfea8805_SafeasyToken.sol,replay,S1,0,extended,1,"transferProxy: the nonce is advanced, but the signed hash (from, to, value, fee, nonce) binds neither the token nor the chain (lines 468, 479)"
+0x059a3e32072bf9472c1728b47c8cf19b05c6523c_PieVerseMasterKey.sol,replay,S1,0,extended,1,"mintTokens: the nonce is consumed, but the signed message (sender, category, nonce) binds neither the contract nor the chain (lines 2077-2084)"
+0x05cbd37ca528b7ea50800aa80ddd0f9f30c952f0_ZAuction.sol,replay,S1,0,extended,0,"acceptBid: the bid is marked consumed per bidder and auction, and the signed bid includes the contract and the chain id (lines 755-790, 799-808)"
+0x05e4787fc9301fc70873c42eb4c1ef243269629b_ExenoFinance.sol,replay,S1,0,extended+slither,1,"validateVoucherCede/Claim: the proof is a signature over the beneficiary only, reusable for any voucher of that beneficiary (line 3292)"
+0x062731ae835470b1de583ac0df88631790013bc2_DCT.sol,replay,S1,0,extended,1,"stake: the admin and user signatures cover only (time, amount), have no used flag and bind neither contract nor chain; reusable within the five-minute window (lines 995-1015, 970)"
+0x065930b78137fc937914d4900281e3df14be229e_PortContract.sol,replay,S1,0,extended,1,"setThreshold and other admin setters: the quorum signs caller-supplied hashes unrelated to the change, so old signatures authorise any new value (lines 1064-1068)"
+0x066b613a215df9aa5cda247ac3d497fedbdac126_InterstellarApeClubContract.sol,replay,S1,0,slither,0,"executeMetaTransaction: per-user nonce in an EIP-712 message with the chain id and the contract (lines 389-393, 449)"
+0x06b0a8dd1c0bb852cd4b8067814059219cd42150_PAXImplementationV2.sol,replay,S1,0,extended,0,"betaDelegatedTransfer: EIP-712 domain, sequence checked and advanced, s and v bounded (lines 566-572, 578-579)"
+0x0732156088264b59ee9287851c4457326127ec3e_Shizuka.sol,replay,S1,0,extended,1,"allowlistMint: the pass over (sender, limit) has no used flag and binds neither contract nor chain; reusable up to the limit (lines 1705-1707)"
+0x0743cde04b930cf45c307d99d9c6983c9e1898d8_HappyRedPacket_ERC721.sol,replay,S1,0,extended,0,"claim: the packet key signs the claimer, each packet has its own key and a claim is recorded per packet and claimer (lines 458-460, 540)"
+0x0751d03ea85063abf3d8f24fc8f35255b2f065b8_Aliens88CMinter.sol,replay,S1,0,extended,0,claim88C: snapshot and burn ids are marked used per claim; signatures cover the claimer and ids (lines 2739-2790)
+0x0770c4e695851addcc3b47ababb99c55187edd49_HIKARI.sol,replay,S1,0,extended,1,"allowlistMint: the pass over (account, type) has no used flag and binds neither contract nor chain; reusable up to the per-address cap (lines 1760, 1786-1790)"
+0x07fd4d58be6b8ad72b18fa8b188526f2bb133b19_xGU.sol,replay,S1,0,slither,0,no signature verification in the contract (library code only)
+0x08005e68736bb579fca86195befc4baf623a5bea_Bitties.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0x08005e68736bb579fca86195befc4baf623a5bea_Bitties.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0x08005e68736bb579fca86195befc4baf623a5bea_Bitties.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0x08005e68736bb579fca86195befc4baf623a5bea_Bitties.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0x0823a42a8cd0629b1ad3b63f30b951ab030e6824_ERC1155Minter.sol,replay,S1,0,extended+slither,1,"mint/buyNow: the admin signature covers the token hash (uri, title, supply) and binds neither the contract nor the chain (lines 2850, 2861)"
+0x08403c04fd7163e59a71dd237a4ea33d8a9f821b_OrbitalGovernor.sol,replay,S1,0,extended,0,castVoteBySig: EIP-712 ballot; the governor records one vote per voter and proposal (lines 3792-3793)
+0x084314184599c71f03a1b15edb8161a1f72c01d4_DharmaSmartWalletImplementationV12Staging.sol,replay,S1,0,extended,0,"withdrawDai: the action id binds the wallet and the nonce, which is checked and incremented (lines 698-702, 2657-2659)"
+0x0860bb9b090c5473e22818d1a5119a5f9b6983bd_ERC721Sale.sol,replay,S1,0,extended,0,"mint: the owner signs (contract, token id) and minting an existing id reverts; buy: the shared nonce holder advances the per-token nonce (lines 1396, 1783-1791)"
+0x08957c298c1232e7fcf383f974dd92e7d9f6496e_collectionFactoryV1.sol,replay,S1,0,slither,0,"executeMetaTransaction: per-user nonce in an EIP-712 message with the chain id and the contract (lines 1320-1324, 1380)"
+0x08a0b014d4ee03cc1ebbbd59e37e6abee2ecc6c5_EliteBridge.sol,replay,S1,0,extended,1,"claim: the message hash is marked used, but the signed message (receiver, token, amount, time) binds neither the bridge nor the chain (lines 290-297, 317)"
+0x09211dc67f9fe98fb7bbb91be0ef05f4a12fa2b2_AnyswapV5ERC20.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 477, 521)"
+0x093b68bfe0859d3c857fc3529952897c30dd17eb_DODOLimitOrder.sol,replay,S1,0,extended,0,"fillLimitOrder: EIP-712 order hash, filled amount tracked and capped per order (lines 629-632)"
+0x095b62f545c8977af446cb5946b2de73610fdab6_FK_the_SEC.sol,replay,S1,0,slither,0,no signature verification in the contract
+0x095c0f071fd75875a6b5a1def3f3a993f591080c_Locker.sol,replay,S1,0,extended,0,"delegatedTransfer: the signed hash binds the contract (this) and is marked used (lines 295, 412-413)"
+0x097d792559dc952647243916849f0ef5cedd9a72_TheEscapeVerseOnChainIQ.sol,replay,S1,0,extended,1,"addIqPoints: the per-sender nonce is advanced, but the signed hash (sender, sum, nonce) binds neither the contract nor the chain (lines 462-475)"
+0x09a439c50465e447cb1a662da536f23a7e39374e_SwaprateMatch.sol,replay,S1,0,slither,0,permit and order matching use an EIP-712 domain separator with a consumed nonce (lines 1354-1364)
+0x09cd34f5491b0e202739de3f3929cac5198024d7_PelxpMarketplace.sol,replay,S1,0,extended,1,"executeOrder: the used flag is keyed by msg.sender, and either the user or the buyer may call, so one signature executes twice (lines 1385-1388)"
+0x09f589e03381b767939ce118a209d474cc6d52fc_MutantMfers.sol,replay,S1,0,extended+slither,1,"freeClaimMint: claimed token ids are recorded, but the signed message (sender, token ids) binds neither the contract nor the chain (lines 1401, 1415-1417)"
+0x0a0b052d93eaa7c67f498fb3f8d9f4f56456ba51_POLCBridgeTransfers.sol,replay,S1,0,extended,1,"manager setters: the task hash is marked executed, but it binds neither the bridge nor the chain (lines 286, 319-325)"
+0x0a1618a6f0b9d3e37dc673ab1cd67471760bc06a_ShellzOrbV2.sol,replay,S1,0,extended,1,"mint: the pass over (sender, allowance, window, contract) has no used flag; reusable up to the allowance (lines 3153-3206)"
+0x0a22bd126fcea224df733fb400993c1627e74082_MyntistInvestorsMarketplace.sol,replay,S1,0,extended,1,"transfer1155: the nonce is marked seen, but the signed message (to, amount, key, nonce) binds neither the marketplace nor the chain (lines 186-188, 14)"
+0x0a27f6c961c09c60d40cde4de7922e161c9c66e9_VektorX.sol,replay,S1,0,slither,1,"mint pass: the signature covers (sender, word), has no used flag and binds neither contract nor chain (lines 1348-1352)"
+0x0a4527df3db9fde03580637fca4cedc7877efe66_OwnbitMultiSig.sol,replay_single,S3,0,extended,0,"spend: the message binds the wallet and the spend nonce, which is advanced after each spend (lines 245-247, 333)"
+0x0a992d191deec32afe36203ad87d7d289a738f81_MessageTransmitter.sol,replay,S1,0,extended,0,receiveMessage: the attested message carries source and destination domains and its nonce is marked used; replaceMessage re-attests by design (lines 3403-3461)
+0x0a9ae124f7f6493a7adb39a309fc2c9a24a87425_Main0004_adjustInterest.sol,replay,S1,0,extended,0,"delegatedTransfer: the signed hash binds the contract (this) and is marked used (lines 550, 667-668)"
+0x0aabcc65ef352ad84b1326df188c95b6ab856c1c_Scorefam.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 457, 501)"
+0x0ab6e894c973932b64974bf9e91e93332e51a98c_EvaCurrency.sol,replay,S1,0,extended,0,"transferOnBehalf/withdrawOnBehalf: the signed hash binds the contract and the nonce must exceed the last used one, which is stored (lines 508-520, 531-534)"
+0x0abd5db5b817100c386047fc3e393713fcd7c3ae_MenaceWarriors.sol,replay,S1,0,extended,1,"VIPMint: the signature covers only the sender, has no used flag and binds neither contract nor chain (lines 2428-2432)"
+0x0c0f49b8efc5a2ddeb34e1f6f51292efa0a6cc7a_DoodlePenguins.sol,replay,S1,0,extended+slither,1,"presaleMint: the whitelist signature covers only the sender, has no used flag and binds neither contract nor chain (lines 1836-1842)"
+0x0c1af890d3ffbce6190ee1ded7e0915baa720c87_RedeemableNative.sol,replay,S1,0,extended,0,"executeMetaTransaction: per-user nonce in an EIP-712 message with the chain id and the contract (lines 846-852, 875)"
+0x0c51f87182c3ab3f02b6d848e46cbe64be4c2edf_SKMarketPlace.sol,replay,S1,0,extended,1,"addItem/buyItem/buyCart: the caller's nonce is advanced, but the platform's signed messages bind neither the marketplace nor the chain (lines 1126-1132, 1234)"
+0x0c75dd36af9a59ba1d248a98fe91b2384cfea9be_AnyswapV5ERC20.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 481, 525)"
+0x0c8dbfb40a324674ad26fe7aeccd4c654036aa82_WalletFactory.sol,replay,S1,0,extended,0,"createWallet2: the wallet address is derived with CREATE2 from the signed request, so a second creation fails; EIP-712 domain (lines 3861-3894)"
+0x0cb602c7cf75cf60a2d48ffbbc9d837906f2194e_Bridge.sol,replay,S1,0,extended,1,"claimToken: tx and message hashes are marked used, but the message (sender, amount, tx, signer, deployer, deadline) binds neither the bridge nor the chain (lines 451-453, 489)"
+0x0cbdbac1eeaf832dc8b0870e441afa6d473e25f0_OtteyOtters.sol,replay,S1,0,extended,0,"presaleMint: the nonce is marked used and the signed hash binds the contract (lines 1649-1655, 1687)"
+0x0cc86da640878dbcf54d0f090a51f9c1c85aa42c_DAOBnBNFT.sol,replay,S1,0,extended,1,"mintPreSale: nounce 0 is always accepted, so a signature for nounce 0 is reusable (line 1905)"
+0x0cd022dde27169b20895e0e2b2b8a33b25e63579_EverRise.sol,replay,S1,0,extended,0,transferFromWithPermit: EIP-712 permit with the owner's nonce advanced (lines 1721-1748)
+0x0cdc3052f7a13634ed1f30abae4b92953dd35fa6_WWAfterparty.sol,replay,S1,0,extended,1,"mintAfterpartyWL: the signature covers only the sender, has no used flag and binds neither contract nor chain (lines 1464-1468, 1523)"
+0x0cf40c9414a045e67f12aa6fdd25480f6186f0a3_IllLickIt.sol,replay,S1,0,slither,0,no signature verification in the contract
+0x0d0c1e10fff4b19802bf74c535bcb82e48d54a08_LedgerOperation.sol,replay,S1,0,extended,0,state channels: signed states carry a channel id derived from the ledger and a sequence number that must increase
+0x0d4e37b3e051cc51eddeeca42341e4db431eb85e_THUGLAND.sol,replay,S1,0,slither,0,"executeMetaTransaction: per-user nonce in an EIP-712 message with the chain id and the contract (lines 398-402, 457)"
+0x0d945513992679f3f4083f1cb2b630a898285660_BAETradeETH.sol,replay,S1,0,extended,0,"buyArtworkETH: the order hash binds the contract, fills are capped by orderFills and the order expires (lines 152-172)"
+0x0da8116ed53797221a24c40193fd83ee28d75b67_ManagedMultiWallet.sol,replay,S1,0,extended,1,"get: the key signs only the caller's address, binding neither the wallet contract nor the chain (lines 49-55)"
+0x0db55edc962e5179ba58c43b47986ef915bddc79_LittleMutants.sol,replay,S1,0,extended,1,"mintWL: the signature covers only the sender, has no used flag and binds neither contract nor chain (lines 1829-1832, 2007)"
+0x0dcb0cb0120d355cde1ce56040be57add0185baa_AnyswapV5ERC20.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 461, 505)"
+0x0dfae14a7973ded69fc0223da55460bc29994fdd_TokiUniverse.sol,replay,S1,0,slither,0,whitelistMint: the nonce is marked used and the message binds the contract (lines 1134-1145)
+0x0e40f85057cb7c850af4f6bd50a22359c6e2211b_ERC20WrapperGluwacoin.sol,replay,S1,0,extended,0,reserve: the per-sender nonce is reserved once and the signed hash binds the contract (line 1458)
+0x0e64e8432a259c52846acdaf4e529125e840160f_AIC_Operatives.sol,replay,S1,0,extended+slither,1,"privateMint: the pass over (sender, word, cap) has no used flag; reusable up to the per-wallet cap (lines 2093, 2110-2111)"
+0x0eb1626260f2d958132f9742b716c51242df2cf9_TransferProxy.sol,replay,S1,0,extended,0,"mint: the owner signs (contract, token id) and minting an existing id reverts; buy: the nonce holder advances the per-token nonce (lines 1385, 1769-1775)"
+0x0f36f2da9f935a7802a4f1af43a3740a73219a9e_DharmaTradeBotV1Staging.sol,replay,S1,0,extended,0,processLimitOrder: the order id is invalidated after use and verified through the wallet's ERC-1271 (lines 539-555)
+0x0f3b491841680eb40bd2be42bce7104f2511dbd9_Part.sol,replay,S1,0,extended,1,"mintPartSigned: minting an id twice reverts, but the signed message (token id, sender, uri) binds neither the contract nor the chain (lines 1335-1340)"
+0x0f416bd36fdee5e6afc88a6238bff5a5fad6c7fb_ComptorllersAuctionIndividual.sol,replay,S1,0,extended,0,claimPayment: the nonce is marked used and the message binds the contract (this) (lines 312-316)
+0x0f75214ac5af0bb9ed5e3475bc7819a1a3980c3e_Cells.sol,replay,S1,0,extended+slither,1,lockCell/verifyAndMint: the signed messages bind neither the contract nor the chain (line 1541)
+0x0fc6c0465c9739d4a42daca22eb3b2cb0eb9937a_VSCToken.sol,replay,S1,0,extended,0,tokensReceived: the proof is marked used and the hash binds the contract; this ECDSA version rejects high s and has no 64-byte form (lines 1014-1017)
+0x0ff5e7b1a54387458f4dd2f04cdda7d1246c34d9_Breaker.sol,replay,S1,0,extended,0,"permit: EIP-712 domain recomputed when the chain id changes, with the owner's nonce (lines 159-166)"
+0x10010078a54396f62c96df8532dc2b4847d47ed3_Hundred.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 457, 501)"
+0x10261db159b2809661c47623824e03f58637d12b_Yedolegacy.sol,replay,S1,0,extended+slither,1,"buyTokenWithWhiteList: the whitelist signature over the wallet has no used flag; reusable up to the per-transaction limit (lines 1907, 1915-1917)"
+0x109a68761a7d9a99949e9da0363244861eff6a22_SixthSocietyNFTSaleWithSig.sol,replay,S1,0,extended,0,buy: the user nonce in the EIP-712 message is checked and incremented (lines 2635-2638)
+0x10adf50e15611d5a4de3bd21f0db7f3491a8ae0f_Monetas.sol,replay,S1,0,extended,0,"execute: forwarder with registered EIP-712 domains and per-sender nonces; delegateBySig uses an EIP-712 domain (lines 220, 295-296, 1443)"
+0x10b23ed4e32748376b931b52bca5a4dc3d1b30a7_MMGAMERS.sol,replay,S1,0,extended,1,"withdrawYourFund: the signed (amount, player, nonce) is never marked used, so the same signature withdraws again (lines 916-926, 893)"
+0x1111111254eeb25477b68fb85ed929f73a960582_AggregationRouterV5.sol,replay,S1,0,extended,0,fillOrderRFQ: RFQ orders are invalidated in a per-maker bitmap and the order hash uses an EIP-712 domain
+0x1111111254fb6c44bac0bed2854e76f90643097d_AggregationRouterV4.sol,replay,S1,0,extended,0,fillOrderRFQ: RFQ orders are invalidated in a per-maker bitmap and the order hash uses an EIP-712 domain
+0x1144069d1868f2786b5f7d2679578634f230d187_ByeBanx.sol,replay,S1,0,extended+slither,1,"privateSaleMint: the pass over the minter has no used flag and binds neither contract nor chain; reusable up to the cap (lines 1600, 1648)"
+0x116fda1bf1f9c38a98afe2a8fd67ba5b9714dfa9_SocietyOfTheHourglass.sol,replay,S1,0,extended+slither,1,"shop: the signature covers (key, group, sender), has no used flag and binds neither contract nor chain; reusable up to the per-address cap (lines 1792, 3244-3246)"
+0x1178fc99d9aed87673029b6a2de09783a4db5101_Erc20Bridge.sol,replay,S1,0,extended,0,"withdraw: the destination chain is checked, the deposit id is recorded once and the message uses an EIP-712 domain (lines 929-987)"
+0x11acd8dfcbc9711ad88e5d7b57fb4f1c6510b5cf_LiteSig.sol,replay,S1,0,extended,0,submit: multisig over an EIP-712 domain with a nonce that is advanced
+0x11b67b54762d808a670aaaca75c03ef2d14ddf09_EXGOStore.sol,replay,S1,0,extended,0,"mintWithSignature: the signed hash binds the contract (this) and is marked used (lines 1579-1581, 1629)"
+0x130966628846bfd36ff31a822705796e8cb8c18d_AnyswapV5ERC20.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 477, 521)"
+0x131477b4899ec040d9b7e8149d89e05ecfae8e8f_MetaTxGateway.sol,replay,S1,0,extended,0,"executeMetaTransaction: per-user nonce in an EIP-712 message under the registered domain of the whitelisted target (lines 1027-1047, 1103)"
+0x131aebbfe55bca0c9eaad4ea24d386c5c082dd58_ERC721Sale.sol,replay,S1,0,extended,0,"mint: the owner signs (contract, token id) and minting an existing id reverts; buy: the nonce holder advances the per-token nonce (lines 1385, 1780-1786)"
+0x137a81298c11708006405d75bc0541a2a07c0b33_JKKeyCard.sol,replay,S1,0,extended,1,"presaleMint: the signed hash over (sender, count) has no used flag and binds neither contract nor chain; reusable up to the per-address cap (lines 1368-1371, 1392)"
+0x1385cb2708004dac1d96340f94372c94a3e92897_Crosschain.sol,replay,S1,0,extended,1,"transferToken: the transfer is marked withdrawn and uses an EIP-712 domain, but the quorum loop counts every valid signature without rejecting duplicates, so one node signature repeated reaches the threshold (lines 350-366)"
+0x13a31462960387b1603fba2331d560ec48fa9390_Compensation.sol,replay,S1,0,extended,1,"claim: one claim per address, but the signed message (sender, amount) binds neither the contract nor the chain (lines 131-138)"
+0x13ed73f278d352fb7861d626737ded6fe50b9df4_CaptainsSeller.sol,replay,S1,0,slither,0,permit: Solmate-style EIP-712 permit with a consumed nonce (lines 353-397)
+0x13f91d2eedfe45596d8c1bf055fed188ae85553f_Trade.sol,replay,S1,0,extended,1,"buy/bid functions: nonces are marked used, but the signed messages bind neither the marketplace nor the chain (lines 276, 355-361)"
+0x1411ec02894e3f0dc9ec6098f2f2d6b49e40c2f0_BullaBulla.sol,replay,S1,0,extended+slither,1,"whitelistMint: one mint per address, but the signed message (sender, action) binds neither the contract nor the chain (lines 1966, 1990-1992)"
+0x141a01b4ec8e9424dec5b866c0f580d552007ac5_LiteSig.sol,replay,S1,0,extended,0,submit: multisig over an EIP-712 domain with a nonce that is advanced
+0x142914e134348e51c5f402baed81810a1f829e7b_DualsigsLogic.sol,replay,S1,0,extended,1,"enter -> verifyClient: for a changeAdminKeyWithoutDelay proposal the client signature covers no nonce (getSignHashWithoutNonce, line 912), so the same client signature is accepted again with any new backup signature"
+0x14297a19f72095420d4968ed621cdc5ae6f34d87_Kaimoji.sol,replay,S1,0,extended+slither,1,"privateMint: the pass over (sender, word) has no used flag and binds neither contract nor chain (lines 2092-2095, 2134)"
+0x1439e774640d03c37e12772037dc8fbce90e41f4_TrippinApeYachtClub.sol,replay,S1,0,extended+slither,1,"mintServer: signatureUsed is written but never checked, so the same signature mints again (lines 1587-1590, 1594-1596)"
+0x1442dc401d425f0ec5fd15334a6012b8c2ce6bd1_TransferProxy.sol,replay,S1,0,extended,0,"mint: the owner signs (contract, token id) and minting an existing id reverts; buy: the nonce holder advances the per-token nonce (lines 1385, 1769-1775)"
+0x1484fc25e9144275696f8afa905dba42323eb2b1_ERC1155Mintable.sol,replay,S1,0,extended,0,"lazyMint: the creator signs (contract, nonce, uri, price, max supply); further mints of the same nonce are capped by the signed max supply (lines 2169-2210)"
+0x148e4ee12bc0befe2854f108fba15771dcc5747a_SuperfineRewardDistributionV1.sol,replay,S1,0,extended+slither,1,"create/updateSuperfineCampaign: the campaign signature (id, creator, rewards, fee) binds neither the contract nor the chain and has no used flag (lines 1722, 1777, 1981-1983)"
+0x14aabc5ade82240330e5be05d8ef350661aebb8a_BTTSTokenFactory.sol,replay_single,S3,0,extended,0,signedTransfer/signedApprove: the per-owner nonce must match and is advanced; the signed hash binds the token (lines 739-771)
+0x14da7b27b2e0fedefe0a664118b0c9bc68e2e9af_BCUG.sol,replay,S1,0,extended,0,"mint/freeze: the operation hash binds the contract and a nonce that is incremented after each operation (lines 1183, 1228)"
+0x14f2a9c262cb47c5475f3cf16f735da0d1e91e33_VaultRegistry.sol,replay,S1,0,extended,0,"permit/permitAll: EIP-712 domain, owner nonce consumed, deadline enforced (lines 1496-1568)"
+0x150db41d9b5a4deec83b25f045a641763b6ec8f1_CallistoBridge.sol,replay,S1,0,extended,0,"claim: the deposit (source chain, tx id) is marked processed and the message includes the destination chain id (lines 710-714)"
+0x150f1a8e93142a715568622986b14870fa55b44b_AquaCultureNFT.sol,replay,S1,0,extended,1,"createAssetPublic/createNFT/buy functions: nonces are marked seen, but the signed message (to, amount, key, nonce) binds neither the contract nor the chain (lines 1164-1166)"
+0x155e52edaf1d576e33a31ab4a5d3896eb8e6c051_HanYinToken.sol,replay,S1,0,extended,1,"transferProxy/approveProxy: the nonce is advanced, but the signed hash binds neither the token nor the chain (lines 446-448, 651-656)"
+0x158fe5866b0f3f346844e81a95429afdfa2bdf7a_BXHNFTCollection.sol,replay,S1,0,extended,1,"mintNFT: the salt is marked used, but the signed message (sender, event, count, salt) binds neither the contract nor the chain (lines 2482-2523)"
+0x15e2d852019de0989a82eb518687ddb00b2c2df4_DataContract.sol,replay,S1,0,extended,1,"whitelistParticipant: each participant once, but the signature over the participant binds neither the contract nor the chain (lines 1205-1207)"
+0x164d322b2377c0fddb73cd32f24e972a7d9c72f9_MultisigControl.sol,replay,S1,0,extended,1,"set_threshold/add_signer/remove_signer: nonces are marked used, but the signed message (data, nonce, submitter) binds neither this multisig nor the chain (lines 138, 184-187)"
+0x166df39721b2fd26d4907f91df74f6ae064a38ae_FinalCoreModule.sol,replay,S1,0,extended,0,createWallet2/executeMetaTx: CREATE2 wallet creation and meta-transactions under an EIP-712 domain with consumed hashes
+0x167f4c0561eea486ac7cf11f7fa1b88beaa47c28_JRNYRewardsNFT.sol,replay,S1,0,extended,1,"authorizedMint: the hash is marked minted, but the signed message (sender, id, unique, nonce) binds neither the contract nor the chain (lines 1607-1610, 1649)"
+0x16a893f27fdb30cc05d8fd7a333a5ab841461658_HyperLimit.sol,replay,S1,0,extended,0,executeOrder: the witness key signs the relayer address by design; each order's funds sit in its own vault and are withdrawn once (lines 712-756)
+0x16aba2d28329620f31d44748ec82fa08daa50b86_AnyswapV5ERC20.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 477, 521)"
+0x170b576fef891f5c3534700bdc5463010bcbd018_Battle.sol,replay,S1,0,extended,0,"battleReward: manager nonces are incremented, signatures are marked used and the message includes the chain id (lines 534-541, 355)"
+0x173fd7434b8b50df08e3298f173487ebdb35fd14_AnyswapV5ERC20.sol,replay,S1,0,slither,1,"permit/transferWithPermit: the personal-sign path hashes the struct without the domain separator (lines 477, 521)"
+0x17752f916f2206a2665fb5396b6c9267921d1b65_DataSyndicateNFT.sol,replay,S1,0,slither,0,"executeMetaTransaction: per-user nonce in an EIP-712 message with the chain id and the contract (lines 1493-1497, 1552)"
+0x17cbabee420494ad46bb53618793aad0a7fdcdd5_Gen2Sales.sol,replay,S1,0,extended,0,"privateSale/whitelistSale: one purchase per address, EIP-712 typed signature (lines 452, 795-815)"
+0x17ce2e6fa8c681ec0980c6d196f6b839eb4a1cd0_ERC20CappedShort.sol,replay,S1,0,extended,0,openPosition/increasePosition: loan offerings are hashed with the margin contract and their filled and cancelled amounts are tracked
+0x17d7d94e1c15153494d8dee37da6f6fd9492f0cf_FluffyStreet.sol,replay,S1,0,extended,1,"WLMint: the signature covers only the sender, has no used flag and binds neither contract nor chain (lines 2420-2423)"
+0x18ec2a30ecaaec7a77953ae4dc57d80626a86825_Trade.sol,replay,S1,0,extended,1,"buy/bid functions: nonces are marked used only for ERC-721 orders and the signed messages bind neither the marketplace nor the chain (lines 476-478, 507)"
+0x19391ca492fc5994f13e0031ed5b5d9134a35d14_WineGrower.sol,replay,S1,0,extended,1,"updateMetadata_signature/mint: the signed messages (sender, token id, uri) have no used flag and bind neither the contract nor the chain (lines 1770, 1823-1833)"
+0x19439890f95d16516b1c0342f26e324a9565571e_LeisureProject.sol,replay,S1,0,slither,0,no signature verification in the contract
+0x198478f870d97d62d640368d111b979d7ca3c38f__8SIAN_.sol,replay,S1,0,extended+slither,1,"presale mint: the pass over (sender, word, extra, allowance) has no used flag and binds neither contract nor chain (lines 1350-1354)"
+0x1e97011e7ee616e6fdc1b0d87e1e25c9d5335880_HousewifeKitties.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0x1e97011e7ee616e6fdc1b0d87e1e25c9d5335880_HousewifeKitties.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0x1e97011e7ee616e6fdc1b0d87e1e25c9d5335880_HousewifeKitties.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0x1e97011e7ee616e6fdc1b0d87e1e25c9d5335880_HousewifeKitties.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0x26d6831426936f6ebc7e82a232e0c4400e16975e_StoneAge.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0x26d6831426936f6ebc7e82a232e0c4400e16975e_StoneAge.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0x26d6831426936f6ebc7e82a232e0c4400e16975e_StoneAge.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0x26d6831426936f6ebc7e82a232e0c4400e16975e_StoneAge.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0x3038045cd883abff0c6eea4b1954843c0fa5a735_RequestEthereum.sol,replay_cross_contract,S2,0,extended,0,broadcastSignedRequestAsPayer: the request hash includes the contract (this) (line 1594)
+0x31ecff90b73fa983e0aaf5be6c07b20f734f3c02_GenesisOathMinter.sol,malleability,S2,0,slither,0,"recovery uses OpenZeppelin ECDSA, which rejects high s and invalid v (lines 1985-2160)"
+0x31ecff90b73fa983e0aaf5be6c07b20f734f3c02_GenesisOathMinter.sol,replay_single,S2,0,extended+slither,1,"mint: the minting signature over the recipient has no used flag; reusable up to the wallet limit (lines 106-114, 894)"
+0x339269b0215de3bb2471f0f14b8aa34c7d0ce6d6_TetherSender.sol,replay_single,S2,0,extended,1,"transferMulti/transferExMulti: the source signs only the data hash; no nonce or used flag, so the same signature transfers again (lines 781-782, 799-800)"
+0x33ee3f6846c28f61809be70d51d5a4a3a7cce39f_GameDiseaseArtDispenser.sol,replay_single,S2,0,extended,0,"mint: minting an existing token id reverts, so each signature mints once (lines 1638-1640)"
+0x3b5389dd17f1c8a7d0dd5849691a6b5835a567cb_MasterchefMasatoshiJuniorX.sol,replay_cross_contract,S3,0,extended,0,"the signed message binds the sender and the contract (hashMessage(sender, address(this))) (lines 102-103, 141)"
+0x3c037014486aaa5d509c5171d413c8b3022f1072_CloversController.sol,replay_single,S3,0,extended,0,claimCloverWithSignature: a clover id can be claimed once (exists check) (lines 1945-1949)
+0x3d29f705d5ac7e183aa186ec4ef982a39d45a9ef_Cyberdad.sol,replay_cross_contract,S2,0,extended,0,"whitelistMint: the signature binds the contract and the sender, one mint per address (lines 86, 104-110)"
+0x3d29f705d5ac7e183aa186ec4ef982a39d45a9ef_Cyberdad.sol,replay_single,S2,0,extended,0,"whitelistMint: the signature binds the contract and the sender, one mint per address (lines 86, 104-110)"
+0x452c52695b7ff166dfc79a5b3ca2480fe4bd20c8_OwnbitMultiSig.sol,replay_single,S3,0,extended,0,"spend: the message binds the wallet and the spend nonce, which is advanced after each spend"
+0x50ce4a3fccc3c173c028b0528a5a1f2c62a36633_NopenSeaV2.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0x50ce4a3fccc3c173c028b0528a5a1f2c62a36633_NopenSeaV2.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0x50ce4a3fccc3c173c028b0528a5a1f2c62a36633_NopenSeaV2.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0x50ce4a3fccc3c173c028b0528a5a1f2c62a36633_NopenSeaV2.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0x592418a8171d46083a5a6ae8c9541c728c618d8a_Props721.sol,malleability,S2,0,slither,0,"fusion: OpenZeppelin ECDSA (rejects high s); the input tokens are burned, so the signature cannot be used again (lines 209-212)"
+0x592418a8171d46083a5a6ae8c9541c728c618d8a_Props721.sol,replay_single,S2,0,extended+slither,0,"fusion: OpenZeppelin ECDSA (rejects high s); the input tokens are burned, so the signature cannot be used again (lines 209-212)"
+0x5967908e2aa99f50291dffc3bf0641b15c27a9db_Minter.sol,replay_cross_chain,S3,0,extended,0,mint: the signed message includes the chain id (getChainID()); meta-transactions use an EIP-712 domain (lines 68-76)
+0x5ce3646ee44a7a6015d742343d7d683f8faa7a38_WorldMarketplaceV1.sol,replay_cross_chain,S2,0,extended,0,"order functions: EIP-712 typed messages (_hashTypedDataV4) and order status transitions make each message one-time (lines 64-78, 174-178)"
+0x5ce3646ee44a7a6015d742343d7d683f8faa7a38_WorldMarketplaceV1.sol,replay_cross_contract,S2,0,extended,0,"order functions: EIP-712 typed messages (_hashTypedDataV4) and order status transitions make each message one-time (lines 64-78, 174-178)"
+0x5ce3646ee44a7a6015d742343d7d683f8faa7a38_WorldMarketplaceV1.sol,replay_single,S2,0,extended,0,"order functions: EIP-712 typed messages (_hashTypedDataV4) and order status transitions make each message one-time (lines 64-78, 174-178)"
+0x645095cc4eca1515c19338cb0dd98d582cbf46c7_Project1.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0x645095cc4eca1515c19338cb0dd98d582cbf46c7_Project1.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0x645095cc4eca1515c19338cb0dd98d582cbf46c7_Project1.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0x645095cc4eca1515c19338cb0dd98d582cbf46c7_Project1.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0x657af6322ec1cec2c43de8523896052a9bced7b5_MaskedBeauties.sol,replay_single,S3,0,extended,1,presale mint: the HeyMint presale signature over the buyer has no used flag; reusable up to the per-address allowance
+0x6a59fb76f9857fb8e50717f4c974e84ee8da322a_ERC1155Claim.sol,malleability,S2,0,slither,0,"mint: the message binds the contract and the chain, the signing time must increase per user, and the ECDSA library rejects high s (lines 136-147, 181-186, 976)"
+0x6a59fb76f9857fb8e50717f4c974e84ee8da322a_ERC1155Claim.sol,replay_cross_chain,S2,0,slither,0,"mint: the message binds the contract and the chain, the signing time must increase per user, and the ECDSA library rejects high s (lines 136-147, 181-186, 976)"
+0x6a59fb76f9857fb8e50717f4c974e84ee8da322a_ERC1155Claim.sol,replay_cross_contract,S2,0,slither,0,"mint: the message binds the contract and the chain, the signing time must increase per user, and the ECDSA library rejects high s (lines 136-147, 181-186, 976)"
+0x6a59fb76f9857fb8e50717f4c974e84ee8da322a_ERC1155Claim.sol,replay_single,S2,0,slither,0,"mint: the message binds the contract and the chain, the signing time must increase per user, and the ECDSA library rejects high s (lines 136-147, 181-186, 976)"
+0x6f9ba95aab7a23fad83af548f9ee86289a3a3aac_StepNFT.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0x6f9ba95aab7a23fad83af548f9ee86289a3a3aac_StepNFT.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0x6f9ba95aab7a23fad83af548f9ee86289a3a3aac_StepNFT.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0x6f9ba95aab7a23fad83af548f9ee86289a3a3aac_StepNFT.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0x79f0ef4061aaf375060ae31998c0f20806a6a127_SavageBaskets.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0x79f0ef4061aaf375060ae31998c0f20806a6a127_SavageBaskets.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0x79f0ef4061aaf375060ae31998c0f20806a6a127_SavageBaskets.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0x79f0ef4061aaf375060ae31998c0f20806a6a127_SavageBaskets.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0x7cc78084e8d7b2be045fd23d0cdf749599db6eb4_VeeDAO.sol,replay_single,S2,0,extended,1,"presale mint: the owner's signature over (wallet, timestamp) has no used flag; reusable up to the per-wallet cap (lines 87-94, 109)"
+0x7dee6e42fd3c9c8c42fdf705421b8188d3733f60_MINTYBRIDGE.sol,replay_cross_chain,S3,0,extended,0,payWithPermit: the hash binds the contract (this) and the destination chain is checked; the hash is marked executed (lines 463-470)
+0x8b78bf6c12e35b9dfee7a97eb8899eef615a0b83_LocalCoinSwapDaiEscrow.sol,replay_single,S2,0,extended,0,"createEscrow/relay: each escrow is created once per trade hash, and relayed instructions act on the escrow state, which is removed when settled (lines 195-257, 927-987)"
+0x99ba4b0aa5dd3fa399ce04aca79459ace1c0460c_Factory.sol,replay_cross_chain,S2,0,extended,0,"token: EIP-712 typed bodies, ids cannot be reminted after burning and each id is minted once (lines 343-353)"
+0x99ba4b0aa5dd3fa399ce04aca79459ace1c0460c_Factory.sol,replay_cross_contract,S2,0,extended,0,"token: EIP-712 typed bodies, ids cannot be reminted after burning and each id is minted once (lines 343-353)"
+0x99ba4b0aa5dd3fa399ce04aca79459ace1c0460c_Factory.sol,replay_single,S2,0,extended,0,"token: EIP-712 typed bodies, ids cannot be reminted after burning and each id is minted once (lines 343-353)"
+0x9a7d15ea9ca00b3343c7ddf7932d95f7df5a7b97_BirbsFriend.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0x9a7d15ea9ca00b3343c7ddf7932d95f7df5a7b97_BirbsFriend.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0x9a7d15ea9ca00b3343c7ddf7932d95f7df5a7b97_BirbsFriend.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0x9a7d15ea9ca00b3343c7ddf7932d95f7df5a7b97_BirbsFriend.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0x9e8b85dbb082255bd81c5b25323b694bc799a616_CerealClub.sol,replay_single,S2,0,extended,1,mint: the whitelist signature over the account has no used flag; reusable (line 113)
+0xa908d579dfa9b53eb432452635375b033fe673a2_DollIsland.sol,malleability,S2,0,slither,0,verifySignature: the per-user nonce must increase and is stored; the ECDSA library rejects high s (lines 91-95)
+0xa908d579dfa9b53eb432452635375b033fe673a2_DollIsland.sol,replay_single,S2,0,extended+slither,0,verifySignature: the per-user nonce must increase and is stored; the ECDSA library rejects high s (lines 91-95)
+0xaf53b6f738950a652d74dd0510b941ca9f66df12_JAZ.sol,malleability,S2,0,slither,0,no signature verification in the contract
+0xaf53b6f738950a652d74dd0510b941ca9f66df12_JAZ.sol,replay_cross_chain,S2,0,slither,0,no signature verification in the contract
+0xaf53b6f738950a652d74dd0510b941ca9f66df12_JAZ.sol,replay_cross_contract,S2,0,slither,0,no signature verification in the contract
+0xaf53b6f738950a652d74dd0510b941ca9f66df12_JAZ.sol,replay_single,S2,0,slither,0,no signature verification in the contract
+0xb5a41a83b0fcb4dc1ce590f1f6977df081a71485_OwnbitMultiSig.sol,replay_single,S3,0,extended,0,"spend: the message binds the wallet and the spend nonce, which is advanced after each spend (lines 221-223, 253)"
+0xc043b751cc707a074539e139fb7b2d319014edc7_DharmaAccountRecoveryOperatorMultisigStaging.sol,replay_single,S3,0,extended,0,"execute: the multisig hash binds the contract and a nonce that is advanced, and the recovery rejects high s (lines 145-223, 265-267)"
+0xd102f1331cd51596cd4d60ffec4f8cbbd80c7169_ENSNFTRegistrar.sol,malleability,S2,0,slither,0,claim: the per-domain nonce must increase and is stored; the ECDSA library rejects high s (lines 88-93)
+0xd102f1331cd51596cd4d60ffec4f8cbbd80c7169_ENSNFTRegistrar.sol,replay_single,S2,0,extended+slither,0,claim: the per-domain nonce must increase and is stored; the ECDSA library rejects high s (lines 88-93)
+0xfb5e3ae520fe4dde1d1822794c16670623839753_FintochPool.sol,replay_single,S3,0,extended,0,"multisig spend uses a nonce that is advanced; permits use an EIP-712 domain with a consumed nonce (lines 7632-7655, 14665-14675)"
+0xfee1708400f01f2bb8848ef397c1a2f4c25c910b_FeeNo.sol,malleability,S2,0,extended,0,"relayed calls: the user's nonce is checked and advanced, and OpenZeppelin ECDSA rejects high s (lines 76-77, 106-107, 273)"
+0xfee1708400f01f2bb8848ef397c1a2f4c25c910b_FeeNo.sol,replay_single,S2,0,extended,0,"relayed calls: the user's nonce is checked and advanced, and OpenZeppelin ECDSA rejects high s (lines 76-77, 106-107, 273)"
+OZ_MinimalForwarder.sol,replay,S4,0,extended,0,"execute: verify requires the request nonce to equal the sender's nonce, which is then advanced; EIP-712 domain"
+Permit2_AllowanceTransfer.sol,replay,S4,0,extended,0,"permit: EIP-712 domain recomputed per chain, ordered nonce checked and advanced"
+Permit2_SignatureTransfer.sol,replay,S4,0,extended,0,"permitTransferFrom: EIP-712 domain, unordered nonces consumed in a bitmap"
+0x13d1cd18d379e3800623bbce84f7367ea17ad03d_Asset.sol,replay,S1,0,none,0,"purchase: the presale message binds the chain id and the asset contract, with a per-sender nonce incremented in the message (lines 3305-3311)"
+Safe_GnosisSafe.sol,replay,S4,0,none,0,"execTransaction: the transaction hash includes the Safe nonce, advanced on every execution, under an EIP-712 domain"

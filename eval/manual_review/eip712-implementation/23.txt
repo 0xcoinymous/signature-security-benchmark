@@ -1,27 +1,27 @@
-D5-Arbitrum  0xa39b8bfd2a712c21CED45C6912c0B92aD4fe5F95_ERC1155Azuki.sol  0xa39b8bfd2a712c21CED45C6912c0B92aD4fe5F95_ERC1155Azuki.sol:1869  (solc 0.8.4)
+D5-Polygon  0x43cc55157d3a4e51ab99cad6189726d768d7a124_KaliAccessManager.sol  0x43cc55157d3a4e51ab99cad6189726d768d7a124_KaliAccessManager.sol:214  (solc 0.8.11)
 
- 1857          ERC1155Marketplace(_owner, _admin, _commissionRate, _royaltiesCommissionRate, name, symbol, _whoCanMint, uri)
- 1858          EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {}
- 1859  
- 1860      // minted qty for each voucher ID
- 1861      mapping(uint256 => uint256) public vouchersMintedQty;
- 1862  
- 1863      // minted NFT ID for each voucher ID
- 1864      mapping(uint256 => uint256) public vouchersNFTIds;
- 1865  
- 1866      event LazyMint(uint256 indexed tokenId, address indexed from, address indexed to, uint256 value);
- 1867  
- 1868      /// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
- 1869>     function redeem(
- 1870          uint256 nftId, uint256 id, uint256 nftPostId, uint256 qty, uint256 price, uint256 collectionId, uint256 chainId, address author, uint256 salt, bytes memory signature, uint256 qtyToMint
- 1871      ) external payable nonReentrant {
- 1872  
- 1873          require(chainId == getChainId(), "Azuki: Wrong chain");
- 1874          require(vouchersMintedQty[id] + qtyToMint <= qty, "Azuki: the qty exceeds the amount available for minting");
- 1875          require(nftId == 0 || exists(nftId), "Azuki: Wrong NFT ID");
- 1876  
- 1877          // require enough funds
- 1878          require(msg.value >= qtyToMint * price, "Azuki: payment is too low");
- 1879  
- 1880          // return the change
- 1881          returnTheChange(qtyToMint * price);
+  202          if (msg.sender != operatorOf[listId]) revert NotOperator();
+  203  
+  204          if (accounts.length != approvals.length) revert NoArrayParity();
+  205  
+  206          // cannot realistically overflow on human timescales
+  207          unchecked {
+  208              for (uint256 i; i < accounts.length; i++) {
+  209                  _listAccount(listId, accounts[i], approvals[i]);
+  210              }
+  211          }
+  212      }
+  213  
+  214>     function listAccountBySig(
+  215          uint256 listId,
+  216          address account,
+  217          bool approved,
+  218          uint256 deadline,
+  219          uint8 v,
+  220          bytes32 r,
+  221          bytes32 s
+  222      ) public virtual {
+  223          if (block.timestamp > deadline) revert SignatureExpired();
+  224  
+  225          bytes32 digest = keccak256(
+  226              abi.encodePacked(

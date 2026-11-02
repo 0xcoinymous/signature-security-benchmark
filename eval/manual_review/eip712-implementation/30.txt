@@ -1,27 +1,27 @@
-D5-BSC  0x08B2aC05E67461fABeEDA3a9A58558582b2557AB_NameNFT.sol  0x08B2aC05E67461fABeEDA3a9A58558582b2557AB_NameNFT.sol:1579  (solc 0.8.4)
+D5-BSC  0x08C13019b0AFcF0c43bE868761bb1DF69dB8CDF1_BaseV1Pair.sol  0x08C13019b0AFcF0c43bE868761bb1DF69dB8CDF1_BaseV1Pair.sol:553  (solc 0.8.11)
 
- 1567          string memory name_,
- 1568          string memory symbol_,
- 1569          string memory version_
- 1570      ) ERC721(name_,symbol_) {
- 1571          _nameHash = keccak256(bytes(name_));
- 1572          _versionHash = keccak256(bytes(version_));
- 1573      }
- 1574  
- 1575      function nonce(uint256 tokenId) public virtual view returns(uint256){
- 1576          return _nonces[tokenId];
- 1577      }
- 1578  
- 1579>     function permit(address spender, uint tokenId, uint deadline, uint8 v, bytes32 r, bytes32 s) public virtual override {
- 1580          require(block.timestamp <= deadline, 'Permit expired');
- 1581  
- 1582          bytes32 digest =
- 1583              keccak256(
- 1584                  abi.encodePacked(
- 1585                      '\x19\x01',
- 1586                      DOMAIN_SEPARATOR(),
- 1587                      keccak256(abi.encode(PERMIT_TYPEHASH, spender, tokenId, _nonces[tokenId]++, deadline))
- 1588                  )
- 1589              );
- 1590          address owner = ownerOf(tokenId);
- 1591          require(spender != owner, 'ERC721Permit: approval to current owner');
+  541          totalSupply -= amount;
+  542          balanceOf[dst] -= amount;
+  543          emit Transfer(dst, address(0), amount);
+  544      }
+  545  
+  546      function approve(address spender, uint amount) external returns (bool) {
+  547          allowance[msg.sender][spender] = amount;
+  548  
+  549          emit Approval(msg.sender, spender, amount);
+  550          return true;
+  551      }
+  552  
+  553>     function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external {
+  554          require(deadline >= block.timestamp, 'BaseV1: EXPIRED');
+  555          DOMAIN_SEPARATOR = keccak256(
+  556              abi.encode(
+  557                  keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)'),
+  558                  keccak256(bytes(name)),
+  559                  keccak256('1'),
+  560                  block.chainid,
+  561                  address(this)
+  562              )
+  563          );
+  564          bytes32 digest = keccak256(
+  565              abi.encodePacked(

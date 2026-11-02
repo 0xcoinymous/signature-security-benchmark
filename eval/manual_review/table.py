@@ -41,11 +41,17 @@ def main():
     thesis, paper = [], []
     for det in DETECTORS:
         flagged = len(population(det, args.d5_dir, args.labelled_run, args.large_run))
-        verdicts = [r["verdict"] for r in csv.DictReader(open(HERE / f"{det}.csv"))]
+        path = HERE / f"{det}.csv"
+        verdicts = [r["verdict"] for r in csv.DictReader(open(path))] if path.exists() else []
         weak, false = verdicts.count("weakness"), verdicts.count("false alarm")
         n = weak + false
-        lo, hi = wilson(weak, n)
         flagged_fa = f"{flagged:,}".replace(",", "٬").translate(FA_DIGITS)
+        if n == 0:
+            # A detector without findings in the population has no precision to estimate.
+            thesis.append([DETECTOR_FA[det], flagged_fa, fa(0), fa(0), fa(0), "--"])
+            paper.append([DETECTOR_EN[det], f"{flagged:,}", "0", "0", "0", "--"])
+            continue
+        lo, hi = wilson(weak, n)
         thesis.append([DETECTOR_FA[det], flagged_fa, fa(len(verdicts)), fa(weak), fa(false),
                        f"{fa(weak / n)} [{fa(lo)}، {fa(hi)}]"])
         paper.append([DETECTOR_EN[det], f"{flagged:,}", str(len(verdicts)), str(weak), str(false),

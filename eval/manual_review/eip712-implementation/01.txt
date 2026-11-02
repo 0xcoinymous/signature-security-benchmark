@@ -1,27 +1,27 @@
-D5-Ethereum  0xc37bd82ec6bc784e61c498aeaf9fd4daae41a23b_CryptoPuzzle.sol  0xc37bd82ec6bc784e61c498aeaf9fd4daae41a23b_CryptoPuzzle.sol:531  (solc 0.8.9)
+D5-Ethereum  0xe25b59c6fce9bb4e116b44c9c2641486b5e0fafb_LandofSagesGenesis.sol  0xe25b59c6fce9bb4e116b44c9c2641486b5e0fafb_LandofSagesGenesis.sol:1522  (solc 0.8.7)
 
-  519          assembly {
-  520              r := mload(add(signature, 32))
-  521              s := mload(add(signature, 64))
-  522              v := byte(0, mload(add(signature, 96)))
-  523          }
-  524          if (v < 27) {
-  525              v += 27;
-  526          }
-  527          require(v == 27 || v == 28);
-  528          return ecrecover(digest, v, r, s) == trade.maker;
-  529      }
-  530  
-  531>     function tradeValid(address maker, uint256 makerWei, uint256[] memory makerIds, address taker, uint256 takerWei, uint256[] memory takerIds, uint256 expiry, bytes memory signature) 
-  532      view public returns (bool) {
-  533          SignTrade memory trade = SignTrade(maker, makerWei, makerIds, taker, takerWei, takerIds, expiry);
-  534          // Check for cancellation
-  535          bytes32 hashCancel = keccak256(abi.encodePacked(
-  536              "\x19\x01",
-  537              DOMAIN_SEPARATOR,
-  538              hash(trade)
-  539          ));
-  540          require(cancelledTrade[hashCancel] == false, "Trade offer was cancelled.");
-  541          // Verify signature
-  542          require(verify(trade.maker, trade, signature), "Signature not valid.");
-  543          // Check for expiry
+ 1510  
+ 1511  
+ 1512      constructor()
+ 1513          ERC1155("https://bafkreiatype5mpdvoedvo3uww7dp6wdpmutfsrrycl6xrxos5tzvibtrxu.ipfs.dweb.link/")
+ 1514          EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION)
+ 1515      {}
+ 1516  
+ 1517      function setURI(string memory newuri) public onlyOwner {
+ 1518          _setURI(newuri);
+ 1519      }
+ 1520  
+ 1521  
+ 1522>     function mint(address account, uint256 id, string memory name, bytes memory signature)
+ 1523          public
+ 1524          payable
+ 1525      {
+ 1526          require(check(id, name, signature) == account, "Voucher invalid");
+ 1527          require(totalSupply + 1 <= SUPPLY_MAX, "Max supply reached!");
+ 1528          require(mintedAddresses[account] == 0, "You can only mint one Genesis Pass!");
+ 1529          require(msg.value >= PRICE, "Incorrect eth sent.");
+ 1530   
+ 1531          // PRESALE
+ 1532          if (isPresaleActive()) {
+ 1533              require(onlyWhitelisted, "Only whitelisted users are allowed to mint during presale.");
+ 1534              // DO WHITELIST SIGNATURE CHECKS HERE.

@@ -1,27 +1,27 @@
-D5-Polygon  0xbd55231c183744236451fdf23e6390ed8679e44c_D1verseDex.sol  0xbd55231c183744236451fdf23e6390ed8679e44c_D1verseDex.sol:465  (solc 0.8.9)
+D5-Polygon  0xd3b36baacd341579bc1f85b8eecd83450d841e62_ERC1155Marketplace.sol  0xd3b36baacd341579bc1f85b8eecd83450d841e62_ERC1155Marketplace.sol:2236  (solc 0.8.2)
 
-  453      }
-  454  
-  455      function setD1verseNFT(address _contract, bool flag) public onlyOperator {
-  456          if (!flag) {
-  457              delete allowedNft[_contract];
-  458              delete D1verseNFT[_contract];
-  459          } else {
-  460              D1verseNFT[_contract] = true;
-  461              allowedNft[_contract] = true;
-  462          }
-  463      }
-  464  
-  465>     function exchangeFixedPrice(
-  466          bool maker_sells_nft,
-  467          address taker,
-  468          FixedPriceOrder memory order,
-  469          Sig memory maker_sig,
-  470          Sig memory taker_sig
-  471      ) external payable {
-  472  
-  473          (bytes32 order_digest, bytes memory order_bytes) = checkOrder(taker, order, maker_sig, taker_sig);
-  474  
-  475          address nft_seller = order.maker;
-  476          address nft_buyer = taker;
-  477          if(!maker_sells_nft) {
+ 2224          ERC1155Marketplace(_paymentToken, _owner, _admin, _commissionRate, _royaltiesCommissionRate, name, symbol, _anyoneCanMint, uri)
+ 2225          EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {}
+ 2226  
+ 2227      // minted qty for each voucher ID
+ 2228      mapping(uint256 => uint256) public vouchersMintedQty;
+ 2229  
+ 2230      // minted NFT ID for each voucher ID
+ 2231      mapping(uint256 => uint256) public vouchersNFTIds;
+ 2232  
+ 2233      event LazyMint(uint256 indexed tokenId, address indexed from, address indexed to, uint256 value);
+ 2234  
+ 2235      /// @notice Redeems an NFTVoucher for an actual NFT, creating it in the process.
+ 2236>     function redeem(
+ 2237          uint256 nftId, uint256 id, uint256 nftPostId, uint256 qty, uint256 price, uint256 collectionId, uint256 chainId, address author, uint256 salt, bytes memory signature, uint256 qtyToMint
+ 2238      ) external nonReentrant {
+ 2239  
+ 2240          require(chainId == getChainId(), "AlacharTeam: Wrong chain");
+ 2241          require(vouchersMintedQty[id] + qtyToMint <= qty, "AlacharTeam: the qty exceeds the amount available for minting");
+ 2242          require(nftId == 0 || exists(nftId), "AlacharTeam: Wrong NFT ID");
+ 2243  
+ 2244          // make sure signature is valid and get the address of the signer
+ 2245          verify(id, nftPostId, qty, price, collectionId, chainId, author, salt, address(this), signature, owner());
+ 2246  
+ 2247          // allow to mint less qty of the amounts in voucher, until all qtys are minted
+ 2248          // first time minting? find the next available tokenId or use the existing NFT Id if it was passed to the function

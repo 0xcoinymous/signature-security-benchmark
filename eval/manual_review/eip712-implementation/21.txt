@@ -1,27 +1,27 @@
-D5-BSC  0xfcf68e8eac515ca37f39407719cfecf18be1da83_Blockbusters.sol  0xfcf68e8eac515ca37f39407719cfecf18be1da83_Blockbusters.sol:481  (solc 0.8.13)
+D5-Polygon  0x0a468f4e3540da5576a32F09dCF60ca9953BDC07_BXHBridge.sol  0x0a468f4e3540da5576a32F09dCF60ca9953BDC07_BXHBridge.sol:1582  (solc 0.8.7)
 
-  469          }
-  470          uint256 fromAllowance = _allowanceFor(from_, msg.sender);
-  471          if (fromAllowance != type(uint256).max) {
-  472              if (_getAllowanceStorage()[from_][msg.sender] < amount_) revert ERC20AllowanceInsufficient(from_, msg.sender, amount_);
-  473              unchecked {
-  474                  _getAllowanceStorage()[from_][msg.sender] -= amount_;
-  475              }
-  476          }
-  477          _transfer(from_, to_, amount_);
-  478          return true;
-  479      }
-  480  
-  481>     function transferFromWithPermit(address from_, address to_, uint256 amount_, uint256 deadline_, uint8 v_, bytes32 r_, bytes32 s_) external virtual requires(address(this), 0, _TRANSFER_DISABLED_FLAG()) {
-  482          _permit(from_, msg.sender, amount_, deadline_, v_, r_, s_);
-  483          _transfer(from_, to_, amount_);
-  484      }
-  485  
-  486      /// @notice the allowance the spender is allowed to spend for an account
-  487      /// @param account_ the account to check
-  488      /// @param spender_ the trusted spender
-  489      /// @return uint256 amount of the account that the spender_ can transfer
-  490      function allowance(address account_, address spender_) public view virtual returns (uint256) {
-  491          return _allowanceFor(account_, spender_);
-  492      }
-  493  
+ 1570      event GovernorDeleted( address _user);
+ 1571  
+ 1572      address public immutable cSigner;
+ 1573      bytes32 constant public LOCK_CALL_HASH_TYPE = keccak256("lock(address _tokenAddr,uint _toChainID, address _toAddr, uint256 _tokenAmount, uint256 _gasAmount)");
+ 1574  
+ 1575      /**
+ 1576       * @dev Constructor.
+ 1577       */
+ 1578      constructor(address _signer) EIP712("BXHBridge", "1"){
+ 1579          cSigner = _signer;
+ 1580      }
+ 1581  
+ 1582>     function lock(address _tokenAddr,uint _toChainID, address _toAddr, uint256 _tokenAmount, uint256 _gasAmount, uint8 v, bytes32 r, bytes32 s) public payable nonReentrant{
+ 1583          require(_toAddr!=address(0x0),"address error");
+ 1584  
+ 1585          bytes32 digest = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", 
+ 1586              ECDSA.toTypedDataHash(_domainSeparatorV4(),
+ 1587                  keccak256(abi.encode(LOCK_CALL_HASH_TYPE, _tokenAddr, _toChainID,_toAddr,_tokenAmount,_gasAmount))
+ 1588          )));
+ 1589          require(ecrecover(digest, v, r, s) == cSigner, "BXHBridge: Invalid signer");
+ 1590  
+ 1591          require( msg.value == _gasAmount, "invalid gas amount");
+ 1592  
+ 1593          require(ERC20(_tokenAddr).balanceOf(msg.sender) >= _tokenAmount,"Not Enough token Balance");
+ 1594          

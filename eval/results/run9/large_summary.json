@@ -5,30 +5,29 @@
    "extended": 4308,
    "stock": 4309
   },
-  "flagged_any_of_six": 3525,
+  "flagged_any_of_six": 3480,
   "per_detector": {
-   "signature-malleability": 2847,
-   "nonce-management": 995,
+   "signature-malleability": 2853,
    "signature-replay": 1269,
-   "signature-freshness": 256,
-   "eip712-implementation": 127,
-   "eip1271-verification": 31
+   "nonce-management": 553,
+   "signature-freshness": 143,
+   "eip712-implementation": 117
   },
   "runtime_seconds": {
    "extended": {
-    "median": 0.74,
-    "mean": 0.7897539461467038,
-    "p95": 1.16,
-    "max": 3.47,
-    "total_hours": 0.9450722222222223,
+    "median": 0.24,
+    "mean": 0.27454503249767875,
+    "p95": 0.57,
+    "max": 1.96,
+    "total_hours": 0.3285388888888889,
     "n": 4308
    },
    "stock": {
-    "median": 0.73,
-    "mean": 0.7756695288930147,
-    "p95": 1.05,
-    "max": 7.56,
-    "total_hours": 0.9284333333333333,
+    "median": 0.24,
+    "mean": 0.2646669760965421,
+    "p95": 0.53,
+    "max": 1.78,
+    "total_hours": 0.3167916666666667,
     "n": 4309
    }
   }
@@ -38,22 +37,21 @@
   "analysed": {
    "extended": 4325
   },
-  "flagged_any_of_six": 3698,
+  "flagged_any_of_six": 3623,
   "per_detector": {
-   "signature-malleability": 3376,
-   "nonce-management": 589,
+   "signature-malleability": 3379,
    "signature-replay": 639,
-   "eip1271-verification": 13,
-   "eip712-implementation": 101,
-   "signature-freshness": 167
+   "nonce-management": 209,
+   "eip712-implementation": 100,
+   "signature-freshness": 95
   },
   "runtime_seconds": {
    "extended": {
-    "median": 0.74,
-    "mean": 0.7794265895953757,
-    "p95": 1.03,
-    "max": 4.04,
-    "total_hours": 0.9363944444444444,
+    "median": 0.26,
+    "mean": 0.28309595375722546,
+    "p95": 0.5,
+    "max": 5.7,
+    "total_hours": 0.34010833333333335,
     "n": 4325
    }
   }
@@ -63,22 +61,21 @@
   "analysed": {
    "extended": 5298
   },
-  "flagged_any_of_six": 4541,
+  "flagged_any_of_six": 4498,
   "per_detector": {
-   "signature-malleability": 4027,
-   "signature-freshness": 170,
-   "eip712-implementation": 248,
-   "nonce-management": 689,
+   "signature-malleability": 4031,
+   "eip712-implementation": 234,
    "signature-replay": 942,
-   "eip1271-verification": 36
+   "nonce-management": 323,
+   "signature-freshness": 103
   },
   "runtime_seconds": {
    "extended": {
-    "median": 0.72,
-    "mean": 0.7474178935447339,
-    "p95": 0.98,
-    "max": 2.69,
-    "total_hours": 1.09995,
+    "median": 0.26,
+    "mean": 0.28307663269158173,
+    "p95": 0.52,
+    "max": 1.8,
+    "total_hours": 0.41659444444444443,
     "n": 5298
    }
   }
@@ -88,22 +85,21 @@
   "analysed": {
    "extended": 1228
   },
-  "flagged_any_of_six": 929,
+  "flagged_any_of_six": 919,
   "per_detector": {
-   "signature-malleability": 628,
-   "eip712-implementation": 42,
+   "signature-malleability": 630,
    "signature-replay": 359,
-   "nonce-management": 145,
-   "signature-freshness": 38,
-   "eip1271-verification": 4
+   "eip712-implementation": 41,
+   "nonce-management": 71,
+   "signature-freshness": 29
   },
   "runtime_seconds": {
    "extended": {
-    "median": 0.71,
-    "mean": 0.7599918566775244,
-    "p95": 1.09,
-    "max": 3.23,
-    "total_hours": 0.25924166666666665,
+    "median": 0.2,
+    "mean": 0.27370521172638435,
+    "p95": 0.73,
+    "max": 3.61,
+    "total_hours": 0.0933638888888889,
     "n": 1228
    }
   }
@@ -114,30 +110,29 @@
    "extended": 15159,
    "stock": 4309
   },
-  "flagged_any_of_six": 12693,
+  "flagged_any_of_six": 12520,
   "per_detector": {
-   "signature-malleability": 10878,
-   "nonce-management": 2418,
+   "signature-malleability": 10893,
    "signature-replay": 3209,
-   "signature-freshness": 631,
-   "eip712-implementation": 518,
-   "eip1271-verification": 84
+   "nonce-management": 1156,
+   "signature-freshness": 370,
+   "eip712-implementation": 492
   },
   "runtime_seconds": {
    "extended": {
-    "median": 0.74,
-    "mean": 0.7897539461467038,
-    "p95": 1.16,
-    "max": 3.47,
-    "total_hours": 0.9450722222222223,
+    "median": 0.24,
+    "mean": 0.27454503249767875,
+    "p95": 0.57,
+    "max": 1.96,
+    "total_hours": 0.3285388888888889,
     "n": 4308
    },
    "stock": {
-    "median": 0.73,
-    "mean": 0.7756695288930147,
-    "p95": 1.05,
-    "max": 7.56,
-    "total_hours": 0.9284333333333333,
+    "median": 0.24,
+    "mean": 0.2646669760965421,
+    "p95": 0.53,
+    "max": 1.78,
+    "total_hours": 0.3167916666666667,
     "n": 4309
    }
   },

@@ -1,27 +1,27 @@
-D5-Polygon  0xc23E0C653139A31A375d8B01604D62f21da283D3_Ondo.sol  0xc23E0C653139A31A375d8B01604D62f21da283D3_Ondo.sol:713  (solc 0.8.7)
+D5-Polygon  0xc152c4452c6C267E1d00bB0657cB23D9CbC0997a_POWNEDCO.sol  0xc152c4452c6C267E1d00bB0657cB23D9CbC0997a_POWNEDCO.sol:983  (solc 0.8.7)
 
-  701      return _delegate(msg.sender, delegatee);
-  702    }
-  703  
-  704    /**
-  705     * @notice Delegates votes from signatory to `delegatee`
-  706     * @param delegatee The address to delegate votes to
-  707     * @param nonce The contract state required to match the signature
-  708     * @param expiry The time at which to expire the signature
-  709     * @param v The recovery byte of the signature
-  710     * @param r Half of the ECDSA signature pair
-  711     * @param s Half of the ECDSA signature pair
-  712     */
-  713>   function delegateBySig(
-  714      address delegatee,
-  715      uint256 nonce,
-  716      uint256 expiry,
-  717      uint8 v,
-  718      bytes32 r,
-  719      bytes32 s
-  720    ) public {
-  721      bytes32 domainSeparator = keccak256(
-  722        abi.encode(
-  723          DOMAIN_TYPEHASH,
-  724          keccak256(bytes(name)),
-  725          getChainId(),
+  971          *requirements: signer must be owner of the contract
+  972          @param tokenURI string memory URI of token to be minted.
+  973          @param sign struct combination of uint8, bytes32, bytes 32 are v, r, s.
+  974          note : sign value must be in the order of v, r, s.
+  975  
+  976      */
+  977  
+  978      function verifySign(string memory tokenURI, Sign memory sign) internal view {
+  979          bytes32 hash = keccak256(abi.encodePacked(this,tokenURI));
+  980          require(owner == ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)), sign.v, sign.r, sign.s), "Owner sign verification failed");
+  981      }
+  982  
+  983>     function mint(string memory uri, uint256 supply, uint256 fee, Sign memory sign)  public {
+  984          verifySign(uri, sign);
+  985          _mint(newItemId, supply, uri,fee);
+  986          newItemId = newItemId+1;
+  987      }
+  988  
+  989      function setBaseURI(string memory _baseURI) public onlyOwner{
+  990           _setTokenURIPrefix(_baseURI);
+  991      }
+  992  
+  993      function burn(uint256 tokenId, uint256 supply) public {
+  994          _burn(msg.sender, tokenId, supply);
+  995      }

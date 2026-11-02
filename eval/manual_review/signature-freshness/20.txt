@@ -1,27 +1,27 @@
-D5-Polygon  0x1a24af0e3eea4db3122d9d9779a79fda4fa32777_VestingWallet.sol  0x1a24af0e3eea4db3122d9d9779a79fda4fa32777_VestingWallet.sol:540  (solc 0.8.4)
+D5-Ethereum  0xc80bbab86ced62cf795619a357581faf0cb46511_LoopringProtocolImpl.sol  0xc80bbab86ced62cf795619a357581faf0cb46511_LoopringProtocolImpl.sol:1037  (solc 0.4.19)
 
-  528          require(_beneficiary == _msgSender(), "Sender must be beneficiary");
-  529          _vestingSchedule[_vestingId].released = true;
-  530          totalReleased += _releaseAmount;
-  531          emit ERC20Released(_vestingId, _beneficiary, _releaseAmount);
-  532          SafeERC20.safeTransfer(token, _beneficiary, _releaseAmount);
-  533      }
-  534  
-  535      /**
-  536       * @dev Lock the tokens to beneficiary address
-  537       *
-  538       * Emits a {ERC20Locked} event.
-  539       */
-  540>     function vesting(uint256 _amount, uint64 _releaseTimestamp, address _beneficiary, bytes memory signature) external {
-  541          require(verify(_beneficiary, _amount, _releaseTimestamp, signature), "Invalid signature");
-  542          require(_amount > 0, "Invalid amount");
-  543          require(_releaseTimestamp > block.timestamp, "Timestamp must greater than current time");
-  544          require(_releaseTimestamp <= block.timestamp + MAX_LIMIT, "Timestamp must lesser than max limit");
-  545          _vestingSchedule[++_currentVestingId] = VestingSchedule(_beneficiary, _releaseTimestamp, _amount, false);
-  546          emit ERC20Locked(_currentVestingId, _beneficiary, _amount, _releaseTimestamp);
-  547          SafeERC20.safeTransferFrom(token, _msgSender(), address(this), _amount);
-  548      }
-  549  
-  550      function getMessageHash(
-  551          address _beneficiary,
-  552          uint256 _amount,
+ 1025          address       ringMiner;        // queried
+ 1026          address       feeRecipient;     // queried
+ 1027          bytes32       ringHash;         // computed
+ 1028      }
+ 1029   
+ 1030      ////////////////////////////////////////////////////////////////////////////
+ 1031      /// Public Functions                                                     ///
+ 1032      ////////////////////////////////////////////////////////////////////////////
+ 1033      /// @dev Disable default function.
+ 1034      function () payable public {
+ 1035          revert();
+ 1036      }
+ 1037>     function cancelOrder(
+ 1038          address[4] addresses,
+ 1039          uint[7]    orderValues,
+ 1040          bool       buyNoMoreThanAmountB,
+ 1041          uint8      marginSplitPercentage,
+ 1042          uint8      v,
+ 1043          bytes32    r,
+ 1044          bytes32    s
+ 1045          )
+ 1046          external
+ 1047      {
+ 1048          uint cancelAmount = orderValues[6];
+ 1049          require(cancelAmount > 0); // "amount to cancel is zero");

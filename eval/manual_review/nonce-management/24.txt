@@ -1,27 +1,27 @@
-D5-Ethereum  0xc637de274ba50b142756542115acfece1cdf612c_ERC1155Factory.sol  0xc637de274ba50b142756542115acfece1cdf612c_ERC1155Factory.sol:1781  (solc 0.8.13)
+D5-Polygon  0xe77aa41f4e172e067d2625fd00bf587d86f906b6_QueueLib.sol  0xe77aa41f4e172e067d2625fd00bf587d86f906b6_QueueLib.sol:218  (solc 0.7.0)
 
- 1769          uint256 amount
- 1770      ) public payable {
- 1771          uint256 mintingCharges = IERC1155Mintable(mintableAddress)
- 1772              .mintingChargePerToken();
- 1773          require(
- 1774              msg.value >= mintingCharges * amount,
- 1775              "ERC1155Mintable: Insufficent fund transferred."
- 1776          );
- 1777          _mint(msg.sender, amount, _royalty, tokenURI);
- 1778          payable(mintableAddress).transfer(msg.value);
- 1779      }
- 1780  
- 1781>     function lazyMint(
- 1782          address to,
- 1783          uint96 royalty,
- 1784          string memory _tokenURI,
- 1785          uint256 nonce,
- 1786          uint256 price,
- 1787          uint256 _maxSupply,
- 1788          uint256 amount,
- 1789          bytes memory sign
- 1790      ) external payable {
- 1791          uint256 mintingCharges = IERC1155Mintable(mintableAddress)
- 1792              .mintingChargePerToken();
- 1793          uint256 brokerage = IERC1155Mintable(mintableAddress).brokerage();
+  206  
+  207      function hashNewOracles(address[] memory newOracles) public pure returns(bytes32) {
+  208          bytes memory data;
+  209          for(uint i = 0; i < newOracles.length; i++) {
+  210              data = abi.encodePacked(data, newOracles[i]);
+  211          }
+  212  
+  213          return keccak256(data);
+  214      }
+  215  
+  216      //----------------------------------public setters--------------------------------------------------------------
+  217  
+  218>     function sendHashValue(bytes32 dataHash, uint8[] memory v, bytes32[] memory r, bytes32[] memory s) public {
+  219          uint256 count = 0;
+  220  
+  221          for(uint i = 0; i < oracles.length; i++) {
+  222              count += ecrecover(dataHash,
+  223                  v[i], r[i], s[i]) == oracles[i] ? 1 : 0;
+  224          }
+  225  
+  226          require(count >= bftValue, "invalid bft count");
+  227          
+  228          uint256 newPulseId = lastPulseId + 1;
+  229          pulses[newPulseId] = NModels.Pulse(dataHash, block.number);
+  230  

@@ -1,27 +1,27 @@
-D5-BSC  0x77e4c55dc2b0cf6424146b3f432e8f83be2d8495_CELADONBRIDGE.sol  0x77e4c55dc2b0cf6424146b3f432e8f83be2d8495_CELADONBRIDGE.sol:132  (solc 0.8.4)
+D5-BSC  0xa1b10385d76eb11f0fb685776f74a4a302773b31_METAC_Vesting.sol  0xa1b10385d76eb11f0fb685776f74a4a302773b31_METAC_Vesting.sol:898  (solc 0.6.12)
 
-  120          bytes32 hash = keccak256(abi.encodePacked(txId,to,amount));
-  121          require(admin == ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)), sign.v, sign.r, sign.s), "Owner sign verification failed");
-  122      }
-  123  
-  124      function deposit(uint256 amount) public returns(bool) {
-  125          require(amount != 0,"Bridge: amount shouldn't be zero");
-  126          bool transferred = token.transferFrom(msg.sender, address(this), amount);
-  127          require(transferred,"Bridge: token transfer is not done");
-  128          emit Deposit(msg.sender, address(this), amount);
-  129          return true;   
-  130      }
-  131  
-  132>     function withdraw(bytes32 txID, uint256 amount, Sign memory sign) public returns (bool) {
-  133          require(token.balanceOf(address(this)) > amount, "Bridge: amount exceeds the balance");
-  134          require(!txList[txID],"Bridge: withdraw Transaction is already done");
-  135          verifySign(txID, msg.sender, amount, sign);
-  136          token.transfer(msg.sender, amount);
-  137          txList[txID] = true;
-  138          emit Withdraw(address(this), msg.sender, amount);
-  139          return true;
-  140      }
-  141  
-  142      function getTxdetails (bytes32 txID) public view returns(bool) {
-  143          return txList[txID];
-  144      }
+  886          return _delegate(msg.sender, delegatee);
+  887      }
+  888  
+  889      /**
+  890       * @notice Delegates votes from signatory to `delegatee`
+  891       * @param delegatee The address to delegate votes to
+  892       * @param nonce The contract state required to match the signature
+  893       * @param expiry The time at which to expire the signature
+  894       * @param v The recovery byte of the signature
+  895       * @param r Half of the ECDSA signature pair
+  896       * @param s Half of the ECDSA signature pair
+  897       */
+  898>     function delegateBySig(
+  899          address delegatee,
+  900          uint nonce,
+  901          uint expiry,
+  902          uint8 v,
+  903          bytes32 r,
+  904          bytes32 s
+  905      )
+  906          external
+  907      {
+  908          bytes32 domainSeparator = keccak256(
+  909              abi.encode(
+  910                  DOMAIN_TYPEHASH,

@@ -8,7 +8,7 @@ HERE=$(dirname "$(realpath "$0")")
 TMP=$(mktemp -d)
 for dir in "$HERE"/*/*/; do
   name=$(basename "$(dirname "$dir")")/$(basename "$dir")
-  "$BIN" "$dir" -s contracts -o "$TMP/out.json" > /dev/null 2>&1
+  "$BIN" "$dir" -s contracts -o "$TMP/out.json" --skip-update-check > /dev/null 2>&1
   found=$(python3 -c "
 import json
 d = json.load(open('$TMP/out.json'))

@@ -1,27 +1,27 @@
-D5-Polygon  0xBD6f3Ed2B9B48ed89a952fBE917fc941A13f489d_nftdao.sol  0xBD6f3Ed2B9B48ed89a952fBE917fc941A13f489d_nftdao.sol:1415  (solc 0.8.9)
+D1-D3  0xdf72b12a5f7f5a02e9949c475a8d90694d10f198_Exchange.sol  0xdf72b12a5f7f5a02e9949c475a8d90694d10f198_Exchange.sol:560  (solc 0.4.24)
 
- 1403          } else {
- 1404              lengthLength += 1 + 0x19;
- 1405          }
- 1406          assembly {
- 1407              mstore(header, lengthLength)
- 1408          }
- 1409          bytes32 check = keccak256(abi.encodePacked(header, message));
- 1410          return ecrecover(check, v, r, s);
- 1411      }
- 1412  
- 1413      mapping (address => mapping (uint256 => bool)) public nonces;
- 1414  
- 1415>     function VoteSign(uint256 tokenId, address voterAddress, address signer, string memory message, uint8 v, bytes32 r, bytes32 s, uint256 timestamp) external {
- 1416  
- 1417          //require (ownerOf(tokenId)!= voterAddress, "Cannot vote for yourself");
- 1418          //require (!NFTUserVoted[tokenId][voterAddress], "You have already voted");
- 1419          require(nonces[signer][timestamp] == false, 'Duplicate vote');
- 1420          require (gasTankOn, "Gas Tank Disabled");
- 1421  
- 1422          address actualSigner = verifyMessage(message, v, r, s);
- 1423          require(signer == actualSigner, "Invalid Signature");
- 1424          
- 1425  
- 1426          NFTVotes[tokenId].voteCount = NFTVotes[tokenId].voteCount.add(1);
- 1427          NFTUserVoted[tokenId][voterAddress] = true;
+  548     * The order book server believes it to be a match.
+  549     * There are components for both orders, maker and taker, 2 signatures as well.
+  550     * @param _token_and_EOA_Addresses The addresses of the maker and taker EOAs and offered token contracts.
+  551     * [makerEOA, makerOfferToken, takerEOA, takerOfferToken]
+  552     * @param _amountsExpirationAndSalt The amount of tokens, [makerOffer, makerWant, takerOffer, takerWant].
+  553     * and the block number at which this order expires
+  554     * and a random number to mitigate replay. [makerExpiry, makerSalt, takerExpiry, takerSalt]
+  555     * @param _sig_v ECDSA signature parameter v, maker 0 and taker 1.
+  556     * @param _sig_r_and_s ECDSA signature parameters r ans s, maker 0, 1 and taker 2, 3.
+  557     * @return Success of the transaction, false if error condition met.
+  558     * Like types grouped to eliminate stack depth error
+  559     */
+  560>   function executeOrder (
+  561      address[4] _token_and_EOA_Addresses,
+  562      uint256[8] _amountsExpirationAndSalt, // Packing to save stack size
+  563      uint8[2] _sig_v,
+  564      bytes32[4] _sig_r_and_s
+  565    ) public
+  566      returns(bool)
+  567    {
+  568      // Only read wallet addresses from storage once
+  569      // Need one more stack slot so squashing into array
+  570      Wallet[2] memory wallets = [
+  571        Wallet(userAccountToWallet_[_token_and_EOA_Addresses[0]]), // maker
+  572        Wallet(userAccountToWallet_[_token_and_EOA_Addresses[2]]) // taker

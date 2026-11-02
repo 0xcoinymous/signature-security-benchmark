@@ -1,27 +1,27 @@
-D5-Polygon  0x30bC6eb12Ec0eBb45b8A5AaBd901B91551cA6659_BAFNEWTEST.sol  0x30bC6eb12Ec0eBb45b8A5AaBd901B91551cA6659_BAFNEWTEST.sol:904  (solc 0.8.10)
+D5-Polygon  0x3026E137a1ca78678B72c9C70B7E48381e570940_ZEROG.sol  0x3026E137a1ca78678B72c9C70B7E48381e570940_ZEROG.sol:1132  (solc 0.7.5)
 
-  892          require(owner == ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)), sign.v, sign.r, sign.s), "Owner sign verification failed");
-  893      }
-  894  
-  895      
-  896      /**
-  897       * @dev Internal function to mint a new token.
-  898       * Reverts if the given token ID already exists.
-  899       * @param sign struct combination of uint8, bytes32, bytes32 are v, r, s.
-  900       * @param tokenURI string memory URI of the token to be minted.
-  901       * @param fee uint256 royalty of the token to be minted.
-  902       */
-  903  
-  904>     function createCollectible(string memory tokenURI, uint256 fee, Sign memory sign) public returns (uint256) {
-  905          uint256 newItemId = tokenCounter;
-  906          verifySign(tokenURI, sign);
-  907          _safeMint(msg.sender, newItemId, fee);
-  908          _setTokenURI(newItemId, tokenURI);
-  909          tokenCounter = tokenCounter + 1;
-  910          return newItemId;
-  911      }
-  912  
-  913      function setBaseURI(string memory _baseURI) public onlyOwner{
-  914          _setBaseURI(_baseURI);
-  915      }
-  916      
+ 1120                  keccak256(bytes(name())),
+ 1121                  keccak256(bytes("1")), // Version
+ 1122                  chainID,
+ 1123                  address(this)
+ 1124              )
+ 1125          );
+ 1126      }
+ 1127  
+ 1128      /**
+ 1129       * @dev See {IERC2612Permit-permit}.
+ 1130       *
+ 1131       */
+ 1132>     function permit(
+ 1133          address owner,
+ 1134          address spender,
+ 1135          uint256 amount,
+ 1136          uint256 deadline,
+ 1137          uint8 v,
+ 1138          bytes32 r,
+ 1139          bytes32 s
+ 1140      ) public virtual override {
+ 1141          require(block.timestamp <= deadline, "Permit: expired deadline");
+ 1142  
+ 1143          bytes32 hashStruct =
+ 1144              keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, amount, _nonces[owner].current(), deadline));
